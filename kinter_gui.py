@@ -37,15 +37,18 @@ root.bind('<Return>', (lambda event, e=ents: spm.fetch(e)))
 # scale = Scale(root, variable = var )
 # scale.pack(anchor=CENTER)
 
-b1 = tk.Button(root, text='Save',command=(lambda e=ents: spm.fetch(e)))
+b1 = tk.Button(root, text='Save', command=(lambda e=ents: spm.fetch(e)))
 b1.pack(side=tk.LEFT, padx=5, pady=5)
-#b2 = tk.Button(root, text='Quit', command=root.quit)
-#b2.pack(side=tk.LEFT, padx=5, pady=5)
-b3 = tk.Button(root, text='Delete',command=(lambda e=ents: spm.delete_profile(e)))
+b2 = tk.Button(root, text='Quit', command=root.quit)
+b2.pack(side=tk.LEFT, padx=5, pady=5)
+b3 = tk.Button(root, text='Delete', command=(lambda e=ents: spm.delete_profile(e)))
 b3.pack(side=tk.LEFT, padx=5, pady=5)
 
+# button 4 just displays the profiles currently available in their own window
+b4 = tk.Button(root, text='Display profiles', command=spm.readProfiles).pack(side=tk.LEFT, padx=5, pady=5)
+
 # Exit button program
-q_button = Button(root, text = "Exit", command = root.destroy, fg="#ffffff", bg="#ff0000", activebackground="#d00000").pack(side=tk.RIGHT, padx=40, pady=20)
+q_button = Button(root, text="Exit", command=root.quit, fg="#ffffff", bg="#ff0000", activebackground="#d00000").pack(side=tk.RIGHT, padx=40, pady=20)
 
 
 root.mainloop()

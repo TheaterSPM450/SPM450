@@ -1,7 +1,13 @@
 import tkinter as tk
 import csv
 import os
+from tkinter import *
+#from time import sleep
+#import RPi.GPIO as GPIO
 
+
+# global variable for storing names of profile.csv
+profiles = []
 
 def fetch(entries):
     csv_list = []
@@ -32,3 +38,15 @@ def makeform(root, fields):
         ent.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
         entries.append((field, ent))
     return entries
+
+import glob
+
+
+#This function reads in all the names of the csv profiles, and prints them to a new window
+def readProfiles():
+    for file in glob.glob("*.csv"):
+        profiles.append(file)
+    top = Toplevel()
+    top.title("List of profiles")
+    for i in profiles:
+        Label(top, text=i).pack()
