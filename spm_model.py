@@ -1,12 +1,9 @@
-import tkinter as tk
+#import Tkinter as tk
 import csv
 import os
 from tkinter import *
-<<<<<<< HEAD
 #from time import sleep
 #import RPi.GPIO as GPIO
-=======
->>>>>>> 04c5c638b093ec6725c2f11d7bca650962592ced
 
 
 # global variable for storing names of profile.csv
@@ -33,12 +30,12 @@ def delete_profile(entries):
 def makeform(root, fields):
     entries = []
     for field in fields:
-        row = tk.Frame(root)
-        lab = tk.Label(row, width=15, text=field, anchor='w')
-        ent = tk.Entry(row)
-        row.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
-        lab.pack(side=tk.LEFT)
-        ent.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
+        row = Frame(root)
+        lab = Label(row, width=15, text=field, anchor='w')
+        ent = Entry(row)
+        row.pack(side=TOP, fill=X, padx=5, pady=5)
+        lab.pack(side=LEFT)
+        ent.pack(side=RIGHT, expand=YES, fill=X)
         entries.append((field, ent))
     return entries
 
@@ -52,8 +49,4 @@ def readProfiles():
     top = Toplevel()
     top.title("List of profiles")
     for i in profiles:
-<<<<<<< HEAD
         Label(top, text=i).pack()
-=======
-        Label(top, text=i).pack()
->>>>>>> 04c5c638b093ec6725c2f11d7bca650962592ced
