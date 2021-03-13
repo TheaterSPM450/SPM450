@@ -30,10 +30,15 @@ win = Tk()
 
 # myFont = tkFont.Font(family = 'Helvetica', size = 8, weight = 'bold')
 
+
 def setLow(pinNum):
 	GPIO.output(pinNum,GPIO.LOW)
+
+
 def setHigh(pinNum):
 	GPIO.output(pinNum,GPIO.HIGH)
+
+
 def checkOn(pinNum):
 	if GPIO.input(pinNum):
 		return True
@@ -50,6 +55,7 @@ def spinRight():
 	setLow(40)
 	# time.sleep(.1) #need for led testing
 
+
 def spinLeft():
 	print("spinLeft button pressed")
 	# Set Direction first
@@ -59,12 +65,14 @@ def spinLeft():
 	setLow(40)
 	# time.sleep(.1) #need for led testing
 
+
 def spinHold():
 	print("spinHold button pressed")
 	setHigh(32)
 	time.sleep(.1)
 	setLow(32)
 	time.sleep(.1)
+
 
 def spin():
 	# print("spinFuncRunning")
@@ -84,7 +92,7 @@ def spinForSetTime():
 		spin()
 		time.sleep(interval)
 		loopCount=loopCount-1
-		#print(loopCount)
+		# print(loopCount)
 	if checkOn(pulse):
 		setLow(pulse)
 
@@ -97,10 +105,10 @@ def exitProgram():
 win.title("First GUI")
 win.geometry('800x480')
 
-exitButton = Button(win, text="Exit", command = exitProgram, height =2 , width = 10)
+exitButton = Button(win, text="Exit", command=exitProgram, height =2 , width = 10)
 exitButton.pack(side=BOTTOM)
 
-spinButton = Button(win, text="SPIN ON", command = spin, height = 2, width =10 )
+spinButton = Button(win, text="SPIN ON", command=spin, height = 2, width =10 )
 spinButton.pack()
 
 spinForSetTimeButton = Button(win, text="SpinForSetTime", command = spinForSetTime, height = 2, width =10)
@@ -108,12 +116,12 @@ spinForSetTimeButton.place(x=100, y=100)
 
 # RepeatIsIn(ms)
 spinHoldButton = Button(win, text="spinHoldButton", repeatdelay=1, repeatinterval=1, command=spinHold, height = 2, width =10 )
-spinHoldButton.place(x=100,y=200)
+spinHoldButton.place(x=100, y=200)
 
 spinRightButton = Button(win, text="RIGHT", repeatdelay=1, repeatinterval=1, command=spinRight, height = 5, width =10 )
-spinRightButton.place(x=500,y=300)
+spinRightButton.place(x=500, y=300)
 
 spinLeftButton = Button(win, text="LEFT", repeatdelay=20, repeatinterval=1, command=spinLeft, height = 5, width =10 )
-spinLeftButton.place(x=200,y=300)
+spinLeftButton.place(x=200, y=300)
 
 win.mainloop()
