@@ -1,0 +1,14 @@
+# ignore csv files
+*.csv
+
+
+#NICKS PERSONAL PC IGNORED FILES****************
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../:\Users\nickm\PycharmProjects\SPM450\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+#NICKS PERSONAL PC IGNORED FILES****************
