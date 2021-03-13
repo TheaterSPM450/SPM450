@@ -19,8 +19,8 @@ from math import pi
 # INPUT: integer
 # OUTPUT: float
 def calcRPM_pulse(rpm):
-#    print((1 / (400 * (rpm / 60))))
-    return (1 / (400 * (rpm / 60)))
+#    print((1 / (400.0 * (rpm / 60.0))))
+    return (1 / (400.0 * (rpm / 60.0)))
 
 
 # rpm_to_speed()
@@ -30,10 +30,10 @@ def calcRPM_pulse(rpm):
 # INPUT: float, float
 # OUTPUT: float
 def rpm_to_speed(rpm, diameter):
-    minutes = 60
-    inches_per_mile = 63360
-    r = diameter / 2 # calculate radius
-    circumference = 2 * pi * r
+    minutes = 60.0
+    inches_per_mile = 63360.0
+    r = diameter / 2.0 # calculate radius
+    circumference = 2.0 * pi * r
     return ((circumference * rpm * minutes) / inches_per_mile)
 
 
@@ -44,10 +44,10 @@ def rpm_to_speed(rpm, diameter):
 # INPUT: float, float
 # OUTPUT: float
 def speed_to_rpm(speed, diameter):
-    minutes = 60
-    inches_per_mile = 63360
-    r = diameter / 2 # calculate radius
-    circumference = 2 * pi * r
+    minutes = 60.0
+    inches_per_mile = 63360.0
+    r = diameter / 2.0 # calculate radius
+    circumference = 2.0 * pi * r
     return ((inches_per_mile * speed) / (minutes * circumference))
 
 
@@ -63,3 +63,9 @@ def speed_to_rpm(speed, diameter):
 def speed_to_pulse_time(speed, drive_pulley_diameter, drive_ratio):
     motor_speed = speed / drive_ratio
     return calcRPM_pulse(speed_to_rpm(motor_speed, drive_pulley_diameter))
+
+
+# to test pulley diameter and ratio pulse times uncomment and plug in test values
+# as (speed(mph), drive pulley diameter(inches), ratio(if direct drive use 1.0))
+
+#print("Pulse time: " + str(speed_to_pulse_time(.35, .1875, 1.0)) + "\n")

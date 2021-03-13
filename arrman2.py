@@ -1,6 +1,7 @@
 from tkinter import *
 import RPi.GPIO as GPIO
 import time
+import spm_control_akogan as control
 
 # import tkFont
 
@@ -42,20 +43,6 @@ def checkOn(pinNum):
 		return False
 
 
-# calcRPM()
-# takes a rpm value and returns a sleep duration
-# value in terms of seconds for motor rpm control
-#
-# calculates 1 second divived by rpm value divided
-# by 60, time 400(2 phase halfs times 200 pulses per revolution)
-#
-# INPUT: integer
-# OUTPUT: float
-def calcRPM(rpm):
-    print((1 / (400 * (rpm / 60))))
-    return (1 / (400 * (rpm / 60)))
-
-
 def spinRight():
 	print("spinRight button pressed")
 	# Set Direction first
@@ -93,7 +80,8 @@ def spin():
 def spinForSetTime():
 	loopCount=3000
 #	interval=.15015 #seconds, halved due to on/off
-	interval = calcRPM(60) # RPM = (1/interval) / (2 * 200) * 60sec   
+#	interval = calcRPM(60) # RPM = (1/interval) / (2 * 200) * 60sec
+	interval = control.speed_to_pulse_time(.2, .1875, 1.0) # enter as floats for percision
 	while loopCount>0:
 		spin()
 		time.sleep(interval)
