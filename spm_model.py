@@ -18,14 +18,14 @@ def fetch(entries):
         if entry[0] == 'Profile Name':
             break
         csv_list.append(text)
-    filename = text + '.csv'
+    filename = "csv/" + text + '.csv'
     file = open(filename, 'w')
     writer = csv.writer(file)
     writer.writerow(csv_list)
 
 def delete_profile(entries):
     profile_entry = entries[2]
-    os.remove(profile_entry[1].get() + '.csv')
+    os.remove("csv/" + profile_entry[1].get() + '.csv')
 
 
 def makeform(root, fields):
