@@ -12,7 +12,7 @@ direction = 36  # driver pulse direction GPIO pin 36
 freq = 100  # frequency variable for testing PWM library
 
 
-#GPIO Drivers
+# GPIO Drivers
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(led, GPIO.OUT)
 GPIO.output(led, GPIO.LOW)
@@ -25,13 +25,11 @@ GPIO.output(direction, GPIO.LOW)
 # pi_pwm.start(50)
 
 
-# declaire base GUI window
+# declare base GUI window
 win = Tk()
 
 # myFont = tkFont.Font(family = 'Helvetica', size = 8, weight = 'bold')
 
-def testThisMsg():
-   	print("HIHIHIH")
 def setLow(pinNum):
 	GPIO.output(pinNum,GPIO.LOW)
 def setHigh(pinNum):
@@ -48,18 +46,18 @@ def spinRight():
 	# Set Direction first
 	setHigh(36)
 	setHigh(40)
-	#time.sleep(.000005) #comment out for fastest
+	# time.sleep(.000005) #comment out for fastest
 	setLow(40)
-	#time.sleep(.1) #need for led testing
+	# time.sleep(.1) #need for led testing
 
 def spinLeft():
 	print("spinLeft button pressed")
 	# Set Direction first
 	setLow(36)
 	setHigh(40)
-	#time.sleep(.000005) #comment out for fastest
+	# time.sleep(.000005) #comment out for fastest
 	setLow(40)
-	#time.sleep(.1) #need for led testing
+	# time.sleep(.1) #need for led testing
 
 def spinHold():
 	print("spinHold button pressed")
@@ -69,13 +67,13 @@ def spinHold():
 	time.sleep(.1)
 
 def spin():
-	#print("spinFuncRunning")
+	# print("spinFuncRunning")
 	if checkOn(40) :
 		setLow(40)
-		#spinButton["text"] = "SPIN ON"
+		# spinButton["text"] = "SPIN ON"
 	else:
 		setHigh(40)
-		#spinButton["text"] = "SPIN OFF"
+		# spinButton["text"] = "SPIN OFF"
 
 def spinForSetTime():
 	loopCount=3000
@@ -99,23 +97,23 @@ def exitProgram():
 win.title("First GUI")
 win.geometry('800x480')
 
-exitButton  = Button(win, text = "Exit", command = exitProgram, height =2 , width = 10) 
-exitButton.pack(side = BOTTOM)
+exitButton = Button(win, text="Exit", command = exitProgram, height =2 , width = 10)
+exitButton.pack(side=BOTTOM)
 
-spinButton = Button(win, text = "SPIN ON", command = spin, height = 2, width =10 )
+spinButton = Button(win, text="SPIN ON", command = spin, height = 2, width =10 )
 spinButton.pack()
 
-spinForSetTimeButton = Button(win, text = "SpinForSetTime", command = spinForSetTime, height = 2, width =10)
-spinForSetTimeButton.place(x=100,y=100)
+spinForSetTimeButton = Button(win, text="SpinForSetTime", command = spinForSetTime, height = 2, width =10)
+spinForSetTimeButton.place(x=100, y=100)
 
-#RepeatIsIn(ms)
-spinHoldButton = Button(win, text = "spinHoldButton", repeatdelay=1, repeatinterval=1, command=spinHold, height = 2, width =10 )
+# RepeatIsIn(ms)
+spinHoldButton = Button(win, text="spinHoldButton", repeatdelay=1, repeatinterval=1, command=spinHold, height = 2, width =10 )
 spinHoldButton.place(x=100,y=200)
 
-spinRightButton = Button(win, text = "RIGHT", repeatdelay=1, repeatinterval=1, command=spinRight, height = 5, width =10 )
+spinRightButton = Button(win, text="RIGHT", repeatdelay=1, repeatinterval=1, command=spinRight, height = 5, width =10 )
 spinRightButton.place(x=500,y=300)
 
-spinLeftButton = Button(win, text = "LEFT", repeatdelay=20, repeatinterval=1, command=spinLeft, height = 5, width =10 )
+spinLeftButton = Button(win, text="LEFT", repeatdelay=20, repeatinterval=1, command=spinLeft, height = 5, width =10 )
 spinLeftButton.place(x=200,y=300)
 
 win.mainloop()
