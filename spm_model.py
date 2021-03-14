@@ -2,11 +2,9 @@ import tkinter as tk
 import csv
 import os
 from tkinter import *
-<<<<<<< HEAD
 #from time import sleep
 #import RPi.GPIO as GPIO
-=======
->>>>>>> 04c5c638b093ec6725c2f11d7bca650962592ced
+
 
 
 # global variable for storing names of profile.csv
@@ -52,8 +50,5 @@ def readProfiles():
     top = Toplevel()
     top.title("List of profiles")
     for i in profiles:
-<<<<<<< HEAD
         Label(top, text=i).pack()
-=======
-        Label(top, text=i).pack()
->>>>>>> 04c5c638b093ec6725c2f11d7bca650962592ced
+
