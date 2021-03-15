@@ -9,7 +9,7 @@
 from math import pi
 
 
-# calcRPM()
+# rpm_to_pulsesleep()
 # takes a rpm value and returns a sleep duration
 # value in terms of seconds for motor rpm control
 #
@@ -18,9 +18,13 @@ from math import pi
 #
 # INPUT: integer
 # OUTPUT: float
-def calcRPM_pulse(rpm):
+def rpm_to_pulsesleep(rpm):
 #    print((1 / (400.0 * (rpm / 60.0))))
     return (1 / (400.0 * (rpm / 60.0)))
+
+
+def sleep_to_rpm(t):
+    return ((1 / t) / (400)) * 60 # RPM = ((1 second / sleeptime) / (2 phases * 200 pulses_per_rotation)) * 60 seconds
 
 
 # rpm_to_speed()
@@ -62,10 +66,15 @@ def speed_to_rpm(speed, diameter):
 # OUTPUT: float decimal representing fraction of a second between driver pulse phases
 def speed_to_pulse_time(speed, drive_pulley_diameter, drive_ratio):
     motor_speed = speed / drive_ratio
-    return calcRPM_pulse(speed_to_rpm(motor_speed, drive_pulley_diameter))
+    return rpm_to_pulsesleep(speed_to_rpm(motor_speed, drive_pulley_diameter))
 
 
 # to test pulley diameter and ratio pulse times uncomment and plug in test values
 # as (speed(mph), drive pulley diameter(inches), ratio(if direct drive use 1.0))
 
-#print("Pulse time: " + str(speed_to_pulse_time(.35, .1875, 1.0)) + "\n")
+pulseT = speed_to_pulse_time(3.0, 2.0, 1.0)
+rpm = sleep_to_rpm(pulseT)
+print("\n========================================\n")
+print("Pulse time: " + str(pulseT))
+print("RPM: " + str(rpm))
+print("\n========================================\n")
