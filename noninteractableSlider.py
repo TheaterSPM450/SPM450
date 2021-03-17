@@ -1,28 +1,32 @@
 from tkinter import *
 
 root=Tk()
-root.title('Non-interactable Slider')
-root.geometry("800x400")
+root.title('Non-interactable Slider') #title of the program
+root.geometry("800x400") #size of the program
 
-sliderValue = IntVar()
-sliderValue.set(0)
+sliderValue = IntVar() #declaring an int in tkinter
+sliderValue.set(0) #initializing it to zero
 
-def setSliderValue():
-	sliderValue.set(int(textbox.get()))
+def setSliderValue(): #sets the slider value
+	sliderValue.set(int(textbox.get())) #set the variable equal to the value in textbox
 
-	if sliderValue.get()==5:
-		horiSlider.configure(bg="green")
+
+	if sliderValue.get()==5: #check if value is 5
+		horiSlider.configure(bg="green") #if it is, change the color to green
 	else:
-		horiSlider.configure(bg="SystemButtonFace")
+		horiSlider.configure(bg="SystemButtonFace") #if it is not, change the color back to default
 
-
+#initialize a horizontal slider
 horiSlider = Scale(root, from_=0,to=10, orient=HORIZONTAL, variable=sliderValue, length=600,state=DISABLED)
-horiSlider.pack()
+horiSlider.pack() #pack the slider
 
-textbox=Entry(root,width=10)
+textbox=Entry(root,width=10) #adds a textbox to set a value
 textbox.pack()
 
-setSliderValueButton=Button(root,text="Set Value",command=setSliderValue)
+labelEx=Label(root,width=10, textvariable=sliderValue) #adds a label to show the current value
+labelEx.pack()
+
+setSliderValueButton=Button(root,text="Set Value",command=setSliderValue) #button to set the value
 setSliderValueButton.pack()
 
 root.mainloop()
