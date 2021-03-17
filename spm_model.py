@@ -51,8 +51,3 @@ def readProfiles():
     top.title("List of profiles")
     for i in profiles:
         Label(top, text=i).pack()
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 83ad31edf745f57fa2b68206b94bc5b450963396
