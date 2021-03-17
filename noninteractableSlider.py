@@ -10,6 +10,7 @@ sliderValue.set(0) #initializing it to zero
 def setSliderValue(): #sets the slider value
 	sliderValue.set(int(textbox.get())) #set the variable equal to the value in textbox
 
+
 	if sliderValue.get()==5: #check if value is 5
 		horiSlider.configure(bg="green") #if it is, change the color to green
 	else:
@@ -19,8 +20,11 @@ def setSliderValue(): #sets the slider value
 horiSlider = Scale(root, from_=0,to=10, orient=HORIZONTAL, variable=sliderValue, length=600,state=DISABLED)
 horiSlider.pack() #pack the slider
 
-textbox=Entry(root,width=10) #adds a textbox
+textbox=Entry(root,width=10) #adds a textbox to set a value
 textbox.pack()
+
+labelEx=Label(root,width=10, textvariable=sliderValue) #adds a label to show the current value
+labelEx.pack()
 
 setSliderValueButton=Button(root,text="Set Value",command=setSliderValue) #button to set the value
 setSliderValueButton.pack()
