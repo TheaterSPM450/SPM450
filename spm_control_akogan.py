@@ -72,7 +72,7 @@ def speed_to_pulse_time(speed, drive_pulley_diameter, drive_ratio):
 # to test pulley diameter and ratio pulse times uncomment and plug in test values
 # as (speed(mph), drive pulley diameter(inches), ratio(if direct drive use 1.0))
 
-pulseT = speed_to_pulse_time(3.0, 2.0, 1.0)
+pulseT = speed_to_pulse_time(3.0, 1.0, 2.0)
 rpm = sleep_to_rpm(pulseT)
 print("\n========================================\n")
 print("Pulse time: " + str(pulseT))
