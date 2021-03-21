@@ -2,126 +2,146 @@ from tkinter import *
 import RPi.GPIO as GPIO
 import time
 import spm_control_akogan as control
+import Hardware_Functions as hf
+import Software_Functions
 
 # import tkFont
-
-led = 32  # testing purposes led pin 32
-pulse = 40  # driver pulse signal GPIO pin 40
-direction = 36  # driver pulse direction GPIO pin 36
-
-freq = 100  # frequency variable for testing PWM library
-
-
-# GPIO Drivers
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(led, GPIO.OUT)
-GPIO.output(led, GPIO.LOW)
-GPIO.setup(pulse, GPIO.OUT)
-GPIO.output(pulse, GPIO.LOW)
-GPIO.setup(direction, GPIO.OUT)
-GPIO.output(direction, GPIO.LOW)
-
-# pi_pwm = GPIO.PWM(pulse, freq)
-# pi_pwm.start(50)
-
-
-# declare base GUI window
-win = Tk()
-
 # myFont = tkFont.Font(family = 'Helvetica', size = 8, weight = 'bold')
 
+# Some of the GPIO variable declarations and all functions were moved to Hardware_functions file
+hf.GPIO_Initialisation()
 
-def setLow(pinNum):
-	GPIO.output(pinNum,GPIO.LOW)
+# declare base GUI window
+root = Tk()
+root.title("Stage Prop Mover 450")
+root.geometry("800x400")
 
+# This is where we initialize the frames(or windows) for the program
+# Each frame represents a separate page in the program that can be traveled to with a button press
+startPage = Frame(root)
+calibratePage = Frame(root)
+profilePage = Frame(root)
 
-def setHigh(pinNum):
-	GPIO.output(pinNum,GPIO.HIGH)
+# The width and height of the frame should match root, or else there are issues with button placement
+startPage.place(x=0, y=0, width=800, height=400)
+calibratePage.place(x=0, y=0, width=800, height=400)
+profilePage.place(x=0, y=0, width=800, height=400)
 
-
-def checkOn(pinNum):
-	if GPIO.input(pinNum):
-		return True
-	else:
-		return False
-
-
-def spinRight():
-	print("spinRight button pressed")
-	# Set Direction first
-	setHigh(36)
-	setHigh(40)
-	# time.sleep(.000005) #comment out for fastest
-	setLow(40)
-	# time.sleep(.1) #need for led testing
-
-
-def spinLeft():
-	print("spinLeft button pressed")
-	# Set Direction first
-	setLow(36)
-	setHigh(40)
-	# time.sleep(.000005) #comment out for fastest
-	setLow(40)
-	# time.sleep(.1) #need for led testing
+# NICK NOTES: All buttons should be positioned using ".place" as opposed to .pack or .grid
+# .place allows for specific positioning of buttons, based on the pixel number.
+# (x position, y position, width of object, height of object)
+# just make sure x and y is within the geometry of the frame. (800x400 at time of comment)
+# .place will not work if the frame is called using .grid or .pack
 
 
-def spinHold():
-	print("spinHold button pressed")
-	setHigh(32)
-	time.sleep(.1)
-	setLow(32)
-	time.sleep(.1)
+######################START PAGE###############################
+# This slider is cut directly from one of the submitted files. It is missing the functionality that came with it
+# Eventually this will need to be tied to the calibrated settings to track position
+
+sliderValue = IntVar()          # declaring an int in tkinter
+sliderValue.set(0)              # initializing it to zero
+horiSlider = Scale(startPage, from_=0, to=100, orient=HORIZONTAL, length=750, variable=sliderValue, state=DISABLED)
+horiSlider.place(x=10, y=10, width=750, height=100)
+
+# This button leads us to the calibration page
+calibrateButton = Button(startPage, text='Calibrate', command=calibratePage.tkraise)
+calibrateButton.place(x=10, y=150, width=100, height=50)
+
+# This button will lead us to the profile page
+profilesButton = Button(startPage, text='Profiles', command=profilePage.tkraise)
+profilesButton.place(x=10, y=200, width=100, height=50)
+
+# This button exits.
+exitButton = Button(startPage, text="Exit", command=root.destroy)
+exitButton.place(x=10, y=250,width=100, height=50)
+
+# These are the manual control buttons, that simply move the stepper motor in the desired direction.
+# Currently, the movement is not tied to any calibrated start or end point, nor can the speed be controlled.
+leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=hf.spinLeft)
+leftMove.place(x=550, y=250, width=100, height=100)
+rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=hf.spinRight)
+rightMove.place(x=650, y=250, width=100, height=100)
 
 
-def spin():
-	# print("spinFuncRunning")
-	if checkOn(40) :
-		setLow(40)
-		# spinButton["text"] = "SPIN ON"
-	else:
-		setHigh(40)
-		# spinButton["text"] = "SPIN OFF"
+########################END START PAGE############################
 
-def spinForSetTime():
-	loopCount=3000
-#	interval=.15015 #seconds, halved due to on/off
-#	interval = calcRPM(60) # RPM = (1/interval) / (2 * 200) * 60sec
-	interval = control.speed_to_pulse_time(.2, .1875, 1.0) # enter as floats for percision
-	while loopCount>0:
-		spin()
-		time.sleep(interval)
-		loopCount=loopCount-1
-		# print(loopCount)
-	if checkOn(pulse):
-		setLow(pulse)
+#######################CALIBRATE PAGE#####################
 
-def exitProgram():
-	print("Exit Button pressed")
-	GPIO.cleanup()
-	win.destroy()	
+Label(calibratePage, text='CALIBRATION').place(x=300, y=0, width=150, height=50)
+
+# The done button returns us to the start page
+doneButtonCal = Button(calibratePage, text='Done', command=startPage.tkraise)
+doneButtonCal.place(x=10, y=250, width=100, height=50)
 
 
-win.title("First GUI")
-win.geometry('800x480')
+# This border just creates a graphical box around the instructions
+borderCal = LabelFrame(calibratePage, text="Instructions")
+borderCal.place(x=150, y=60, width=400, height=100)
 
-exitButton = Button(win, text="Exit", command=exitProgram, height =2 , width = 10)
-exitButton.pack(side=BOTTOM)
+# This is the label for the instructions. The width and height have to be less then the border
+# since these go inside of it. The text will overlap and hide the border if the width and height are too large
+instructCal = Label(calibratePage, text='Step 1: Figure out what the instructions are')
+instructCal.place(x=160, y=80, width=350, height=50)
 
-spinButton = Button(win, text="SPIN ON", command=spin, height = 2, width =10 )
-spinButton.pack()
+# These are the buttons to set the start and end points of our moveable range
+# It was originally discussed that it would be a single button that dynamically changes, but they seems
+# more confusing for the user and more work for us. For the time being, its two buttons.
+startPointCal = Button(calibratePage, text='Start Point')
+startPointCal.place(x=250, y=180, width=100, height=60)
+endPointCal = Button(calibratePage, text='End Point')
+endPointCal.place(x=350, y=180, width=100, height=60)
 
-spinForSetTimeButton = Button(win, text="SpinForSetTime", command = spinForSetTime, height = 2, width =10)
-spinForSetTimeButton.place(x=100, y=100)
+# These buttons are a copy of the manual controls from the start page
+# They have to be stored with separate variable names since all of these buttons are initialized before
+# the main gui loop actually happens.
+leftMoveCal = Button(calibratePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=hf.spinLeft)
+leftMoveCal.place(x=550, y=250, width=100, height=100)
+rightMoveCal = Button(calibratePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=hf.spinRight)
+rightMoveCal.place(x=650, y=250, width=100, height=100)
 
-# RepeatIsIn(ms)
-spinHoldButton = Button(win, text="spinHoldButton", repeatdelay=1, repeatinterval=1, command=spinHold, height = 2, width =10 )
-spinHoldButton.place(x=100, y=200)
 
-spinRightButton = Button(win, text="RIGHT", repeatdelay=1, repeatinterval=1, command=spinRight, height = 5, width =10 )
-spinRightButton.place(x=500, y=300)
+#####################END CALIBRATE PAGE#########################
 
-spinLeftButton = Button(win, text="LEFT", repeatdelay=20, repeatinterval=1, command=spinLeft, height = 5, width =10 )
-spinLeftButton.place(x=200, y=300)
+####################PROFILE PAGE##########################
 
-win.mainloop()
+
+
+# The done button returns us to the start page
+doneButtonPro = Button(profilePage, text='Done', command=startPage.tkraise)
+doneButtonPro.place(x=10, y=250, width=100, height=50)
+
+# These buttons are a copy of the manual controls from the start page
+# They have to be stored with separate variable names since all of these buttons are initialized before
+# the main gui loop actually happens.
+leftMovePro = Button(profilePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=hf.spinLeft)
+leftMovePro.place(x=550, y=250, width=100, height=100)
+rightMovePro = Button(profilePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=hf.spinRight)
+rightMovePro.place(x=650, y=250, width=100, height=100)
+
+####################END PROFILE PAGE#############################
+
+
+# We call tkraise on startPage so that it is the first frame we see once we enter the main loop
+# Whatever page is raised here will be the first page you see
+startPage.tkraise()
+root.mainloop()
+
+
+
+
+
+# I was unsure if these buttons are going to make it in the final design
+# I've included them here since they were part of the gui before
+
+# spinButton = Button(win, text="SPIN ON", command=spin, height = 2, width =10 )
+# spinButton.pack()
+#
+# spinForSetTimeButton = Button(win, text="SpinForSetTime", command = spinForSetTime, height = 2, width =10)
+# spinForSetTimeButton.place(x=100, y=100)
+#
+# # RepeatIsIn(ms)
+# spinHoldButton = Button(win, text="spinHoldButton", repeatdelay=1, repeatinterval=1, command=spinHold, height = 2, width =10 )
+# spinHoldButton.place(x=100, y=200)
+
+
+
