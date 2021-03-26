@@ -1,13 +1,19 @@
 from tkinter import *
 import time
+import os
 #import Hardware_Functions as hf
-#import Software_Functions
+import Software_Functions as sf
 
 # import tkFont
 # myFont = tkFont.Font(family = 'Helvetica', size = 8, weight = 'bold')
 
 # Some of the GPIO variable declarations and all functions were moved to Hardware_functions file
 #hf.GPIO_Initialisation()
+
+# This is some initialization from old profile window testing
+profiles = []
+loadedFiles = ""
+fields = ["speed", "ratio", "diameter", "position", "filename"]
 
 # declare base GUI window
 root = Tk()
@@ -120,6 +126,18 @@ leftMovePro = Button(profilePage, text='LEFT')#, repeatdelay=20, repeatinterval=
 leftMovePro.place(x=700, y=400, width=100, height=100)
 rightMovePro = Button(profilePage, text='RIGHT')#, repeatdelay=1, repeatinterval=1, command=hf.spinRight)
 rightMovePro.place(x=800, y=400, width=100, height=100)
+
+
+# This was profile code copied from older file. Some minor changes were made to fit new screen
+# But makeform still needs to be updated along with the functions attached to the buttons
+ents = sf.makeform(profilePage, fields)
+profilePage.bind('<Return>', (lambda event, e=ents: sf.fetch(e)))
+savePro = Button(profilePage, text='Save', command=(lambda e=ents: sf.fetch(e)))
+savePro.place(x=700, y=300, width=50, height=25)
+deletePro = Button(profilePage, text='Delete', command=(lambda e=ents: sf.delete_profile(e)))
+deletePro.place(x=775, y=300, width=50, height=25)
+loadPro = Button(profilePage, text='Load', command=sf.readProfiles)
+loadPro.place(x=850, y=300, width=50, height=25)
 
 ####################END PROFILE PAGE#############################
 

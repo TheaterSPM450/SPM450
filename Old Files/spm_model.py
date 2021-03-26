@@ -18,7 +18,7 @@ def fetch(entries):
     csv_list = []
     text = ''
     for entry in entries:
-        text  = entry[1].get()
+        text = entry[1].get()
         if entry[0] == 'filename':
             break
         csv_list.append(text)
