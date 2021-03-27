@@ -43,14 +43,13 @@ profilePage.place(x=0, y=0, width=pageWidth, height=pageHeight)
 ######################START PAGE###############################
 Label(startPage, text='HOME PAGE').place(x=450, y=0, width=150, height=50)
 
-
-# This slider is cut directly from one of the submitted files. It is missing the functionality that came with it
-# Eventually this will need to be tied to the calibrated settings to track position
-
-sliderValue = IntVar()          # declaring an int in tkinter
-sliderValue.set(0)              # initializing it to zero
-horiSlider = Scale(startPage, from_=0, to=100, orient=HORIZONTAL, length=1000, variable=sliderValue, state=DISABLED)
-horiSlider.place(x=10, y=30, width=1000, height=50)
+# This is the slider that is tracking the position of the stage prop
+# It is updated by the position_up/down functions which are currently tied to the left and right buttons
+# Although the slider can be directly interacted with, doing so does not update the global position variable
+# This behavior is intended, as we only want the prop to move on button presses
+# The value associated with the slider will self-correct on the next button press
+positionSlider = Scale(startPage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
+positionSlider.place(x=10, y=30, width=1000, height=50)
 
 # This button leads us to the calibration page
 calibrateButton = Button(startPage, text='Calibrate', command=calibratePage.tkraise)
@@ -66,9 +65,9 @@ exitButton.place(x=10, y=450,width=100, height=50)
 
 # These are the manual control buttons, that simply move the stepper motor in the desired direction.
 # Currently, the movement is not tied to any calibrated start or end point, nor can the speed be controlled.
-leftMove = Button(startPage, text='LEFT')#, repeatdelay=20, repeatinterval=1, command=hf.spinLeft)
+leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSlider))#=hf.spinLeft)
 leftMove.place(x=700, y=400, width=100, height=100)
-rightMove = Button(startPage, text='RIGHT')#, repeatdelay=1, repeatinterval=1, command=hf.spinRight)
+rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSlider))#=hf.spinRight)
 rightMove.place(x=800, y=400, width=100, height=100)
 
 
@@ -103,9 +102,9 @@ endPointCal.place(x=500, y=350, width=100, height=60)
 # These buttons are a copy of the manual controls from the start page
 # They have to be stored with separate variable names since all of these buttons are initialized before
 # the main gui loop actually happens.
-leftMoveCal = Button(calibratePage, text='LEFT')#, repeatdelay=20, repeatinterval=1, command=hf.spinLeft)
+leftMoveCal = Button(calibratePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSlider))#=hf.spinLeft)
 leftMoveCal.place(x=700, y=400, width=100, height=100)
-rightMoveCal = Button(calibratePage, text='RIGHT')#, repeatdelay=1, repeatinterval=1, command=hf.spinRight)
+rightMoveCal = Button(calibratePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSlider))#=hf.spinRight)
 rightMoveCal.place(x=800, y=400, width=100, height=100)
 
 
@@ -122,9 +121,9 @@ doneButtonPro.place(x=10, y=350, width=100, height=50)
 # These buttons are a copy of the manual controls from the start page
 # They have to be stored with separate variable names since all of these buttons are initialized before
 # the main gui loop actually happens.
-leftMovePro = Button(profilePage, text='LEFT')#, repeatdelay=20, repeatinterval=1, command=hf.spinLeft)
+leftMovePro = Button(profilePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSlider))#=hf.spinLeft)
 leftMovePro.place(x=700, y=400, width=100, height=100)
-rightMovePro = Button(profilePage, text='RIGHT')#, repeatdelay=1, repeatinterval=1, command=hf.spinRight)
+rightMovePro = Button(profilePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSlider))#hf.spinRight)
 rightMovePro.place(x=800, y=400, width=100, height=100)
 
 
