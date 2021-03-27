@@ -1,6 +1,7 @@
 from tkinter import *
 import csv
 import os
+from tkinter import filedialog
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
 # (as of 3-27-201 it is only for testing)
@@ -21,6 +22,8 @@ def makeform(root, fields):
 
 
 def fetch(entries):
+    trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     csv_list = []
     text = ''
     for entry in entries:
@@ -28,29 +31,35 @@ def fetch(entries):
         if entry[0] == 'filename':
             break
         csv_list.append(text)
-    filename = os.getcwd() + "/csv/" + text + '.csv'
+    filename = nickDirectory + text + '.csv'
     file = open(filename, 'w')
     writer = csv.writer(file)
     writer.writerow(csv_list)
 
 
 def delete_profile(entries):
+    trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     profile_entry = entries[4]
-    os.remove(os.getcwd() + "/csv/" + profile_entry[1].get() + '.csv')
+    os.remove(trueDirectory + profile_entry[1].get() + '.csv')
+
+    # This was the old path i removed, because os stuff confuses me
+    # os.remove(os.getcwd() + "/csv/" + profile_entry[1].get() + '.csv')
 
 
 #This function reads in all the names of the csv profiles, and prints them to a new window
-def readProfiles():
-    global loadedFiles
-    root.filename = filedialog.askopenfilename(initialdir="/home/pi/Desktop/SPM450Files/SPM450/csv/", title= "popup", filetypes=(("csv files","*.csv"),("all files", "*.*")))
-    loadedFiles = root.filename
+def readProfiles(profilePage):
+    trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    # nickDirectory is just for when nick is coding on his home desktop.
+    nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv"
+    loadedFiles = filedialog.askopenfilename(initialdir=trueDirectory, title= "popup", filetypes=(("csv files", "*.csv"), ("all files", "*.*")))
     # for file in glob.glob("*.csv"):
     #     profiles.append(file)
     # top = Toplevel()
     # top.title("List of profiles")
     # for i in profiles:
     #     Label(top, text=i).pack()
-    label1 = Label(root, text=loadedFiles)
+    label1 = Label(profilePage, text=loadedFiles)
     label1.pack()
 
 ####################################################################################
