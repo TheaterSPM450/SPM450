@@ -10,3 +10,15 @@ Horizontal bar on every page with proper position tracking
 Calibration feature design needs to be worked out
 
 Debug page with alex's test buttons added maybe
+
+
+
+
+
+# NICK ALERT ##########
+# Hardware functionality may be commented out, simply so that people can work on code from their desktops
+# I attempted to comment things out in a way that makes it easy to restore full functionality on RasPi
+# For example
+# savePro = Button(profilePage, text='Save')#, command=(lambda e=ents: sf.fetch(e)))
+# This button has a # after the final parenthesis, so that i could test button without working function
+# It can simply be restored by deleting the extra parenthesis and '#', as rest of line was preserved
