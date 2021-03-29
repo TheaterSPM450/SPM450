@@ -88,7 +88,7 @@ borderCal.place(x=250, y=60, width=600, height=200)
 
 # This is the label for the instructions. The width and height have to be less then the border
 # since these go inside of it. The text will overlap and hide the border if the width and height are too large
-instructCal = Label(calibratePage, text='Step 1: Figure out what the instructions are')
+instructCal = Label(calibratePage, text='Step 1: This is where the instructions will go')
 instructCal.place(x=300, y=80, width=350, height=50)
 
 # These are the buttons to set the start and end points of our moveable range
@@ -127,15 +127,26 @@ rightMovePro = Button(profilePage, text='RIGHT', repeatdelay=1, repeatinterval=1
 rightMovePro.place(x=800, y=400, width=100, height=100)
 
 
-# This was profile code copied from older file. Some minor changes were made to fit new screen
-# But makeform still needs to be updated along with the functions attached to the buttons
-ents = sf.makeform(profilePage, fields)
-profilePage.bind('<Return>', (lambda event, e=ents: sf.fetch(e)))
-savePro = Button(profilePage, text='Save', command=(lambda e=ents: sf.fetch(e)))
+# Some of this profile code is pasted from an older file and is still none functioning due to changes in the gui
+# The button placements should be close to where they need to be
+#ents = sf.makeform(profilePage, fields)
+#profilePage.bind('<Return>', (lambda event, e=ents: sf.fetch(e)))
+
+Label(profilePage, text='Filename').place(x=700, y=110, width=70, height=15)
+Entry(profilePage).place(x=800, y=100, width=200, height=25)
+Label(profilePage, text='Ratio').place(x=700, y=150, width=70, height=15)
+Entry(profilePage).place(x=800, y=140, width=200, height=25)
+Label(profilePage, text='Diameter').place(x=700, y=190, width=70, height=15)
+Entry(profilePage).place(x=800, y=180, width=200, height=25)
+Label(profilePage, text='Speed').place(x=700, y=230, width=70, height=15)
+Entry(profilePage).place(x=800, y=220, width=200, height=25)
+Label(profilePage, text='Position').place(x=700, y=270, width=70, height=15)
+Entry(profilePage).place(x=800, y=260, width=200, height=25)
+savePro = Button(profilePage, text='Save')#, command=(lambda e=ents: sf.fetch(e)))
 savePro.place(x=700, y=300, width=50, height=25)
-deletePro = Button(profilePage, text='Delete', command=(lambda e=ents: sf.delete_profile(e)))
+deletePro = Button(profilePage, text='Delete')#, command=(lambda e=ents: sf.delete_profile(e)))
 deletePro.place(x=775, y=300, width=50, height=25)
-loadPro = Button(profilePage, text='Load', command=lambda: sf.readProfiles(profilePage))
+loadPro = Button(profilePage, text='Load')#, command=lambda: sf.readProfiles(profilePage))
 loadPro.place(x=850, y=300, width=50, height=25)
 
 ####################END PROFILE PAGE#############################

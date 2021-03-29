@@ -8,6 +8,7 @@ from tkinter import filedialog
 position = 0
 
 
+
 def makeform(root, fields):
     entries = []
     for field in fields:
