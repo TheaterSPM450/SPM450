@@ -109,12 +109,12 @@ doneButtonCal.place(x=10, y=350, width=100, height=50)
 
 # This border just creates a graphical box around the instructions
 borderCal = LabelFrame(calibratePage, text="Instructions")
-borderCal.place(x=250, y=60, width=600, height=200)
+borderCal.place(x=250, y=130, width=600, height=200)
 
 # This is the label for the instructions. The width and height have to be less then the border since these go inside
 # of it. The text will overlap and hide the border if the width and height are too large
 instructCal = Label(calibratePage, text='Step 1: This is where the instructions will go')
-instructCal.place(x=300, y=80, width=350, height=50)
+instructCal.place(x=300, y=150, width=350, height=50)
 
 # These are the buttons to set the start and end points of our moveable range
 # It was originally discussed that it would be a single button that dynamically changes, but they seems
