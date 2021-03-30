@@ -43,7 +43,7 @@ def fetch(entries):
 # profileEntries is a list of the entry textboxs found on the profile page.
 # profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 # This function runs when the save button on the profilePage is pressed.
-def save_profiles(profileEntries):
+def save_profile(profileEntries):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     csv_list = []
@@ -54,14 +54,11 @@ def save_profiles(profileEntries):
     writer = csv.writer(file)
     writer.writerow(csv_list)
 
-
-
-
-def delete_profile(entries):
+# This function simply deletes the csv file that was given in the filename entry box
+def delete_profile(profileEntries):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
-    profile_entry = entries[4]
-    os.remove(trueDirectory + profile_entry[1].get() + '.csv')
+    os.remove(nickDirectory + profileEntries[4].get() + '.csv')
 
     # This was the old path i removed, because os stuff confuses me
     # os.remove(os.getcwd() + "/csv/" + profile_entry[1].get() + '.csv')

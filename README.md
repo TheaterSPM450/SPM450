@@ -11,6 +11,8 @@ Calibration feature design needs to be worked out
 
 Debug page with alex's test buttons added maybe
 
+Show message if file was successfully deleted, or if file was not found
+
 
 
 
