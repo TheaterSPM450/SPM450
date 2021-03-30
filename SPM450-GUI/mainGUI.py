@@ -1,6 +1,7 @@
 from tkinter import *
 #import Hardware_Functions as hf
 import Software_Functions as sf
+from PIL import ImageTk, Image
 
 
 # NICK ALERT ##########
@@ -34,11 +35,11 @@ debugPage = Frame(root)
 
 # Declaring the sliders now so that the can be called in button functions. This is required since
 # widgets are sorted by the page they appear on
-positionSlider = Scale()
-positionSliderDebug = Scale()
-positionSliderCal = Scale()
-positionSliderPro = Scale()
-positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
+# positionSlider = Scale()
+# positionSliderDebug = Scale()
+# positionSliderCal = Scale()
+# positionSliderPro = Scale()
+positionSliderList = []
 
 pageWidth = 1024
 pageHeight = 600
@@ -65,6 +66,10 @@ Label(startPage, text='HOME PAGE').place(x=450, y=0, width=150, height=50)
 # The value associated with the slider will self-correct on the next button press
 positionSlider = Scale(startPage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
 positionSlider.place(x=10, y=30, width=1000, height=50)
+
+# This is the image that I feel deserves a spot on the start page
+startPageImage = ImageTk.PhotoImage(Image.open("SPMLogo.jpg"))
+Label(startPage, image=startPageImage).place(x=150, y=100, width=690, height=270)
 
 # This debug button should lead to a page with buttons/functions that we want for testing but probably wont be
 # included as part of product features. For final product, the simplest way to remove this is to simply comment out
@@ -212,6 +217,7 @@ doneButtonDebug.place(x=10, y=350, width=100, height=50)
 
 ####################END DEBUG PAGE##########################
 
+positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
