@@ -26,6 +26,7 @@ def makeform(root):
 
 def fetch(entries):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    # nickDirectory is just for when nick is coding on his home desktop.
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     csv_list = []
     text = ''
@@ -45,6 +46,7 @@ def fetch(entries):
 # This function runs when the save button on the profilePage is pressed.
 def save_profile(profileEntries):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    # nickDirectory is just for when nick is coding on his home desktop.
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     csv_list = []
     for i in range(4):  # This loops through index's 0,1,2,3
@@ -57,17 +59,18 @@ def save_profile(profileEntries):
 # This function simply deletes the csv file that was given in the filename entry box
 def delete_profile(profileEntries):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    # nickDirectory is just for when nick is coding on his home desktop.
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     os.remove(nickDirectory + profileEntries[4].get() + '.csv')
 
 
 
 #This function reads in all the names of the csv profiles, and prints them to a new window
-def readProfiles(profilePage):
+def read_profiles(profilePage):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
     # nickDirectory is just for when nick is coding on his home desktop.
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv"
-    loadedFiles = filedialog.askopenfilename(initialdir=trueDirectory, title= "popup", filetypes=(("csv files", "*.csv"), ("all files", "*.*")))
+    loadedFiles = filedialog.askopenfilename(initialdir=nickDirectory, title= "popup", filetypes=(("csv files", "*.csv"), ("all files", "*.*")))
     # for file in glob.glob("*.csv"):
     #     profiles.append(file)
     # top = Toplevel()
