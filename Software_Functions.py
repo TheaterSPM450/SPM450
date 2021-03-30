@@ -108,17 +108,19 @@ def read_profile(profilePage, profileEntries):
 # The parameter is takes in is the entire slider widget
 
 
-def position_up(horizontalSlider):
+def position_up(positionSliderList):
     global position
     if position < 1000:
         position += 0.2
-        horizontalSlider.set(position)
+        for i in positionSliderList:
+            i.set(position)
 
 
-def position_down(horizontalSlider):
+def position_down(positionSliderList):
     global position
     if position > 0:
         position -= 0.2
-        horizontalSlider.set(position)
+        for i in positionSliderList:
+            i.set(position)
 
 ######################################################################

@@ -1,6 +1,4 @@
 from tkinter import *
-import time
-import os
 #import Hardware_Functions as hf
 import Software_Functions as sf
 
@@ -20,15 +18,12 @@ import Software_Functions as sf
 # Some of the GPIO variable declarations and all functions were moved to Hardware_functions file
 #hf.GPIO_Initialisation()
 
-# This is some initialization from old profile window testing
-profiles = []
-loadedFiles = ""
-fields = ["speed", "ratio", "diameter", "position", "filename"]
 
 # declare base GUI window
 root = Tk()
 root.title("Stage Prop Mover 450")
 root.geometry("1024x600")
+
 
 # This is where we initialize the frames(or windows) for the program
 # Each frame represents a separate page in the program that can be traveled to with a button press
@@ -36,6 +31,14 @@ startPage = Frame(root)
 calibratePage = Frame(root)
 profilePage = Frame(root)
 debugPage = Frame(root)
+
+# Declaring the sliders now so that the can be called in button functions. This is required since
+# widgets are sorted by the page they appear on
+positionSlider = Scale()
+positionSliderDebug = Scale()
+positionSliderCal = Scale()
+positionSliderPro = Scale()
+positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
 
 pageWidth = 1024
 pageHeight = 600
@@ -63,10 +66,10 @@ Label(startPage, text='HOME PAGE').place(x=450, y=0, width=150, height=50)
 positionSlider = Scale(startPage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
 positionSlider.place(x=10, y=30, width=1000, height=50)
 
-# This debug button should lead to a page with buttons/functions that we want for testing
-# but probably wont be included as part of product features
-# For final product, the simplest way to remove this is to simply comment out the debugButton.place line
-# This removes the button, and prevents access to testing functions, without having to alter code
+# This debug button should lead to a page with buttons/functions that we want for testing but probably wont be
+# included as part of product features. For final product, the simplest way to remove this is to simply comment out
+# the debugButton.place line. This removes the button, and prevents access to testing functions, without having to
+# alter code
 
 debugButton = Button(startPage, text='Debug', command=debugPage.tkraise)
 debugButton.place(x=10, y=300, width=100, height=50)
@@ -78,15 +81,15 @@ calibrateButton.place(x=10, y=350, width=100, height=50)
 profilesButton = Button(startPage, text='Profiles', command=profilePage.tkraise)
 profilesButton.place(x=10, y=400, width=100, height=50)
 
-# This button exits.
+# This button exits. root.quit works on some devices and not others.
 exitButton = Button(startPage, text="Exit", command=root.destroy)
 exitButton.place(x=10, y=450, width=100, height=50)
 
 # These are the manual control buttons, that simply move the stepper motor in the desired direction.
 # Currently, the movement is not tied to any calibrated start or end point, nor can the speed be controlled.
-leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSlider))#=hf.spinLeft)
+leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
 leftMove.place(x=700, y=400, width=100, height=100)
-rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSlider))#=hf.spinRight)
+rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
 rightMove.place(x=800, y=400, width=100, height=100)
 
 
@@ -95,6 +98,9 @@ rightMove.place(x=800, y=400, width=100, height=100)
 #######################CALIBRATE PAGE#####################
 
 Label(calibratePage, text='CALIBRATION').place(x=450, y=0, width=150, height=50)
+
+positionSliderCal = Scale(calibratePage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
+positionSliderCal.place(x=10, y=30, width=1000, height=50)
 
 # The done button returns us to the start page
 doneButtonCal = Button(calibratePage, text='Done', command=startPage.tkraise)
@@ -105,8 +111,8 @@ doneButtonCal.place(x=10, y=350, width=100, height=50)
 borderCal = LabelFrame(calibratePage, text="Instructions")
 borderCal.place(x=250, y=60, width=600, height=200)
 
-# This is the label for the instructions. The width and height have to be less then the border
-# since these go inside of it. The text will overlap and hide the border if the width and height are too large
+# This is the label for the instructions. The width and height have to be less then the border since these go inside
+# of it. The text will overlap and hide the border if the width and height are too large
 instructCal = Label(calibratePage, text='Step 1: This is where the instructions will go')
 instructCal.place(x=300, y=80, width=350, height=50)
 
@@ -121,9 +127,9 @@ endPointCal.place(x=500, y=350, width=100, height=60)
 # These buttons are a copy of the manual controls from the start page
 # They have to be stored with separate variable names since all of these buttons are initialized before
 # the main gui loop actually happens.
-leftMoveCal = Button(calibratePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSlider))#=hf.spinLeft)
+leftMoveCal = Button(calibratePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
 leftMoveCal.place(x=700, y=400, width=100, height=100)
-rightMoveCal = Button(calibratePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSlider))#=hf.spinRight)
+rightMoveCal = Button(calibratePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
 rightMoveCal.place(x=800, y=400, width=100, height=100)
 
 
@@ -132,25 +138,27 @@ rightMoveCal.place(x=800, y=400, width=100, height=100)
 ####################PROFILE PAGE##########################
 Label(profilePage, text='PROFILE').place(x=450, y=0, width=150, height=50)
 
+positionSliderPro = Scale(profilePage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
+positionSliderPro.place(x=10, y=30, width=1000, height=50)
 
 # The done button returns us to the start page
 doneButtonPro = Button(profilePage, text='Done', command=startPage.tkraise)
 doneButtonPro.place(x=10, y=350, width=100, height=50)
 
-# These buttons are a copy of the manual controls from the start page
-# They have to be stored with separate variable names since all of these buttons are initialized before
-# the main gui loop actually happens.
-leftMovePro = Button(profilePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSlider))#=hf.spinLeft)
+# These buttons are a copy of the manual controls from the start page. They have to be stored with separate variable
+# names since all of these buttons are initialized before the main gui loop actually happens.
+leftMovePro = Button(profilePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
 leftMovePro.place(x=700, y=400, width=100, height=100)
-rightMovePro = Button(profilePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSlider))#hf.spinRight)
+rightMovePro = Button(profilePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#hf.spinRight)
 rightMovePro.place(x=800, y=400, width=100, height=100)
 
 
-# Some of this profile code is pasted from an older file and is still none functioning due to changes in the gui
-# The button placements should be close to where they need to be
-#ents = sf.makeform(profilePage)
+
+
 #profilePage.bind('<Return>', (lambda event, e=ents: sf.fetch(e)))
 
+# These are the entry boxes and their labels. They are blank by default. The user can type into them, and store the
+# typed info into csv files. When loading csv files, the csv data will be displayed in these entry boxes.
 Label(profilePage, text='Filename').place(x=700, y=110, width=70, height=15)
 filenamePro = Entry(profilePage)
 filenamePro.place(x=800, y=100, width=200, height=25)
@@ -185,6 +193,10 @@ loadPro.place(x=850, y=300, width=50, height=25)
 
 Label(debugPage, text='DEBUG').place(x=450, y=0, width=150, height=50)
 
+positionSliderDebug = Scale(debugPage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
+positionSliderDebug.place(x=10, y=30, width=1000, height=50)
+
+
 spinButtonDebug = Button(debugPage, text="SPIN ON")#, command=hf.spin)
 spinButtonDebug.place(x=400, y=350, width=100, height=50)
 
@@ -197,8 +209,10 @@ spinHoldButton.place(x=400, y=400, width=100, height=50)
 doneButtonDebug = Button(debugPage, text='Done', command=startPage.tkraise)
 doneButtonDebug.place(x=10, y=350, width=100, height=50)
 
+
 ####################END DEBUG PAGE##########################
 
+positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
