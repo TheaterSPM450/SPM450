@@ -212,7 +212,6 @@ doneButtonDebug.place(x=10, y=350, width=100, height=50)
 
 ####################END DEBUG PAGE##########################
 
-positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
