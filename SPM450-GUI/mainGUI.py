@@ -184,7 +184,8 @@ positionPro.place(x=800, y=260, width=200, height=25)
 # with the current profile info using .set or .config. This variable will be passed into the save function.
 profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 
-
+runPro = Button(profilePage, text='Run', command=(lambda: sf.run_profile(profileEntries,positionSliderList,profilePage)))
+runPro.place(x=625, y=300, width=50, height=25)
 savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(profileEntries)))
 savePro.place(x=700, y=300, width=50, height=25)
 deletePro = Button(profilePage, text='Delete', command=(lambda: sf.delete_profile(profileEntries)))

@@ -1,6 +1,7 @@
 from tkinter import *
 import csv
 import os
+import time
 from tkinter import filedialog
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
@@ -88,6 +89,24 @@ def read_profile(profilePage, profileEntries):
             profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
 
+#This is a temporary function, that moves the slider using the position functions to the profile location
+def run_profile(profileEntries,positionSliderList,root):
+    newPosition = int(profileEntries[3].get())
+    global position
+    print(str(newPosition) + "---" + str(position))
+    positionDifference = abs(position - newPosition)
+    for i in range(positionDifference):
+        print(str(newPosition) + "---" + str(position))
+        time.sleep(.001)
+        if newPosition < position:
+            position_down(positionSliderList)
+        elif newPosition > position:
+            position_up(positionSliderList)
+        root.update()
+    print(str(newPosition) + "---" + str(position))
+
+
+
 # This is legacy code from read_profile, from when we loaded file names into a global list variable
 # It read all the csv file names from the csv directory, and stored them for file opening later
 # Left the code here incase in finds some use later
@@ -111,7 +130,7 @@ def read_profile(profilePage, profileEntries):
 def position_up(positionSliderList):
     global position
     if position < 1000:
-        position += 0.2
+        position += 1
         for i in positionSliderList:
             i.set(position)
 
@@ -119,7 +138,7 @@ def position_up(positionSliderList):
 def position_down(positionSliderList):
     global position
     if position > 0:
-        position -= 0.2
+        position -= 1
         for i in positionSliderList:
             i.set(position)
 
