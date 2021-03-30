@@ -185,6 +185,15 @@ loadPro.place(x=850, y=300, width=50, height=25)
 
 Label(debugPage, text='DEBUG').place(x=450, y=0, width=150, height=50)
 
+spinButtonDebug = Button(debugPage, text="SPIN ON")#, command=hf.spin)
+spinButtonDebug.place(x=400, y=350, width=100, height=50)
+
+spinForSetTimeButtonDebug = Button(debugPage, text="SpinForSetTime")#, command=hf.spinForSetTime)
+spinForSetTimeButtonDebug.place(x=500, y=350, width=100, height=50)
+# # RepeatIsIn(ms)
+spinHoldButton = Button(debugPage, text="spinHoldButton", repeatdelay=1, repeatinterval=1)#, command=hf.spinHold)
+spinHoldButton.place(x=400, y=400, width=100, height=50)
+
 doneButtonDebug = Button(debugPage, text='Done', command=startPage.tkraise)
 doneButtonDebug.place(x=10, y=350, width=100, height=50)
 
@@ -195,23 +204,3 @@ doneButtonDebug.place(x=10, y=350, width=100, height=50)
 # Whatever page is raised here will be the first page you see
 startPage.tkraise()
 root.mainloop()
-
-
-
-
-
-# I was unsure if these buttons are going to make it in the final design
-# I've included them here since they were part of the gui before
-
-# spinButton = Button(win, text="SPIN ON", command=spin, height = 2, width =10 )
-# spinButton.pack()
-#
-# spinForSetTimeButton = Button(win, text="SpinForSetTime", command = spinForSetTime, height = 2, width =10)
-# spinForSetTimeButton.place(x=100, y=100)
-#
-# # RepeatIsIn(ms)
-# spinHoldButton = Button(win, text="spinHoldButton", repeatdelay=1, repeatinterval=1, command=spinHold, height = 2, width =10 )
-# spinHoldButton.place(x=100, y=200)
-
-
-

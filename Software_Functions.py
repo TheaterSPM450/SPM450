@@ -60,8 +60,6 @@ def delete_profile(profileEntries):
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     os.remove(nickDirectory + profileEntries[4].get() + '.csv')
 
-    # This was the old path i removed, because os stuff confuses me
-    # os.remove(os.getcwd() + "/csv/" + profile_entry[1].get() + '.csv')
 
 
 #This function reads in all the names of the csv profiles, and prints them to a new window
