@@ -90,20 +90,18 @@ def read_profile(profilePage, profileEntries):
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
 
 #This is a temporary function, that moves the slider using the position functions to the profile location
-def run_profile(profileEntries,positionSliderList,root):
+def run_profile(profileEntries,positionSliderList,profilePage):
     newPosition = int(profileEntries[3].get())
     global position
-    print(str(newPosition) + "---" + str(position))
     positionDifference = abs(position - newPosition)
     for i in range(positionDifference):
-        print(str(newPosition) + "---" + str(position))
         time.sleep(.001)
         if newPosition < position:
             position_down(positionSliderList)
         elif newPosition > position:
             position_up(positionSliderList)
-        root.update()
-    print(str(newPosition) + "---" + str(position))
+        profilePage.update()
+        print(str(newPosition) + "---" + str(position))
 
 
 
