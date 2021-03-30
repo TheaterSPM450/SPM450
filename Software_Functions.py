@@ -49,7 +49,7 @@ def save_profile(profileEntries):
     # nickDirectory is just for when nick is coding on his home desktop.
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
     csv_list = []
-    for i in range(4):  # This loops through index's 0,1,2,3
+    for i in range(5):  # This loops through index's 0,1,2,3,4
         csv_list.append(profileEntries[i].get())   # Here we append the profile entry box's values into a list
     filename = nickDirectory + profileEntries[4].get() + '.csv'
     file = open(filename, 'w')
@@ -64,21 +64,41 @@ def delete_profile(profileEntries):
     os.remove(nickDirectory + profileEntries[4].get() + '.csv')
 
 
-
-#This function reads in all the names of the csv profiles, and prints them to a new window
-def read_profiles(profilePage):
+# This function reads in all the names of the csv profiles, and prints them to a new window
+# profilePage is the frame that all the buttons are displayed on.
+# It is here incase we want to generate new buttons on load
+# profileEntries is a list of the entry textboxes found on the profile page.
+# profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
+# This function runs when the load button on the profilePage is pressed.
+def read_profile(profilePage, profileEntries):
     trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
     # nickDirectory is just for when nick is coding on his home desktop.
     nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv"
+    # This line brings up a file prompt that will allow the user to pick a file without the use of a keyboard
     loadedFiles = filedialog.askopenfilename(initialdir=nickDirectory, title= "popup", filetypes=(("csv files", "*.csv"), ("all files", "*.*")))
+
+    # With that loaded file, here we simply load the values in the entry box for the user to see
+    # To update entry boxes, we must first delete what is in it, and then insert our new string
+    with open(loadedFiles) as f:
+        reader = csv.reader(f)
+        line = next(reader)
+        print(line)
+        print(line[0])
+        for i in range(5):
+            profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
+            profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
+
+# This is legacy code from read_profile, from when we loaded file names into a global list variable
+# It read all the csv file names from the csv directory, and stored them for file opening later
+# Left the code here incase in finds some use later
     # for file in glob.glob("*.csv"):
     #     profiles.append(file)
     # top = Toplevel()
     # top.title("List of profiles")
     # for i in profiles:
     #     Label(top, text=i).pack()
-    label1 = Label(profilePage, text=loadedFiles)
-    label1.pack()
+    # label1 = Label(profilePage, text=loadedFiles)
+    # label1.pack()
 
 ####################################################################################
 # These are just test functions. It is attached to the left and right move button

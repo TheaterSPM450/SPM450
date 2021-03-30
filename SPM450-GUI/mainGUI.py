@@ -176,7 +176,7 @@ savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(prof
 savePro.place(x=700, y=300, width=50, height=25)
 deletePro = Button(profilePage, text='Delete', command=(lambda: sf.delete_profile(profileEntries)))
 deletePro.place(x=775, y=300, width=50, height=25)
-loadPro = Button(profilePage, text='Load', command=lambda: sf.read_profiles(profilePage))
+loadPro = Button(profilePage, text='Load', command=lambda: sf.read_profile(profilePage, profileEntries))
 loadPro.place(x=850, y=300, width=50, height=25)
 
 ####################END PROFILE PAGE#############################
