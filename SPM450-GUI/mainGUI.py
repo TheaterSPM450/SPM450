@@ -148,20 +148,31 @@ rightMovePro.place(x=800, y=400, width=100, height=100)
 
 # Some of this profile code is pasted from an older file and is still none functioning due to changes in the gui
 # The button placements should be close to where they need to be
-#ents = sf.makeform(profilePage, fields)
+#ents = sf.makeform(profilePage)
 #profilePage.bind('<Return>', (lambda event, e=ents: sf.fetch(e)))
 
 Label(profilePage, text='Filename').place(x=700, y=110, width=70, height=15)
-Entry(profilePage).place(x=800, y=100, width=200, height=25)
+filenamePro = Entry(profilePage)
+filenamePro.place(x=800, y=100, width=200, height=25)
 Label(profilePage, text='Ratio').place(x=700, y=150, width=70, height=15)
-Entry(profilePage).place(x=800, y=140, width=200, height=25)
+ratioPro = Entry(profilePage)
+ratioPro.place(x=800, y=140, width=200, height=25)
 Label(profilePage, text='Diameter').place(x=700, y=190, width=70, height=15)
-Entry(profilePage).place(x=800, y=180, width=200, height=25)
+diameterPro = Entry(profilePage)
+diameterPro.place(x=800, y=180, width=200, height=25)
 Label(profilePage, text='Speed').place(x=700, y=230, width=70, height=15)
-Entry(profilePage).place(x=800, y=220, width=200, height=25)
+speedPro = Entry(profilePage)
+speedPro.place(x=800, y=220, width=200, height=25)
 Label(profilePage, text='Position').place(x=700, y=270, width=70, height=15)
-Entry(profilePage).place(x=800, y=260, width=200, height=25)
-savePro = Button(profilePage, text='Save')#, command=(lambda e=ents: sf.fetch(e)))
+positionPro = Entry(profilePage)
+positionPro.place(x=800, y=260, width=200, height=25)
+
+# This global variable holds the entry textbox's, so that we can later update the buttons
+# with the current profile info using .set or .config. This variable will be passed into the save function.
+profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
+
+
+savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profiles(profileEntries)))
 savePro.place(x=700, y=300, width=50, height=25)
 deletePro = Button(profilePage, text='Delete')#, command=(lambda e=ents: sf.delete_profile(e)))
 deletePro.place(x=775, y=300, width=50, height=25)

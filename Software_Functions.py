@@ -8,8 +8,10 @@ from tkinter import filedialog
 position = 0
 
 
-
-def makeform(root, fields):
+# This function used to have fields as a parameter that had to be passed to it
+# It seemed easier to just remove that parameter, and make fields a local variable in the func
+def makeform(root):
+    fields = ["speed", "ratio", "diameter", "position", "filename"]
     entries = []
     for field in fields:
         row = Frame(root)
@@ -28,7 +30,7 @@ def fetch(entries):
     csv_list = []
     text = ''
     for entry in entries:
-        text  = entry[1].get()
+        text = entry[1].get()
         if entry[0] == 'filename':
             break
         csv_list.append(text)
@@ -36,6 +38,23 @@ def fetch(entries):
     file = open(filename, 'w')
     writer = csv.writer(file)
     writer.writerow(csv_list)
+
+# This is a rewrite of the fetch function, using slightly altered data structures
+# profileEntries is a list of the entry textboxs found on the profile page.
+# profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
+# This function runs when the save button on the profilePage is pressed.
+def save_profiles(profileEntries):
+    trueDirectory = "/home/pi/Desktop/SPM450Files/SPM450/csv/"
+    nickDirectory = "C:/Users/nickm/PycharmProjects/SPM450/csv/"
+    csv_list = []
+    for i in range(4):  # This loops through index's 0,1,2,3
+        csv_list.append(profileEntries[i].get())   # Here we append the profile entry box's values into a list
+    filename = nickDirectory + profileEntries[4].get() + '.csv'
+    file = open(filename, 'w')
+    writer = csv.writer(file)
+    writer.writerow(csv_list)
+
+
 
 
 def delete_profile(entries):
