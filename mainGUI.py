@@ -4,6 +4,7 @@ import Software_Functions as sf
 #from PIL import ImageTk, Image
 
 
+
 # NICK ALERT ##########
 # Hardware functionality may be commented out, simply so that people can work on code from their desktops
 # I attempted to comment things out in a way that makes it easy to restore full functionality on RasPi
@@ -24,6 +25,7 @@ import Software_Functions as sf
 root = Tk()
 root.title("Stage Prop Mover 450")
 root.geometry("1024x600")
+
 
 
 # This is where we initialize the frames(or windows) for the program

@@ -10,20 +10,21 @@ position = 0
 path = os.getcwd()
 
 
-# This function used to have fields as a parameter that had to be passed to it
-# It seemed easier to just remove that parameter, and make fields a local variable in the func
-def makeform(root):
-    fields = ["speed", "ratio", "diameter", "position", "filename"]
-    entries = []
-    for field in fields:
-        row = Frame(root)
-        lab = Label(row, width=15, text=field, anchor='w')
-        ent = Entry(row)
-        row.pack(side=TOP, fill=X, padx=5, pady=5)
-        lab.pack(side=LEFT)
-        ent.pack(side=RIGHT, expand=YES, fill=X)
-        entries.append((field, ent))
-    return entries
+
+# # This function used to have fields as a parameter that had to be passed to it
+# # It seemed easier to just remove that parameter, and make fields a local variable in the func
+# def makeform(root):
+#     fields = ["speed", "ratio", "diameter", "position", "filename"]
+#     entries = []
+#     for field in fields:
+#         row = Frame(root)
+#         lab = Label(row, width=15, text=field, anchor='w')
+#         ent = Entry(row)
+#         row.pack(side=TOP, fill=X, padx=5, pady=5)
+#         lab.pack(side=LEFT)
+#         ent.pack(side=RIGHT, expand=YES, fill=X)
+#         entries.append((field, ent))
+#     return entries
 
 # profileEntries is a list of the entry textboxs found on the profile page.
 # profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
