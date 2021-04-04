@@ -33,12 +33,8 @@ calibratePage = Frame(root)
 profilePage = Frame(root)
 debugPage = Frame(root)
 
-# Declaring the sliders now so that the can be called in button functions. This is required since
-# widgets are sorted by the page they appear on
-# positionSlider = Scale()
-# positionSliderDebug = Scale()
-# positionSliderCal = Scale()
-# positionSliderPro = Scale()
+# Declaring the slider list now so that the can be called in button functions. This is required since
+
 positionSliderList = []
 
 pageWidth = 1024
