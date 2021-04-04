@@ -1,7 +1,7 @@
 from tkinter import *
 #import Hardware_Functions as hf
 import Software_Functions as sf
-#from PIL import ImageTk, Image
+from PIL import ImageTk, Image
 
 
 
@@ -70,8 +70,8 @@ positionSlider = Scale(startPage, from_=0, to=1000, orient=HORIZONTAL, length=10
 positionSlider.place(x=10, y=30, width=1000, height=50)
 
 # This is the image that I feel deserves a spot on the start page
-#startPageImage = ImageTk.PhotoImage(Image.open("SPMLogo.jpg"))
-#Label(startPage, image=startPageImage).place(x=150, y=100, width=690, height=270)
+startPageImage = ImageTk.PhotoImage(Image.open("SPMLogo.jpg"))
+Label(startPage, image=startPageImage).place(x=150, y=100, width=690, height=270)
 
 # This debug button should lead to a page with buttons/functions that we want for testing but probably wont be
 # included as part of product features. For final product, the simplest way to remove this is to simply comment out
