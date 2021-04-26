@@ -50,9 +50,10 @@ def rpm_to_speed(rpm, diameter):
 def speed_to_rpm(speed, diameter):
     minutes = 60.0
     inches_per_mile = 63360.0
-    r = diameter / 2.0 # calculate radius
-    circumference = 2.0 * pi * r
+    # r = diameter / 2.0 # calculate radius
+    circumference = diameter * pi 
     return ((inches_per_mile * speed) / (minutes * circumference))
+    # inches per hour / 
 
 
 # speed_to_pulse_time()
@@ -65,14 +66,17 @@ def speed_to_rpm(speed, diameter):
 #
 # OUTPUT: float decimal representing fraction of a second between driver pulse phases
 def speed_to_pulse_time(speed, drive_pulley_diameter, drive_ratio):
-    motor_speed = speed / drive_ratio
-    return rpm_to_pulsesleep(speed_to_rpm(motor_speed, drive_pulley_diameter))
+    # motor_speed = speed / drive_ratio
+    # return rpm_to_pulsesleep(speed_to_rpm(speed, drive_pulley_diameter))
+    track_rpm = speed_to_rpm(speed, drive_pulley_diameter)
+    motor_rpm = track_rpm / drive_ratio
+    return rpm_to_pulsesleep(motor_rpm)
 
 
 # to test pulley diameter and ratio pulse times uncomment and plug in test values
 # as (speed(mph), drive pulley diameter(inches), ratio(if direct drive use 1.0))
 
-pulseT = speed_to_pulse_time(3.0, 1.0, 2.0)
+pulseT = speed_to_pulse_time(2.0, .375, 3.0)
 rpm = sleep_to_rpm(pulseT)
 print("\n========================================\n")
 print("Pulse time: " + str(pulseT))

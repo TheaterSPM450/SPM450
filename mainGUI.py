@@ -1,5 +1,5 @@
 from tkinter import *
-#import Hardware_Functions as hf
+import Hardware_Functions as hf
 import Software_Functions as sf
 from PIL import ImageTk, Image
 
