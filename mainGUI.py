@@ -58,6 +58,10 @@ debugPage.place(x=0, y=0, width=pageWidth, height=pageHeight)
 # .place will not work if the frame is called using .grid or .pack
 
 
+
+
+
+
 ######################START PAGE###############################
 Label(startPage, text='HOME PAGE').place(x=450, y=0, width=150, height=50)
 

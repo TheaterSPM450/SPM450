@@ -3,6 +3,7 @@ import csv
 import os
 import time
 from tkinter import filedialog
+import Hardware_Functions as hf
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
 # (as of 3-27-201 it is only for testing)
@@ -97,6 +98,7 @@ def position_up(positionSliderList):
     global position
     if position < 1000:
         position += 1
+        hf.move(1)              #This is the hardware function that includes threading
         for i in positionSliderList:
             i.set(position)
 
@@ -105,6 +107,7 @@ def position_down(positionSliderList):
     global position
     if position > 0:
         position -= 1
+        hf.move(-1)       #This is the hardware function that includes threading
         for i in positionSliderList:
             i.set(position)
 
