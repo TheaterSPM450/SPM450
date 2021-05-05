@@ -12,8 +12,11 @@ from math import pi
 
 
 # position_to_distance()
-# takes postion (motor pulses), transfer pulley diameter (inches), drive ratio
-# and calculates position from calibration start point in feet 
+# IMPORTANT: the output of this function is only intended for GUI/user display purposes
+#            not for control purposes
+# takes position count, converts to distance in feet:
+#   takes postion (motor pulses), transfer pulley diameter (inches), drive ratio
+#   and calculates position from calibration start point (zero point) in feet 
 # 
 # calculates pulley circumference in feet
 # returns distance by dividing position count by steps per revolution (200) * transfer pulley circumference * drive ratio
@@ -39,6 +42,11 @@ def rpm_to_pulsesleep(rpm):
     return (1 / (400.0 * (rpm / 60.0)))
 
 
+# sleep_to_rpm()
+# converts sleep delay to time (Speed) to rpm
+#
+#
+#
 def sleep_to_rpm(t):
     return ((1 / t) / (400)) * 60 # RPM = ((1 second / sleeptime) / (2 phases * 200 pulses_per_rotation)) * 60 seconds
 

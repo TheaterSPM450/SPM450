@@ -20,6 +20,7 @@ SPEED = .00035 # pulse sleep time, in seconds as a float
 POSITION = 0 # an accumulator variable which can be used for current position tracking
 pulse = 40  # driver pulse signal GPIO pin 40
 direction = 36  # driver pulse direction GPIO pin 36
+threads = [] # thread queue
 
 # GPIO Drivers
 GPIO.setmode(GPIO.BOARD)
