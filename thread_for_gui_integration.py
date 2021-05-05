@@ -12,12 +12,15 @@ from tkinter import *
 import time
 import threading
 import RPi.GPIO as GPIO
-#import spm_control_akogan as control
+import spm_control_akogan as control
 
 #vars
+pulley_diameter = 1.5 
+drive_ratio = 1.0
 do_loop = FALSE # used for thread termination, could be changed to "motor_enable" or something similar
-SPEED = .00035 # pulse sleep time, in seconds as a float
+SPEED = .0005 # pulse sleep time, in seconds as a float
 POSITION = 0 # an accumulator variable which can be used for current position tracking
+DESTINATION = 0
 pulse = 40  # driver pulse signal GPIO pin 40
 direction = 36  # driver pulse direction GPIO pin 36
 threads = [] # thread queue
@@ -66,7 +69,7 @@ def stoploopevent2(self):
 # thread start function for l_button and r_button
 def move(x):
     th = threading.Thread(target= lambda: move_thread(x))
-    #threads.append(th)
+    threads.append(th)
     th.daemon
     th.start()
 
