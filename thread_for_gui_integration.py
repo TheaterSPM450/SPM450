@@ -12,7 +12,7 @@ from tkinter import *
 import time
 import threading
 import RPi.GPIO as GPIO
-import spm_control_akogan as control
+#import spm_control_akogan as control
 
 #vars
 do_loop = FALSE # used for thread termination, could be changed to "motor_enable" or something similar
@@ -66,7 +66,7 @@ def stoploopevent2(self):
 # thread start function for l_button and r_button
 def move(x):
     th = threading.Thread(target= lambda: move_thread(x))
-    threads.append(th)
+    #threads.append(th)
     th.daemon
     th.start()
 
