@@ -55,7 +55,38 @@ def move_thread(x): # takes an input of -1 or 1 from caller
         time.sleep(SPEED)
         POSITION += x
         numField.delete(0, END)
-        numField.insert(0,str(POSITION))     
+        numField.insert(0,str(POSITION))
+
+
+
+# PROGRAM THREAD FUNCTION
+# loop function to run on thread for execute program button 
+def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
+    global do_loop, POSITION, DESTINATION, pulse, direction
+    do_loop = TRUE
+    #------------------DIRECTION SET----------------------------------
+    if(DESTINATION < POSITION):
+        GPIO.output(direction,GPIO.LOW)
+    else:
+        GPIO.output(direction,GPIO.HIGH)
+    #-----------------------------------------------------------------
+    #-----------SOFT START functionallity-----------------------------
+    new_SPEED = .01 # create new_speed copy set .5 (high wait for long step delay)
+    deduction = (new_SPEED - SPEED) / 150  # calculate time deduction
+    while(do_loop and POSITION != DESTINATION):
+        if(new_SPEED > SPEED):
+            new_SPEED -= deduction
+            # print("deducting")
+            if(new_SPEED < SPEED):
+                new_SPEED = SPEED
+    #-----------------------------------------------------------------
+        GPIO.output(pulse,GPIO.HIGH)
+        time.sleep(new_SPEED)
+        GPIO.output(pulse,GPIO.LOW)
+        time.sleep(new_SPEED)
+        POSITION += x
+        numField.delete(0, END)
+        numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
 
 
 # stop thread function
