@@ -2,6 +2,8 @@ from tkinter import *
 #import Hardware_Functions as hf
 import Software_Functions as sf
 from PIL import ImageTk, Image
+import spm_control_akogan as control
+import motor_control as motor
 
 
 
@@ -74,13 +76,38 @@ positionSlider = Scale(startPage, from_=0, to=1000, orient=HORIZONTAL, length=10
 positionSlider.place(x=10, y=30, width=1000, height=50)
 
 # This is the image that I feel deserves a spot on the start page
-startPageImage = ImageTk.PhotoImage(Image.open("SPMLogo.jpg"))
-Label(startPage, image=startPageImage).place(x=150, y=100, width=690, height=270)
+# startPageImage = ImageTk.PhotoImage(Image.open("SPMLogo.jpg"))
+# Label(startPage, image=startPageImage).place(x=150, y=100, width=690, height=270)
 
 # This debug button should lead to a page with buttons/functions that we want for testing but probably wont be
 # included as part of product features. For final product, the simplest way to remove this is to simply comment out
 # the debugButton.place line. This removes the button, and prevents access to testing functions, without having to
 # alter code
+
+# adding information fields (Alex Kogan)
+#--------------------------------------------------------------------
+# Speed display value
+speedFrame = LabelFrame(startPage, text="SPEED (ft/s)")
+speedFrame.place(x=10, y=100, width=120, height=50)
+
+speedSpec = Label(startPage, text=str(round(control.rpm_to_speed(control.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpec.place(x=12, y=120, width=80, height=20)
+
+# Position display value
+positionFrame = LabelFrame(startPage, text="POSITION (ft)")
+positionFrame.place(x=10, y=150, width=120, height=50)
+
+positionSpec = Label(startPage, text=str(round(control.position_to_distance(motor.POSITION, motor.pulley_diameter, motor.drive_ratio), 2)))
+positionSpec.place(x=12, y=170, width=80, height=20)
+
+# Ratio display value
+ratioFrame = LabelFrame(startPage, text="Drive Ratio")
+ratioFrame.place(x=10, y=200, width=120, height=50)
+
+ratioSpec = Label(startPage, text=str(motor.drive_ratio))
+ratioSpec.place(x=12, y=220, width=80, height=20)
+
+#--------------------------------------------------------------------
 
 debugButton = Button(startPage, text='Debug', command=debugPage.tkraise)
 debugButton.place(x=10, y=300, width=100, height=50)
@@ -113,6 +140,33 @@ Label(calibratePage, text='CALIBRATION').place(x=450, y=0, width=150, height=50)
 positionSliderCal = Scale(calibratePage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
 positionSliderCal.place(x=10, y=30, width=1000, height=50)
 
+
+# adding information fields (Alex Kogan)
+#--------------------------------------------------------------------
+# Speed display value
+speedFrame = LabelFrame(calibratePage, text="SPEED (ft/s)")
+speedFrame.place(x=10, y=100, width=120, height=50)
+
+speedSpec = Label(calibratePage, text=str(motor.SPEED))
+speedSpec.place(x=12, y=120, width=80, height=20)
+
+# Position display value
+positionFrame = LabelFrame(calibratePage, text="POSITION (ft)")
+positionFrame.place(x=10, y=150, width=120, height=50)
+
+positionSpec = Label(calibratePage, text=str(motor.POSITION))
+positionSpec.place(x=12, y=170, width=80, height=20)
+
+# Ratio display value
+ratioFrame = LabelFrame(calibratePage, text="Drive Ratio")
+ratioFrame.place(x=10, y=200, width=120, height=50)
+
+ratioSpec = Label(calibratePage, text=str(motor.drive_ratio))
+ratioSpec.place(x=12, y=220, width=80, height=20)
+
+#--------------------------------------------------------------------
+
+
 # The done button returns us to the start page
 doneButtonCal = Button(calibratePage, text='Done', command=startPage.tkraise)
 doneButtonCal.place(x=10, y=350, width=100, height=50)
@@ -120,20 +174,22 @@ doneButtonCal.place(x=10, y=350, width=100, height=50)
 
 # This border just creates a graphical box around the instructions
 borderCal = LabelFrame(calibratePage, text="Instructions")
-borderCal.place(x=250, y=130, width=600, height=200)
+borderCal.place(x=250, y=130, width=600, height=300)
 
 # This is the label for the instructions. The width and height have to be less then the border since these go inside
 # of it. The text will overlap and hide the border if the width and height are too large
-instructCal = Label(calibratePage, text='Step 1: This is where the instructions will go')
-instructCal.place(x=300, y=150, width=350, height=50)
+instructCal = Label(calibratePage, justify=LEFT, text='Step 1: Use manual control buttons to move prop carrier towards\n    drive unit untilthe end pulley drive is reached.\n    LEAVE ROOM BETWEEN CARRIER AND PULLEY.\nStep 2: Press "Start Point" button.\nStep 3: Use manual control buttons to move prop carrier to\n    opposite end of pulley drive.\n    LEAVE ROOM BETWEEN CARRIER AND PULLEY.\nStep 4: Press "End Position" button.\n\nIf finished press "Confirm". To recalibrate begin from Step 1')
+instructCal.place(x=300, y=150, width=540, height=200)
 
 # These are the buttons to set the start and end points of our moveable range
 # It was originally discussed that it would be a single button that dynamically changes, but they seems
 # more confusing for the user and more work for us. For the time being, its two buttons.
 startPointCal = Button(calibratePage, text='Start Point')
-startPointCal.place(x=400, y=350, width=100, height=60)
+startPointCal.place(x=350, y=350, width=100, height=60)
 endPointCal = Button(calibratePage, text='End Point')
-endPointCal.place(x=500, y=350, width=100, height=60)
+endPointCal.place(x=450, y=350, width=100, height=60)
+confirmCal = Button(calibratePage, text='Confirm') # this button MUST call a function which changes CALIBRATED variable to True. This carriable must impede motor function when false
+confirmCal.place(x=550, y=350, width=100, height=60)
 
 # These buttons are a copy of the manual controls from the start page
 # They have to be stored with separate variable names since all of these buttons are initialized before
@@ -151,6 +207,33 @@ Label(profilePage, text='PROFILE').place(x=450, y=0, width=150, height=50)
 
 positionSliderPro = Scale(profilePage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
 positionSliderPro.place(x=10, y=30, width=1000, height=50)
+
+
+# adding information fields (Alex Kogan)
+#--------------------------------------------------------------------
+# Speed display value
+speedFrame = LabelFrame(profilePage, text="SPEED (ft/s)")
+speedFrame.place(x=10, y=100, width=120, height=50)
+
+speedSpec = Label(profilePage, text=str(motor.SPEED))
+speedSpec.place(x=12, y=120, width=80, height=20)
+
+# Position display value
+positionFrame = LabelFrame(profilePage, text="POSITION (ft)")
+positionFrame.place(x=10, y=150, width=120, height=50)
+
+positionSpec = Label(profilePage, text=str(motor.POSITION))
+positionSpec.place(x=12, y=170, width=80, height=20)
+
+# Ratio display value
+ratioFrame = LabelFrame(profilePage, text="Drive Ratio")
+ratioFrame.place(x=10, y=200, width=120, height=50)
+
+ratioSpec = Label(profilePage, text=str(motor.drive_ratio))
+ratioSpec.place(x=12, y=220, width=80, height=20)
+
+#--------------------------------------------------------------------
+
 
 # The done button returns us to the start page
 doneButtonPro = Button(profilePage, text='Done', command=startPage.tkraise)

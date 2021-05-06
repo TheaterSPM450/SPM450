@@ -1,8 +1,10 @@
 '''
-thread_for_gui_integration.py
+motor_control.py
 
 Author: Alex Kogan
 Date: 4/24/2021
+
+updated 5/5/21
 
 threading code for stepper control to integrate with GUI
 
@@ -32,14 +34,14 @@ GPIO.output(pulse, GPIO.LOW)
 GPIO.setup(direction, GPIO.OUT)
 GPIO.output(direction, GPIO.LOW)
 
-tk = Tk() # tk object
+# tk = Tk() # tk object
 
 # set minimum window size to 4:3 by setting resolution to 800x600
-tk.minsize(800, 600)
+# tk.minsize(800, 600)
 
 
 
-# THREAD FUNCTION
+# THREAD FUNCTION (manual control)
 # loop function to run on thread for l_button and r_button click binding 
 def move_thread(x): # takes an input of -1 or 1 from caller
     global do_loop, POSITION, pulse, direction
@@ -59,7 +61,7 @@ def move_thread(x): # takes an input of -1 or 1 from caller
 
 
 
-# PROGRAM THREAD FUNCTION
+# PROGRAM THREAD FUNCTION (auto control)
 # loop function to run on thread for execute program button 
 def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     global do_loop, POSITION, DESTINATION, pulse, direction
@@ -113,9 +115,9 @@ def move(x):
 
 
 # exits program
-def exitProgram():
-	print("Exit Button pressed")
-	tk.destroy()
+# def exitProgram():
+# 	print("Exit Button pressed")
+# 	tk.destroy()
 
 
 #BUTTONS, ENTRIES and WIDGETS
@@ -124,43 +126,48 @@ def exitProgram():
 #               <<<<< LEFT <<<<<
 #/////////////////////////////////////////////////////
 # left button (decrement field)
-l_button = Button(tk, text='<<<< L <<<<', bg='yellow', justify='left')
-l_button.pack()
+# l_button = Button(tk, text='<<<< L <<<<', bg='yellow', justify='left')
+# l_button.pack()
+
 # Button-1 is left mouse button.
 # The following 2 lines bind the mouse click and release
 # to separate function calls. Click down starts a thread,
 # release changes a thread condition to false
-l_button.bind("<Button-1>", lambda x: move(-1))
-l_button.bind("<ButtonRelease-1>", stoploopevent2)
+
+# l_button.bind("<Button-1>", lambda x: move(-1))
+# l_button.bind("<ButtonRelease-1>", stoploopevent2)
 
 #/////////////////////////////////////////////////////
 #               ***** DISPLAY *****
 #/////////////////////////////////////////////////////
-l1 = Label(tk, text="Position: ")
-l1.pack()
+# l1 = Label(tk, text="Position: ")
+# l1.pack()
+
 # display field
-numField = Entry(tk, bg='white', bd='4', state='normal', justify='center', width=10)
-numField.pack()
-numField.insert(0,str(POSITION))
+# numField = Entry(tk, bg='white', bd='4', state='normal', justify='center', width=10)
+# numField.pack()
+# numField.insert(0,str(POSITION))
 
 #/////////////////////////////////////////////////////
 #               >>>>> RIGHT >>>>>
 #/////////////////////////////////////////////////////
 # right button (increment field)
-r_button = Button(tk, text='>>>> R >>>>', bg='orange', justify='right')
-r_button.pack()
+# r_button = Button(tk, text='>>>> R >>>>', bg='orange', justify='right')
+# r_button.pack()
+
 # Button-1 is left mouse button.
 # The following 2 lines bind the mouse click and release
 # to separate function calls. Click down starts a thread,
 # release changes a thread condition to false
-r_button.bind("<Button-1>", lambda x: move(1))
-r_button.bind("<ButtonRelease-1>", stoploopevent2)
+
+# r_button.bind("<Button-1>", lambda x: move(1))
+# r_button.bind("<ButtonRelease-1>", stoploopevent2)
 
 
 
-exitButton  = Button(tk, text = "Exit", command = exitProgram, height =2 , width = 10, bg='red', bd='4') 
-exitButton.pack(side = BOTTOM)
+# exitButton  = Button(tk, text = "Exit", command = exitProgram, height =2 , width = 10, bg='red', bd='4') 
+# exitButton.pack(side = BOTTOM)
 
 
 
-tk.mainloop()
+# tk.mainloop()
