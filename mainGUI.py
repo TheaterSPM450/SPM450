@@ -24,11 +24,13 @@ config = ConfigParser()
 # parse existing file
 config.read('spmProps.ini')
 # Initial Prop Testing: reading all the current GlobalProperties
+globalDest = config.get('section_a', 'destination')
 globalUser = config.get('section_a', 'string_val_user')
 globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
 globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
 globalPropPosition = config.getint('section_a', 'int_val_propPosition')
 globalSpeed = config.getfloat('section_a', 'float_val_speed')
+print(globalDest)
 print(globalUser)
 print(globalMetricForSpeed)
 print(globalSysOnOff)
@@ -245,11 +247,22 @@ confirmCal.place(x=550, y=350, width=100, height=60)
 # These buttons are a copy of the manual controls from the start page
 # They have to be stored with separate variable names since all of these buttons are initialized before
 # the main gui loop actually happens.
+# leftMoveCal = Button(calibratePage, text='LEFT')
+# leftMoveCal.place(x=700, y=400, width=100, height=100)
+# rightMoveCal = Button(calibratePage, text='RIGHT')
+# rightMoveCal.place(x=800, y=400, width=100, height=100)
+
 leftMoveCal = Button(calibratePage, text='LEFT')
 leftMoveCal.place(x=700, y=400, width=100, height=100)
+
 rightMoveCal = Button(calibratePage, text='RIGHT')
 rightMoveCal.place(x=800, y=400, width=100, height=100)
 
+leftMoveCal.bind("<Button-1>", lambda x: motor.move(-1))
+leftMoveCal.bind("<ButtonRelease-1>", motor.stoploopevent2)
+
+rightMoveCal.bind("<Button-1>", lambda x: motor.move(1))
+rightMoveCal.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 #####################END CALIBRATE PAGE#########################
 
@@ -292,12 +305,22 @@ doneButtonPro.place(x=10, y=350, width=100, height=50)
 
 # These buttons are a copy of the manual controls from the start page. They have to be stored with separate variable
 # names since all of these buttons are initialized before the main gui loop actually happens.
+# leftMovePro = Button(profilePage, text='LEFT')
+# leftMovePro.place(x=700, y=400, width=100, height=100)
+# rightMovePro = Button(profilePage, text='RIGHT')
+# rightMovePro.place(x=800, y=400, width=100, height=100)
+
 leftMovePro = Button(profilePage, text='LEFT')
 leftMovePro.place(x=700, y=400, width=100, height=100)
+
 rightMovePro = Button(profilePage, text='RIGHT')
 rightMovePro.place(x=800, y=400, width=100, height=100)
 
+leftMovePro.bind("<Button-1>", lambda x: motor.move(-1))
+leftMovePro.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
+rightMovePro.bind("<Button-1>", lambda x: motor.move(1))
+rightMovePro.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 
 #profilePage.bind('<Return>', (lambda event, e=ents: sf.fetch(e)))

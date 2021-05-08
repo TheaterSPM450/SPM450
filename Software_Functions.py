@@ -5,7 +5,16 @@ import os
 import time
 from tkinter import filedialog
 import motor_control 
-# import Hardware_Functions as hf 
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser  # ver. < 3.0
+
+config = ConfigParser()
+# parse existing file
+config.read('spmProps.ini')
+
+
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
 # (as of 3-27-201 it is only for testing)
@@ -61,11 +70,15 @@ def read_profile(profilePage, profileEntries):
             profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
             if i == 3:
-                print("profile Entry\n")
-                print(profileEntries[3].get())
-                DESTINATION = profileEntries[3].get()
-                print("destination\n")
-                print(DESTINATION)
+                # print("profile Entry: " + str(profileEntries[3].get()))
+                # DESTINATION = profileEntries[3].get()
+                # print("destination\n")
+                # print(DESTINATION)
+
+                config.set('section_a', 'destination', profileEntries[3].get())
+                # -----Update the Prop File itself : Must run after every SET Operation-------------
+                with open('spmProps.ini', 'w') as configfile:
+                    config.write(configfile)
 #This is a temporary function, that moves the slider using the position functions to the profile location
 # def run_profile(profileEntries,positionSliderList,profilePage):
 #     newPosition = int(profileEntries[3].get())
