@@ -15,6 +15,7 @@ import time
 import threading
 from math import pi
 import RPi.GPIO as GPIO
+import Software_Functions
 # import spm_control_akogan as control
 
 #vars
@@ -153,6 +154,7 @@ def move_thread(x): # takes an input of -1 or 1 from caller
 # loop function to run on thread for execute program button 
 def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     global do_loop, POSITION, DESTINATION, pulse, direction
+    print("FROM RUN" + str(DESTINATION))
     do_loop = True
     x = 0
     #------------------DIRECTION SET----------------------------------
@@ -199,7 +201,7 @@ def move(x):
 
 # thread start function for l_button and r_button
 def auto_move():
-    th = threading.Thread(target= lambda: auto_move_thread())
+    th = threading.Thread(target= auto_move_thread())
     threads.append(th)
     th.daemon
     th.start()

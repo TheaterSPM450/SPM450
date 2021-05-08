@@ -4,6 +4,7 @@ import csv
 import os
 import time
 from tkinter import filedialog
+import motor_control 
 # import Hardware_Functions as hf 
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
@@ -44,6 +45,7 @@ def delete_profile(profileEntries):
 # profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 # This function runs when the load button on the profilePage is pressed.
 def read_profile(profilePage, profileEntries):
+    #global DESTINATION
     trueDirectory = path+"/csv/"
     print("true holds:"+ trueDirectory)
     # This line brings up a file prompt that will allow the user to pick a file without the use of a keyboard
@@ -54,10 +56,16 @@ def read_profile(profilePage, profileEntries):
     with open(loadedFiles) as f:
         reader = csv.reader(f)
         line = next(reader)
+        print("BEFORE HERE")
         for i in range(5):
             profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
-
+            if i == 3:
+                print("profile Entry\n")
+                print(profileEntries[3].get())
+                DESTINATION = profileEntries[3].get()
+                print("destination\n")
+                print(DESTINATION)
 #This is a temporary function, that moves the slider using the position functions to the profile location
 # def run_profile(profileEntries,positionSliderList,profilePage):
 #     newPosition = int(profileEntries[3].get())
