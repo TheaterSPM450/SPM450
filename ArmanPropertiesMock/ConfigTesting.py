@@ -28,12 +28,14 @@ print(globalSpeed)
 
 # update existing value
 config.set('section_a', 'string_val_user', 'Arman')
+config.set('section_a', 'string_val_user', 'Arman')
 
 # add a new section and some values
 config.add_section('section_b')
 config.set('section_b', 'Krishna', 'tallAF')
 config.set('section_b', 'Josh', 'TheBoss')
 
-# save to a file just for testing
-with open('test_update.ini', 'w') as configfile:
+# -----Must run after every SET OP-------------
+# Update the Prop File itself 
+with open('spmProps.ini', 'w') as configfile:
     config.write(configfile)
