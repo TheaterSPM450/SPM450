@@ -73,8 +73,10 @@ def rpm_to_speed(rpm, diameter):
 def speed_to_rpm(speed, diameter):
     minutes = 60.0
     inches_per_mile = 63360.0
-    circumference = diameter * pi
+    # r = diameter / 2.0 # calculate radius
+    circumference = diameter * pi 
     return ((inches_per_mile * speed) / (minutes * circumference))
+    # inches per hour / 
 
 
 # speed_to_pulse_time()
@@ -93,11 +95,7 @@ def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
 # to test pulley diameter and ratio pulse times uncomment and plug in test values
 # as (speed(mph), transfer pulley diameter(inches), ratio(if direct drive use 1.0))
 
-pulseT = speed_to_pulse_time(1.5, .4375, 3.0)
-rpm = sleep_to_rpm(pulseT)
-print("\n========================================\n")
 print("Pulse time: " + str(pulseT))
-print("RPM: " + str(rpm))
 print("distance: " + str(round(position_to_distance(200.0, 3.819718634, 1.0), 2)))
 # print("RPM t: " + str(rpm_to_pulsesleep(60)))
 

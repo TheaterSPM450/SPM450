@@ -6,7 +6,7 @@ Date: 3/15/2021
 
 threading code for program execution
 '''
-from tkinter import *
+from Tkinter import *
 import time
 import threading
 import RPi.GPIO as GPIO
@@ -24,6 +24,9 @@ threads = [] # thread queue
 
 # WAIT = .500 # sleep delay time variable for testing/development purposes without a RasPi (since RPi is only supported on on Pi)
 
+SPEED = .0003346 # pulse sleep time, in seconds as a float
+POSITION = 0 # an accumulator variable which can be used for current position tracking 
+WAIT = .500 # sleep delay time variable for testing/development purposes without a RasPi (since RPi is only supported on on Pi)
 
 
 # led = 32  # testing purposes led pin 32

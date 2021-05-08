@@ -196,10 +196,10 @@ def checkOn(pinNum):
 def spinRight():
     print("spinRight button pressed")
     # Set Direction first
-    ##setHigh(36)
-    ##setHigh(40)
+    setHigh(36)
+    setHigh(40)
     # time.sleep(.000005) #comment out for fastest
-    ##setLow(40)
+    setLow(40)
 
 
 # time.sleep(.1) #need for led testing
@@ -207,11 +207,12 @@ def spinRight():
 
 def spinLeft():
     print("spinLeft button pressed")
+    
     # Set Direction first
-    ##setLow(36)
-    ##setHigh(40)
+    setLow(36)
+    setHigh(40)
     # time.sleep(.000005) #comment out for fastest
-    ##setLow(40)
+    setLow(40)
 
 
 # time.sleep(.1) #need for led testing
