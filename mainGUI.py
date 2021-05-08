@@ -1,111 +1,19 @@
 from tkinter import *
-from tkinter import messagebox as m
+# from tkinter import messagebox as m
+import time
+# import threading
+# import RPi.GPIO as GPIO
+# from math import pi
 #import Hardware_Functions as hf
 import Software_Functions as sf
 # from PIL import ImageTk, Image
-import spm_control_akogan as control
-# import motor_control as motor
+# import spm_control_akogan as control
+import motor_control as motor
 import spm_model as model
-from tkinter import *
-import time
-import threading
-import RPi.GPIO as GPIO
-import spm_control_akogan as control
-try:
-    from configparser import ConfigParser
-except ImportError:
-    from ConfigParser import ConfigParser  # ver. < 3.0
-
-
-#vars
-pulley_diameter = 1.5 
-drive_ratio = 1.0
-do_loop = FALSE # used for thread termination, could be changed to "motor_enable" or something similar
-SPEED = .0005 # pulse sleep time, in seconds as a float
-POSITION = 0 # an accumulator variable which can be used for current position tracking
-DESTINATION = 0
-pulse = 40  # driver pulse signal GPIO pin 40
-direction = 36  # driver pulse direction GPIO pin 36
-threads = [] # thread queue
-
-# GPIO Drivers
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(pulse, GPIO.OUT)
-GPIO.output(pulse, GPIO.LOW)
-GPIO.setup(direction, GPIO.OUT)
-GPIO.output(direction, GPIO.LOW)
-
-# tk = Tk() # tk object
-
-# set minimum window size to 4:3 by setting resolution to 800x600
-# tk.minsize(800, 600)
-
-
-
-# THREAD FUNCTION (manual control)
-# loop function to run on thread for l_button and r_button click binding 
-def move_thread(x): # takes an input of -1 or 1 from caller
-    global do_loop, POSITION, pulse, direction
-    do_loop = TRUE
-    if(x < 0): # set direction pin based x value, -1, counterclockwise
-        GPIO.output(direction,GPIO.LOW)
-    else: # set direction pin based x value, 1, clockwise
-        GPIO.output(direction,GPIO.HIGH)
-    while(do_loop):
-        GPIO.output(pulse,GPIO.HIGH)
-        time.sleep(SPEED)
-        GPIO.output(pulse,GPIO.LOW)
-        time.sleep(SPEED)
-        POSITION += x
-        numField.delete(0, END)
-        numField.insert(0,str(POSITION))
-
-
-
-# PROGRAM THREAD FUNCTION (auto control)
-# loop function to run on thread for execute program button 
-def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
-    global do_loop, POSITION, DESTINATION, pulse, direction
-    do_loop = TRUE
-    #------------------DIRECTION SET----------------------------------
-    if(DESTINATION < POSITION):
-        GPIO.output(direction,GPIO.LOW)
-    else:
-        GPIO.output(direction,GPIO.HIGH)
-    #-----------------------------------------------------------------
-    #-----------SOFT START functionallity-----------------------------
-    new_SPEED = .01 # create new_speed copy set .5 (high wait for long step delay)
-    deduction = (new_SPEED - SPEED) / 150  # calculate time deduction
-    while(do_loop and POSITION != DESTINATION):
-        if(new_SPEED > SPEED):
-            new_SPEED -= deduction
-            # print("deducting")
-            if(new_SPEED < SPEED):
-                new_SPEED = SPEED
-    #-----------------------------------------------------------------
-        GPIO.output(pulse,GPIO.HIGH)
-        time.sleep(new_SPEED)
-        GPIO.output(pulse,GPIO.LOW)
-        time.sleep(new_SPEED)
-        POSITION += x
-        numField.delete(0, END)
-        numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
-
-
-# stop thread function
-def stoploopevent2(self):
-    global do_loop
-    do_loop = FALSE
-    time.sleep(.1) # delay to let thread finish
-    GPIO.output(pulse,GPIO.LOW) # set pulse pin low
-
-
-# thread start function for l_button and r_button
-def move(x):
-    th = threading.Thread(target= lambda: move_thread(x))
-    threads.append(th)
-    th.daemon
-    th.start()
+# try:
+#     from configparser import ConfigParser
+# except ImportError:
+#     from ConfigParser import ConfigParser  # ver. < 3.0
 
 #----------------------------------------------------------------------
 # Arman Alert - GLOBAL CONFIGS ######### 
@@ -113,29 +21,29 @@ def move(x):
 # Reading data and parsing right when getting: string=config.get, bool=config.getboolean, int=config.getint, float=config.getfloat
 # For now checkout the example under "An Example". Its 3 lines of code everytime we need to set a global property. And 1 line to get the current. 
 # instantiate Parser
-config = ConfigParser()
-# parse existing file
-config.read('spmProps.ini')
-# Initial Prop Testing: reading all the current GlobalProperties
-globalUser = config.get('section_a', 'string_val_user')
-globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
-globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
-globalPropPosition = config.getint('section_a', 'int_val_propPosition')
-globalSpeed = config.getfloat('section_a', 'float_val_speed')
-print(globalUser)
-print(globalMetricForSpeed)
-print(globalSysOnOff)
-print(globalPropPosition)
-print(globalSpeed)
-# An Example:--------------Simple
-# Lets say we have a field in the gui that sets the username
-# (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
-inputUsername = 'Nick'
-config.set('section_a', 'string_val_user', inputUsername)
-# -----Update the Prop File itself : Must run after every SET Operation-------------
-with open('spmProps.ini', 'w') as configfile:
-    config.write(configfile)
-print(config.get('section_a', 'string_val_user'))
+# config = ConfigParser()
+# # parse existing file
+# config.read('spmProps.ini')
+# # Initial Prop Testing: reading all the current GlobalProperties
+# globalUser = config.get('section_a', 'string_val_user')
+# globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
+# globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
+# globalPropPosition = config.getint('section_a', 'int_val_propPosition')
+# globalSpeed = config.getfloat('section_a', 'float_val_speed')
+# print(globalUser)
+# print(globalMetricForSpeed)
+# print(globalSysOnOff)
+# print(globalPropPosition)
+# print(globalSpeed)
+# # An Example:--------------Simple
+# # Lets say we have a field in the gui that sets the username
+# # (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
+# inputUsername = 'Nick'
+# config.set('section_a', 'string_val_user', inputUsername)
+# # -----Update the Prop File itself : Must run after every SET Operation-------------
+# with open('spmProps.ini', 'w') as configfile:
+#     config.write(configfile)
+# print(config.get('section_a', 'string_val_user'))
 #----------------------------------------------------------------------
 
 # NICK ALERT ##########
@@ -221,21 +129,21 @@ positionSlider.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(startPage, text=str(round(control.rpm_to_speed(control.sleep_to_rpm(SPEED), pulley_diameter), 2)))
+speedSpec = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
 positionFrame = LabelFrame(startPage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(startPage, text=str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
+positionSpec = Label(startPage, text=str(round(motor.position_to_distance(motor.POSITION, motor.pulley_diameter, motor.drive_ratio), 2)))
 positionSpec.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrame = LabelFrame(startPage, text="Drive Ratio")
 ratioFrame.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(startPage, text=str(drive_ratio))
+ratioSpec = Label(startPage, text=str(motor.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
@@ -256,23 +164,24 @@ exitButton.place(x=10, y=450, width=100, height=50)
 
 # These are the manual control buttons, that simply move the stepper motor in the desired direction.
 # Currently, the movement is not tied to any calibrated start or end point, nor can the speed be controlled.
-# leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
-# leftMove.place(x=700, y=400, width=100, height=100)
-# rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
-# rightMove.place(x=800, y=400, width=100, height=100)
-
-leftMove = Button(startPage, text='LEFT')
+leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
 leftMove.place(x=700, y=400, width=100, height=100)
-
-rightMove = Button(startPage, text='RIGHT')
+rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
 rightMove.place(x=800, y=400, width=100, height=100)
 
-leftMove.bind("<Button-1>", lambda x: move(-1))
-leftMove.bind("<ButtonRelease-1>", stoploopevent2)
+# leftMove = Button(startPage, text='LEFT')
+# leftMove.place(x=700, y=400, width=100, height=100)
 
-rightMove.bind("<Button-1>", lambda x: move(1))
-rightMove.bind("<ButtonRelease-1>", stoploopevent2)
+# rightMove = Button(startPage, text='RIGHT')
+# rightMove.place(x=800, y=400, width=100, height=100)
 
+# leftMove.bind("<Button-1>", lambda x: motor.move(-1))
+# leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+
+# rightMove.bind("<Button-1>", lambda x: motor.move(1))
+# rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+
+model.calWarn()
 
 ########################END START PAGE############################
 
@@ -290,21 +199,21 @@ positionSliderCal.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(calibratePage, text=str(SPEED))
+speedSpec = Label(calibratePage, text=str(motor.SPEED))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
 positionFrame = LabelFrame(calibratePage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(calibratePage, text=str(POSITION))
+positionSpec = Label(calibratePage, text=str(motor.POSITION))
 positionSpec.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrame = LabelFrame(calibratePage, text="Drive Ratio")
 ratioFrame.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(calibratePage, text=str(drive_ratio))
+ratioSpec = Label(calibratePage, text=str(motor.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
@@ -358,21 +267,21 @@ positionSliderPro.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(profilePage, text=str(SPEED))
+speedSpec = Label(profilePage, text=str(motor.SPEED))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
 positionFrame = LabelFrame(profilePage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(profilePage, text=str(POSITION))
+positionSpec = Label(profilePage, text=str(motor.POSITION))
 positionSpec.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrame = LabelFrame(profilePage, text="Drive Ratio")
 ratioFrame.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(profilePage, text=str(drive_ratio))
+ratioSpec = Label(profilePage, text=str(motor.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
@@ -451,37 +360,7 @@ doneButtonDebug.place(x=10, y=350, width=100, height=50)
 ####################END DEBUG PAGE##########################
 
 positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
-#*********************************************************************************************
 
-
-
-
-
-
-
-'''
-motor_control.py
-
-Author: Alex Kogan
-Date: 4/24/2021
-
-updated 5/5/21
-
-threading code for stepper control to integrate with GUI
-
-
-'''
-
-
-
-
-
-
-
-
-
-
-#**********************************************************************************************
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
 startPage.tkraise()

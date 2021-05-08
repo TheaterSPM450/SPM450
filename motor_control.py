@@ -10,16 +10,17 @@ threading code for stepper control to integrate with GUI
 
 
 '''
-from tkinter import *
-import time
+# from tkinter import *
+# import time
 import threading
+from math import pi
 import RPi.GPIO as GPIO
-import spm_control_akogan as control
+# import spm_control_akogan as control
 
 #vars
 pulley_diameter = 1.5 
 drive_ratio = 1.0
-do_loop = FALSE # used for thread termination, could be changed to "motor_enable" or something similar
+do_loop = False # used for thread termination, could be changed to "motor_enable" or something similar
 SPEED = .0005 # pulse sleep time, in seconds as a float
 POSITION = 0 # an accumulator variable which can be used for current position tracking
 DESTINATION = 0
@@ -34,11 +35,87 @@ GPIO.output(pulse, GPIO.LOW)
 GPIO.setup(direction, GPIO.OUT)
 GPIO.output(direction, GPIO.LOW)
 
-# tk = Tk() # tk object
+#=============================================================
 
-# set minimum window size to 4:3 by setting resolution to 800x600
-# tk.minsize(800, 600)
+# position_to_distance()
+# IMPORTANT: the output of this function is only intended for GUI/user display purposes
+#            not for control purposes
+# takes position count, converts to distance in feet:
+#   takes postion (motor pulses), transfer pulley diameter (inches), drive ratio
+#   and calculates position from calibration start point (zero point) in feet 
+# 
+# calculates pulley circumference in feet
+# returns distance by dividing position count by steps per revolution (200) * transfer pulley circumference * drive ratio
+#
+# INPUT: float, float, float
+# OUTPUT: float
+def position_to_distance(position, pulley_diameter, drive_ratio):
+    pulley_circumference_ft = (pulley_diameter * pi) / 12
+    return (position / 200) * pulley_circumference_ft * drive_ratio
 
+
+# rpm_to_pulsesleep()
+# takes a rpm value and returns a sleep duration
+# value in terms of seconds for motor rpm control
+#
+# calculates 1 second divived by rpm value divided
+# by 60, time 400(2 phase halfs times 200 pulses per revolution)
+#
+# INPUT: integer
+# OUTPUT: float
+def rpm_to_pulsesleep(rpm):
+#    print((1 / (400.0 * (rpm / 60.0))))
+    return (1 / (400.0 * (rpm / 60.0)))
+
+
+# sleep_to_rpm()
+# converts sleep delay to time (Speed) to rpm
+#
+#
+#
+def sleep_to_rpm(t):
+    return ((1 / t) / (400)) * 60 # RPM = ((1 second / sleeptime) / (2 phases * 200 pulses_per_rotation)) * 60 seconds
+
+
+# rpm_to_speed()
+# takes rpm[integer] and pulley diameter[float] (inches) and returns
+# a linear speed in feet/sec (ft/s)
+#
+# INPUT: float, float
+# OUTPUT: float
+def rpm_to_speed(rpm, diameter):
+    seconds = 60.0
+    inches_per_foot = 12
+    circumference = (diameter/inches_per_foot) * pi
+    return (circumference * rpm / seconds)
+
+
+# speed_to_rpm()
+# takes speed[float] in feet/sec (ft/s) and pulley diameter[float] (inches)
+# and returns an rpm[float]
+#
+# INPUT: float, float
+# OUTPUT: float
+def speed_to_rpm(speed, diameter):
+    seconds = 60.0
+    inches_per_foot = 12
+    circumference = (diameter/inches_per_foot) * pi
+    return (speed * seconds) / circumference
+
+
+# speed_to_pulse_time()
+# 
+#
+# INPUTS:
+#   speed - speed of cart as a float value representing miles per hour
+#   drive_pulley_diameter - diameter of driven pulley (not motor pulley) in inches as a float value
+#   drive_ratio - final gear ratio of drive as a float value
+#
+# OUTPUT: float decimal representing fraction of a second between driver pulse phases
+def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
+    return rpm_to_pulsesleep(speed_to_rpm(speed, driven_pulley_diameter) / drive_ratio)
+
+#===================================================================
 
 
 # THREAD FUNCTION (manual control)
