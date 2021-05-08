@@ -84,9 +84,3 @@ def read_profile(profilePage, profileEntries):
 ####################################################################################
 
 
-def speedUpUpdate():
-    print("word up")
-
-
-def speedDownUpdate():
-    print("word down")

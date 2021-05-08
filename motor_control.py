@@ -207,7 +207,19 @@ def auto_move():
     th.start()
 
 
+def speedUpUpdate():
+    global SPEED
+    SPEED = SPEED - 0.00001
 
+def speedDownUpdate():
+    global SPEED
+    SPEED = SPEED + 0.00001
+def ratioUpUpdate():
+    global drive_ratio
+    drive_ratio= drive_ratio + 0.1
+def ratioDownUpdate():
+    global drive_ratio
+    drive_ratio = drive_ratio - 0.1
 
 
 
