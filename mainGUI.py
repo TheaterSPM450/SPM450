@@ -1,6 +1,6 @@
 from tkinter import *
 # from tkinter import messagebox as m
-import time
+# import time
 # import threading
 # import RPi.GPIO as GPIO
 # from math import pi
@@ -164,22 +164,22 @@ exitButton.place(x=10, y=450, width=100, height=50)
 
 # These are the manual control buttons, that simply move the stepper motor in the desired direction.
 # Currently, the movement is not tied to any calibrated start or end point, nor can the speed be controlled.
-leftMove = Button(startPage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
-leftMove.place(x=700, y=400, width=100, height=100)
-rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
-rightMove.place(x=800, y=400, width=100, height=100)
-
 # leftMove = Button(startPage, text='LEFT')
 # leftMove.place(x=700, y=400, width=100, height=100)
-
 # rightMove = Button(startPage, text='RIGHT')
 # rightMove.place(x=800, y=400, width=100, height=100)
 
-# leftMove.bind("<Button-1>", lambda x: motor.move(-1))
-# leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+leftMove = Button(startPage, text='LEFT')
+leftMove.place(x=700, y=400, width=100, height=100)
 
-# rightMove.bind("<Button-1>", lambda x: motor.move(1))
-# rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+rightMove = Button(startPage, text='RIGHT')
+rightMove.place(x=800, y=400, width=100, height=100)
+
+leftMove.bind("<Button-1>", lambda x: motor.move(-1))
+leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+
+rightMove.bind("<Button-1>", lambda x: motor.move(1))
+rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 model.calWarn()
 
@@ -246,9 +246,9 @@ confirmCal.place(x=550, y=350, width=100, height=60)
 # These buttons are a copy of the manual controls from the start page
 # They have to be stored with separate variable names since all of these buttons are initialized before
 # the main gui loop actually happens.
-leftMoveCal = Button(calibratePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
+leftMoveCal = Button(calibratePage, text='LEFT')
 leftMoveCal.place(x=700, y=400, width=100, height=100)
-rightMoveCal = Button(calibratePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
+rightMoveCal = Button(calibratePage, text='RIGHT')
 rightMoveCal.place(x=800, y=400, width=100, height=100)
 
 
@@ -293,9 +293,9 @@ doneButtonPro.place(x=10, y=350, width=100, height=50)
 
 # These buttons are a copy of the manual controls from the start page. They have to be stored with separate variable
 # names since all of these buttons are initialized before the main gui loop actually happens.
-leftMovePro = Button(profilePage, text='LEFT', repeatdelay=20, repeatinterval=1, command=lambda: sf.position_down(positionSliderList))#=hf.spinLeft)
+leftMovePro = Button(profilePage, text='LEFT')
 leftMovePro.place(x=700, y=400, width=100, height=100)
-rightMovePro = Button(profilePage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#hf.spinRight)
+rightMovePro = Button(profilePage, text='RIGHT')
 rightMovePro.place(x=800, y=400, width=100, height=100)
 
 
@@ -325,8 +325,8 @@ positionPro.place(x=800, y=260, width=200, height=25)
 # with the current profile info using .set or .config. This variable will be passed into the save function.
 profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 
-runPro = Button(profilePage, text='Run', command=(lambda: sf.run_profile(profileEntries,positionSliderList,profilePage)))
-runPro.place(x=625, y=300, width=50, height=25)
+# runPro = Button(profilePage, text='Run', command=(lambda: sf.run_profile(profileEntries,positionSliderList,profilePage)))
+# runPro.place(x=625, y=300, width=50, height=25)
 savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(profileEntries)))
 savePro.place(x=700, y=300, width=50, height=25)
 deletePro = Button(profilePage, text='Delete', command=(lambda: sf.delete_profile(profileEntries)))

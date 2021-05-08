@@ -11,7 +11,7 @@ threading code for stepper control to integrate with GUI
 
 '''
 # from tkinter import *
-# import time
+import time
 import threading
 from math import pi
 import RPi.GPIO as GPIO
@@ -122,27 +122,38 @@ def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
 # loop function to run on thread for l_button and r_button click binding 
 def move_thread(x): # takes an input of -1 or 1 from caller
     global do_loop, POSITION, pulse, direction
-    do_loop = TRUE
-    if(x < 0): # set direction pin based x value, -1, counterclockwise
+    do_loop = True
+    #------------------DIRECTION SET----------------------------------
+    if(x < 0):
         GPIO.output(direction,GPIO.LOW)
-    else: # set direction pin based x value, 1, clockwise
+    else:
         GPIO.output(direction,GPIO.HIGH)
+    #-----------------------------------------------------------------
+    #-----------SOFT START functionallity-----------------------------
+    new_SPEED = .01 # create new_speed copy set .5 (high wait for long step delay)
+    deduction = (new_SPEED - SPEED) / 150  # calculate time deduction
     while(do_loop):
+        if(new_SPEED > SPEED):
+            new_SPEED -= deduction
+            # print("deducting")
+            if(new_SPEED < SPEED):
+                new_SPEED = SPEED
+    #-----------------------------------------------------------------
         GPIO.output(pulse,GPIO.HIGH)
-        time.sleep(SPEED)
+        time.sleep(new_SPEED)
         GPIO.output(pulse,GPIO.LOW)
-        time.sleep(SPEED)
+        time.sleep(new_SPEED)
         POSITION += x
-        numField.delete(0, END)
-        numField.insert(0,str(POSITION))
-
+        # numField.delete(0, END)
+        # numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
+   
 
 
 # PROGRAM THREAD FUNCTION (auto control)
 # loop function to run on thread for execute program button 
 def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     global do_loop, POSITION, DESTINATION, pulse, direction
-    do_loop = TRUE
+    do_loop = True
     #------------------DIRECTION SET----------------------------------
     if(DESTINATION < POSITION):
         GPIO.output(direction,GPIO.LOW)
@@ -164,14 +175,14 @@ def auto_move_thread(): # takes no arguement, instead determines direction based
         GPIO.output(pulse,GPIO.LOW)
         time.sleep(new_SPEED)
         POSITION += x
-        numField.delete(0, END)
-        numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
+        # numField.delete(0, END)
+        # numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
 
 
 # stop thread function
 def stoploopevent2(self):
     global do_loop
-    do_loop = FALSE
+    do_loop = False
     time.sleep(.1) # delay to let thread finish
     GPIO.output(pulse,GPIO.LOW) # set pulse pin low
 

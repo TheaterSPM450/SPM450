@@ -3,7 +3,7 @@ import csv
 import os
 import time
 from tkinter import filedialog
-import Hardware_Functions as hf 
+# import Hardware_Functions as hf 
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
 # (as of 3-27-201 it is only for testing)
@@ -72,18 +72,18 @@ def read_profile(profilePage, profileEntries):
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
 
 #This is a temporary function, that moves the slider using the position functions to the profile location
-def run_profile(profileEntries,positionSliderList,profilePage):
-    newPosition = int(profileEntries[3].get())
-    global position
-    positionDifference = abs(position - newPosition)
-    for i in range(positionDifference):
-        time.sleep(.001)
-        if newPosition < position:
-            position_down(positionSliderList)
-        elif newPosition > position:
-            position_up(positionSliderList)
-        profilePage.update()
-        print(str(newPosition) + "---" + str(position))
+# def run_profile(profileEntries,positionSliderList,profilePage):
+#     newPosition = int(profileEntries[3].get())
+#     global position
+#     positionDifference = abs(position - newPosition)
+#     for i in range(positionDifference):
+#         time.sleep(.001)
+#         if newPosition < position:
+#             position_down(positionSliderList)
+#         elif newPosition > position:
+#             position_up(positionSliderList)
+#         profilePage.update()
+#         print(str(newPosition) + "---" + str(position))
 
 
 ####################################################################################
@@ -94,23 +94,23 @@ def run_profile(profileEntries,positionSliderList,profilePage):
 # The parameter is takes in is the entire slider widget
 
 
-def position_up(positionSliderList):
-    global position
-    if position < 1000:
-        hf.spinRight()
-        position += 1
-        hf.move(1)              #This is the hardware function that includes threading
-        for i in positionSliderList:
-            i.set(position)
+# def position_up(positionSliderList):
+#     global position
+#     if position < 1000:
+#         hf.spinRight()
+#         position += 1
+#         hf.move(1)              #This is the hardware function that includes threading
+#         for i in positionSliderList:
+#             i.set(position)
 
 
-def position_down(positionSliderList):
-    global position
-    if position > 0:
-        hf.spinLeft()
-        position -= 1
-        hf.move(-1)       #This is the hardware function that includes threading
-        for i in positionSliderList:
-            i.set(position)
+# def position_down(positionSliderList):
+#     global position
+#     if position > 0:
+#         hf.spinLeft()
+#         position -= 1
+#         hf.move(-1)       #This is the hardware function that includes threading
+#         for i in positionSliderList:
+#             i.set(position)
 
 ######################################################################
