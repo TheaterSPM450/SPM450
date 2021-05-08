@@ -15,34 +15,34 @@ except ImportError:
     from ConfigParser import ConfigParser  # ver. < 3.0
 
 #----------------------------------------------------------------------
-# Arman Alert - GLOBAL CONFIGS ######### 
-# Tinker with ArmanPropertiesMock directory to fully understand how it works. The reason why I named with string_val..., int_val... is so that we parse proper types. 
-# Reading data and parsing right when getting: string=config.get, bool=config.getboolean, int=config.getint, float=config.getfloat
-# For now checkout the example under "An Example". Its 3 lines of code everytime we need to set a global property. And 1 line to get the current. 
-# instantiate Parser
-config = ConfigParser()
-# parse existing file
-config.read('spmProps.ini')
-# Initial Prop Testing: reading all the current GlobalProperties
-globalUser = config.get('section_a', 'string_val_user')
-globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
-globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
-globalPropPosition = config.getint('section_a', 'int_val_propPosition')
-globalSpeed = config.getfloat('section_a', 'float_val_speed')
-print(globalUser)
-print(globalMetricForSpeed)
-print(globalSysOnOff)
-print(globalPropPosition)
-print(globalSpeed)
-# An Example:--------------Simple
-# Lets say we have a field in the gui that sets the username
-# (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
-inputUsername = 'Nick'
-config.set('section_a', 'string_val_user', inputUsername)
-# -----Update the Prop File itself : Must run after every SET Operation-------------
-with open('spmProps.ini', 'w') as configfile:
-    config.write(configfile)
-print(config.get('section_a', 'string_val_user'))
+# # Arman Alert - GLOBAL CONFIGS ######### 
+# # Tinker with ArmanPropertiesMock directory to fully understand how it works. The reason why I named with string_val..., int_val... is so that we parse proper types. 
+# # Reading data and parsing right when getting: string=config.get, bool=config.getboolean, int=config.getint, float=config.getfloat
+# # For now checkout the example under "An Example". Its 3 lines of code everytime we need to set a global property. And 1 line to get the current. 
+# # instantiate Parser
+# config = ConfigParser()
+# # parse existing file
+# config.read('spmProps.ini')
+# # Initial Prop Testing: reading all the current GlobalProperties
+# globalUser = config.get('section_a', 'string_val_user')
+# globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
+# globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
+# globalPropPosition = config.getint('section_a', 'int_val_propPosition')
+# globalSpeed = config.getfloat('section_a', 'float_val_speed')
+# print(globalUser)
+# print(globalMetricForSpeed)
+# print(globalSysOnOff)
+# print(globalPropPosition)
+# print(globalSpeed)
+# # An Example:--------------Simple
+# # Lets say we have a field in the gui that sets the username
+# # (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
+# inputUsername = 'Nick'
+# config.set('section_a', 'string_val_user', inputUsername)
+# # -----Update the Prop File itself : Must run after every SET Operation-------------
+# with open('spmProps.ini', 'w') as configfile:
+#     config.write(configfile)
+# print(config.get('section_a', 'string_val_user'))
 #----------------------------------------------------------------------
 
 # NICK ALERT ##########
