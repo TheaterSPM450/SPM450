@@ -132,6 +132,18 @@ leftMove.place(x=700, y=400, width=100, height=100)
 rightMove = Button(startPage, text='RIGHT', repeatdelay=1, repeatinterval=1, command=lambda: sf.position_up(positionSliderList))#=hf.spinRight)
 rightMove.place(x=800, y=400, width=100, height=100)
 
+# leftMove = Button(startPage, text='LEFT')
+# leftMove.place(x=700, y=400, width=100, height=100)
+
+# rightMove = Button(startPage, text='RIGHT')
+# rightMove.place(x=800, y=400, width=100, height=100)
+
+# leftMove.bind("<Button-1>", lambda x: motor.move(-1))
+# leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+
+# rightMove.bind("<Button-1>", lambda x: motor.move(1))
+# rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
+
 
 ########################END START PAGE############################
 
