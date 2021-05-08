@@ -16,7 +16,7 @@ import spm_control_akogan as control
 pulley_diameter = 1.5 
 drive_ratio = 1.0
 do_loop = FALSE # used for thread termination, could be changed to "motor_enable" or something similar
-SPEED = .0005 # pulse sleep time, in seconds as a float
+# SPEED = .0005 # pulse sleep time, in seconds as a float
 POSITION = 0 # an accumulator variable which can be used for current position tracking
 pulse = 40  # driver pulse signal GPIO pin 40
 direction = 36  # driver pulse direction GPIO pin 36
@@ -24,7 +24,7 @@ threads = [] # thread queue
 
 # WAIT = .500 # sleep delay time variable for testing/development purposes without a RasPi (since RPi is only supported on on Pi)
 
-SPEED = .0003346 # pulse sleep time, in seconds as a float
+SPEED = .0013346 # pulse sleep time, in seconds as a float
 POSITION = 0 # an accumulator variable which can be used for current position tracking 
 WAIT = .500 # sleep delay time variable for testing/development purposes without a RasPi (since RPi is only supported on on Pi)
 
@@ -125,8 +125,8 @@ def move_thread(x): # takes an input of -1 or 1 from caller
         GPIO.output(pulse,GPIO.LOW)
         time.sleep(new_SPEED)
         POSITION += x
-        numField.delete(0, END)
-        numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
+        # numField.delete(0, END)
+        # numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
    
 
 

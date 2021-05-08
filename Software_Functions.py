@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox as m
 import csv
 import os
 import time
@@ -11,21 +12,9 @@ position = 0
 path = os.getcwd()
 
 
+def calWarn():
+    m.showwarning(title=None, message="You must calibrate the system before starting. Visit calibrate page.")
 
-# # This function used to have fields as a parameter that had to be passed to it
-# # It seemed easier to just remove that parameter, and make fields a local variable in the func
-# def makeform(root):
-#     fields = ["speed", "ratio", "diameter", "position", "filename"]
-#     entries = []
-#     for field in fields:
-#         row = Frame(root)
-#         lab = Label(row, width=15, text=field, anchor='w')
-#         ent = Entry(row)
-#         row.pack(side=TOP, fill=X, padx=5, pady=5)
-#         lab.pack(side=LEFT)
-#         ent.pack(side=RIGHT, expand=YES, fill=X)
-#         entries.append((field, ent))
-#     return entries
 
 # profileEntries is a list of the entry textboxs found on the profile page.
 # profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
@@ -65,8 +54,6 @@ def read_profile(profilePage, profileEntries):
     with open(loadedFiles) as f:
         reader = csv.reader(f)
         line = next(reader)
-        print(line)
-        print(line[0])
         for i in range(5):
             profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
@@ -87,30 +74,3 @@ def read_profile(profilePage, profileEntries):
 
 
 ####################################################################################
-# These are just test functions. It is attached to the left and right move button
-# It simulates the position of the stage pro changing
-# This function is designed to test the slider to make sure it is reading in a value
-# Eventually that slider should read in an actual calculated position value
-# The parameter is takes in is the entire slider widget
-
-
-# def position_up(positionSliderList):
-#     global position
-#     if position < 1000:
-#         hf.spinRight()
-#         position += 1
-#         hf.move(1)              #This is the hardware function that includes threading
-#         for i in positionSliderList:
-#             i.set(position)
-
-
-# def position_down(positionSliderList):
-#     global position
-#     if position > 0:
-#         hf.spinLeft()
-#         position -= 1
-#         hf.move(-1)       #This is the hardware function that includes threading
-#         for i in positionSliderList:
-#             i.set(position)
-
-######################################################################

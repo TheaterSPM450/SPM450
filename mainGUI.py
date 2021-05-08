@@ -9,11 +9,10 @@ import Software_Functions as sf
 # from PIL import ImageTk, Image
 # import spm_control_akogan as control
 import motor_control as motor
-import spm_model as model
-# try:
-#     from configparser import ConfigParser
-# except ImportError:
-#     from ConfigParser import ConfigParser  # ver. < 3.0
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser  # ver. < 3.0
 
 #----------------------------------------------------------------------
 # Arman Alert - GLOBAL CONFIGS ######### 
@@ -21,29 +20,29 @@ import spm_model as model
 # Reading data and parsing right when getting: string=config.get, bool=config.getboolean, int=config.getint, float=config.getfloat
 # For now checkout the example under "An Example". Its 3 lines of code everytime we need to set a global property. And 1 line to get the current. 
 # instantiate Parser
-# config = ConfigParser()
-# # parse existing file
-# config.read('spmProps.ini')
-# # Initial Prop Testing: reading all the current GlobalProperties
-# globalUser = config.get('section_a', 'string_val_user')
-# globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
-# globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
-# globalPropPosition = config.getint('section_a', 'int_val_propPosition')
-# globalSpeed = config.getfloat('section_a', 'float_val_speed')
-# print(globalUser)
-# print(globalMetricForSpeed)
-# print(globalSysOnOff)
-# print(globalPropPosition)
-# print(globalSpeed)
-# # An Example:--------------Simple
-# # Lets say we have a field in the gui that sets the username
-# # (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
-# inputUsername = 'Nick'
-# config.set('section_a', 'string_val_user', inputUsername)
-# # -----Update the Prop File itself : Must run after every SET Operation-------------
-# with open('spmProps.ini', 'w') as configfile:
-#     config.write(configfile)
-# print(config.get('section_a', 'string_val_user'))
+config = ConfigParser()
+# parse existing file
+config.read('spmProps.ini')
+# Initial Prop Testing: reading all the current GlobalProperties
+globalUser = config.get('section_a', 'string_val_user')
+globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
+globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
+globalPropPosition = config.getint('section_a', 'int_val_propPosition')
+globalSpeed = config.getfloat('section_a', 'float_val_speed')
+print(globalUser)
+print(globalMetricForSpeed)
+print(globalSysOnOff)
+print(globalPropPosition)
+print(globalSpeed)
+# An Example:--------------Simple
+# Lets say we have a field in the gui that sets the username
+# (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
+inputUsername = 'Nick'
+config.set('section_a', 'string_val_user', inputUsername)
+# -----Update the Prop File itself : Must run after every SET Operation-------------
+with open('spmProps.ini', 'w') as configfile:
+    config.write(configfile)
+print(config.get('section_a', 'string_val_user'))
 #----------------------------------------------------------------------
 
 # NICK ALERT ##########
@@ -181,7 +180,7 @@ leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 rightMove.bind("<Button-1>", lambda x: motor.move(1))
 rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
-model.calWarn()
+sf.calWarn()
 
 ########################END START PAGE############################
 
@@ -325,8 +324,8 @@ positionPro.place(x=800, y=260, width=200, height=25)
 # with the current profile info using .set or .config. This variable will be passed into the save function.
 profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 
-# runPro = Button(profilePage, text='Run', command=(lambda: sf.run_profile(profileEntries,positionSliderList,profilePage)))
-# runPro.place(x=625, y=300, width=50, height=25)
+runPro = Button(profilePage, text='Run', command=motor.auto_move())
+runPro.place(x=625, y=300, width=50, height=25)
 savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(profileEntries)))
 savePro.place(x=700, y=300, width=50, height=25)
 deletePro = Button(profilePage, text='Delete', command=(lambda: sf.delete_profile(profileEntries)))

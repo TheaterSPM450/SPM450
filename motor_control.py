@@ -154,11 +154,14 @@ def move_thread(x): # takes an input of -1 or 1 from caller
 def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     global do_loop, POSITION, DESTINATION, pulse, direction
     do_loop = True
+    x = 0
     #------------------DIRECTION SET----------------------------------
     if(DESTINATION < POSITION):
         GPIO.output(direction,GPIO.LOW)
+        x = -1
     else:
         GPIO.output(direction,GPIO.HIGH)
+        x = 1
     #-----------------------------------------------------------------
     #-----------SOFT START functionallity-----------------------------
     new_SPEED = .01 # create new_speed copy set .5 (high wait for long step delay)
@@ -193,6 +196,14 @@ def move(x):
     threads.append(th)
     th.daemon
     th.start()
+
+# thread start function for l_button and r_button
+def auto_move():
+    th = threading.Thread(target= lambda: auto_move_thread())
+    threads.append(th)
+    th.daemon
+    th.start()
+
 
 
 
