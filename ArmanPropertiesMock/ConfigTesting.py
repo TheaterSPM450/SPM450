@@ -28,12 +28,11 @@ print(globalSpeed)
 
 # update existing value
 config.set('section_a', 'string_val_user', 'Arman')
-config.set('section_a', 'string_val_user', 'Arman')
 
-# add a new section and some values
-config.add_section('section_b')
-config.set('section_b', 'Krishna', 'tallAF')
-config.set('section_b', 'Josh', 'TheBoss')
+# # We dont need this feature at the Moment: add a new section and some values
+# config.add_section('section_b')
+# config.set('section_b', 'Krishna', 'tallAndSharp')
+# config.set('section_b', 'Josh', 'TheBoss')
 
 # -----Must run after every SET OP-------------
 # Update the Prop File itself 
