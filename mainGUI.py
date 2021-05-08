@@ -131,7 +131,13 @@ speedFrame = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
 speedSpec = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
-speedSpec.place(x=12, y=120, width=80, height=20)
+speedSpec.place(x=12 , y=120, width=80, height=20)
+
+speedDown = Button(startPage, text='<', command=sf.speedDownUpdate)
+speedDown.place(x=130, y=110, width=40, height=40)
+
+speedUp = Button(startPage, text='<', command=sf.speedUpUpdate)
+speedUp.place(x=170, y=110, width=40, height=40)
 
 # Position display value
 positionFrame = LabelFrame(startPage, text="POSITION (ft)")
@@ -200,7 +206,7 @@ positionSliderCal.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(calibratePage, text=str(motor.SPEED))
+speedSpec = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
@@ -279,7 +285,7 @@ positionSliderPro.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(profilePage, text=str(motor.SPEED))
+speedSpec = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
