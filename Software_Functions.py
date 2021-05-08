@@ -79,7 +79,7 @@ def read_profile(profilePage, profileEntries):
 #             position_up(positionSliderList)
 #         profilePage.update()
 #         print(str(newPosition) + "---" + str(position))
-
+#
 
 ####################################################################################
 

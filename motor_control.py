@@ -120,8 +120,9 @@ def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
 
 
 # THREAD FUNCTION (manual control)
-# loop function to run on thread for l_button and r_button click binding 
-def move_thread(x): # takes an input of -1 or 1 from caller
+# loop function to run on thread for l_button and r_button click binding
+# added positionSliderList as parameter to restore slider functionality
+def move_thread(x, positionSliderList): # takes an input of -1 or 1 from caller
     global do_loop, POSITION, pulse, direction
     do_loop = True
     #------------------DIRECTION SET----------------------------------
@@ -145,14 +146,17 @@ def move_thread(x): # takes an input of -1 or 1 from caller
         GPIO.output(pulse,GPIO.LOW)
         time.sleep(new_SPEED)
         POSITION += x
+        position_slider_update(positionSliderList)
+
         # numField.delete(0, END)
         # numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
    
 
 
 # PROGRAM THREAD FUNCTION (auto control)
-# loop function to run on thread for execute program button 
-def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
+# loop function to run on thread for execute program button
+# added positionSliderList as parameter to restore slider functionality
+def auto_move_thread(positionSliderList): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     global do_loop, POSITION, DESTINATION, pulse, direction
     print("FROM RUN" + str(DESTINATION))
     do_loop = True
@@ -180,6 +184,7 @@ def auto_move_thread(): # takes no arguement, instead determines direction based
         GPIO.output(pulse,GPIO.LOW)
         time.sleep(new_SPEED)
         POSITION += x
+        position_slider_update(positionSliderList)
         # numField.delete(0, END)
         # numField.insert(0,str(round(control.position_to_distance(POSITION, pulley_diameter, drive_ratio), 2)))
 
@@ -193,20 +198,23 @@ def stoploopevent2(self):
 
 
 # thread start function for l_button and r_button
-def move(x):
-    th = threading.Thread(target= lambda: move_thread(x))
+def move(x,positionSliderList):
+    th = threading.Thread(target= lambda: move_thread(x,positionSliderList))
     threads.append(th)
     th.daemon
     th.start()
 
 # thread start function for l_button and r_button
-def auto_move():
-    th = threading.Thread(target= auto_move_thread())
+def auto_move(positionSliderList):
+    th = threading.Thread(target= auto_move_thread(positionSliderList))
     threads.append(th)
     th.daemon
     th.start()
 
-
+def position_slider_update(positionSliderList):
+    global POSITION
+    for i in positionSliderList:
+        i.set(POSITION)
 
 
 

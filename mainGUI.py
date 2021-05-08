@@ -180,10 +180,10 @@ leftMove.place(x=700, y=400, width=100, height=100)
 rightMove = Button(startPage, text='RIGHT')
 rightMove.place(x=800, y=400, width=100, height=100)
 
-leftMove.bind("<Button-1>", lambda x: motor.move(-1))
+leftMove.bind("<Button-1>", lambda x: motor.move(-1, positionSliderList))
 leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
-rightMove.bind("<Button-1>", lambda x: motor.move(1))
+rightMove.bind("<Button-1>", lambda x: motor.move(1, positionSliderList))
 rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 sf.calWarn()
@@ -365,6 +365,12 @@ doneButtonDebug.place(x=10, y=350, width=100, height=50)
 ####################END DEBUG PAGE##########################
 
 positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
+
+
+def position_slider_update():
+    global positionSliderList
+    for i in positionSliderList:
+        i.set(motor.POSITION)
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
