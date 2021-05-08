@@ -3,6 +3,7 @@ import csv
 import os
 import time
 from tkinter import filedialog
+import Hardware_Functions as hf 
 
 # This tracks the position of the prop, and is used in the position_up and position_down functions.
 # (as of 3-27-201 it is only for testing)
@@ -96,6 +97,7 @@ def run_profile(profileEntries,positionSliderList,profilePage):
 def position_up(positionSliderList):
     global position
     if position < 1000:
+        hf.spinRight()
         position += 1
         for i in positionSliderList:
             i.set(position)
@@ -104,6 +106,7 @@ def position_up(positionSliderList):
 def position_down(positionSliderList):
     global position
     if position > 0:
+        hf.spinLeft()
         position -= 1
         for i in positionSliderList:
             i.set(position)
