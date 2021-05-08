@@ -1,9 +1,11 @@
 from tkinter import *
+from tkinter import messagebox as m
 #import Hardware_Functions as hf
 import Software_Functions as sf
 from PIL import ImageTk, Image
 import spm_control_akogan as control
 import motor_control as motor
+import spm_model as model
 
 
 

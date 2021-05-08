@@ -52,8 +52,8 @@ def sleep_to_rpm(t):
 
 
 # rpm_to_speed()
-# takes rpm[integer] and pulley diameter[float] and returns
-# a linear speed in miles/hr (ft/s)
+# takes rpm[integer] and pulley diameter[float] (inches) and returns
+# a linear speed in feet/sec (ft/s)
 #
 # INPUT: float, float
 # OUTPUT: float
@@ -65,16 +65,16 @@ def rpm_to_speed(rpm, diameter):
 
 
 # speed_to_rpm()
-# takes speed[float] in miles per hour (mph) and pulley diameter[float]
+# takes speed[float] in feet/sec (ft/s) and pulley diameter[float] (inches)
 # and returns an rpm[float]
 #
 # INPUT: float, float
 # OUTPUT: float
 def speed_to_rpm(speed, diameter):
-    minutes = 60.0
-    inches_per_mile = 63360.0
-    circumference = diameter * pi
-    return ((inches_per_mile * speed) / (minutes * circumference))
+    seconds = 60.0
+    inches_per_foot = 12
+    circumference = (diameter/inches_per_foot) * pi
+    return (speed * seconds) / circumference
 
 
 # speed_to_pulse_time()
