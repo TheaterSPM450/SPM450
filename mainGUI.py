@@ -32,8 +32,7 @@ print(globalSpeed)
 # (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
 inputUsername = 'Nick'
 config.set('section_a', 'string_val_user', inputUsername)
-# -----Must run after every SET Operation-------------
-# Update the Prop File itself 
+# -----Update the Prop File itself : Must run after every SET Operation-------------
 with open('spmProps.ini', 'w') as configfile:
     config.write(configfile)
 print(config.get('section_a', 'string_val_user'))
