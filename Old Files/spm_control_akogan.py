@@ -3,10 +3,26 @@
 # AUTHOR: Alex Kogan
 # Date: 3/12/2021
 #
-# OVERVIEW: This file contains control functions for the SPM450 software
+# OVERVIEW: (4/24/21 Revision) This file contains control math functions for the SPM450 software.
+# Further information detailed in function comments.
+#
 
 
 from math import pi
+
+
+# position_to_distance()
+# takes postion (motor pulses), transfer pulley diameter (inches), drive ratio
+# and calculates position from calibration start point in feet 
+# 
+# calculates pulley circumference in feet
+# returns distance by dividing position count by steps per revolution (200) * transfer pulley circumference * drive ratio
+#
+# INPUT: float, float, float
+# OUTPUT: float
+def position_to_distance(position, pulley_diameter, drive_ratio):
+    pulley_circumference_ft = (pulley_diameter * pi) / 12
+    return (position / 200) * pulley_circumference_ft * drive_ratio
 
 
 # rpm_to_pulsesleep()
@@ -36,8 +52,7 @@ def sleep_to_rpm(t):
 def rpm_to_speed(rpm, diameter):
     minutes = 60.0
     inches_per_mile = 63360.0
-    r = diameter / 2.0 # calculate radius
-    circumference = 2.0 * pi * r
+    circumference = diameter * pi
     return ((circumference * rpm * minutes) / inches_per_mile)
 
 
@@ -61,24 +76,19 @@ def speed_to_rpm(speed, diameter):
 #
 # INPUTS:
 #   speed - speed of cart as a float value representing miles per hour
-#   drive_pulley_diameter - diameter of drive pulley in inches as a float value
+#   drive_pulley_diameter - diameter of driven pulley (not motor pulley) in inches as a float value
 #   drive_ratio - final gear ratio of drive as a float value
 #
 # OUTPUT: float decimal representing fraction of a second between driver pulse phases
-def speed_to_pulse_time(speed, drive_pulley_diameter, drive_ratio):
-    # motor_speed = speed / drive_ratio
-    # return rpm_to_pulsesleep(speed_to_rpm(speed, drive_pulley_diameter))
-    track_rpm = speed_to_rpm(speed, drive_pulley_diameter)
-    motor_rpm = track_rpm / drive_ratio
-    return rpm_to_pulsesleep(motor_rpm)
+def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
+    return rpm_to_pulsesleep(speed_to_rpm(speed, driven_pulley_diameter) / drive_ratio)
 
 
 # to test pulley diameter and ratio pulse times uncomment and plug in test values
-# as (speed(mph), drive pulley diameter(inches), ratio(if direct drive use 1.0))
+# as (speed(mph), transfer pulley diameter(inches), ratio(if direct drive use 1.0))
 
-pulseT = speed_to_pulse_time(2.0, .375, 3.0)
-rpm = sleep_to_rpm(pulseT)
-print("\n========================================\n")
 print("Pulse time: " + str(pulseT))
-print("RPM: " + str(rpm))
+print("distance: " + str(round(position_to_distance(200.0, 3.819718634, 1.0), 2)))
+# print("RPM t: " + str(rpm_to_pulsesleep(60)))
+
 print("\n========================================\n")
