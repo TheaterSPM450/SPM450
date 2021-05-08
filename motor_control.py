@@ -16,7 +16,15 @@ import threading
 from math import pi
 import RPi.GPIO as GPIO
 import Software_Functions
-# import spm_control_akogan as control
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser  # ver. < 3.0
+
+config = ConfigParser()
+# parse existing file
+config.read('spmProps.ini')
+
 
 #vars
 pulley_diameter = 1.5 
@@ -154,11 +162,12 @@ def move_thread(x): # takes an input of -1 or 1 from caller
 # loop function to run on thread for execute program button 
 def auto_move_thread(): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     global do_loop, POSITION, DESTINATION, pulse, direction
-    print("FROM RUN" + str(DESTINATION))
+    Dest = int(config.get('section_a', 'destination'))
+    print("FROM RUN: " + str(config.get('section_a', 'destination')))
     do_loop = True
     x = 0
     #------------------DIRECTION SET----------------------------------
-    if(DESTINATION < POSITION):
+    if(Dest < POSITION):
         GPIO.output(direction,GPIO.LOW)
         x = -1
     else:
@@ -168,7 +177,7 @@ def auto_move_thread(): # takes no arguement, instead determines direction based
     #-----------SOFT START functionallity-----------------------------
     new_SPEED = .01 # create new_speed copy set .5 (high wait for long step delay)
     deduction = (new_SPEED - SPEED) / 150  # calculate time deduction
-    while(do_loop and POSITION != DESTINATION):
+    while(do_loop and POSITION != Dest):
         if(new_SPEED > SPEED):
             new_SPEED -= deduction
             # print("deducting")
