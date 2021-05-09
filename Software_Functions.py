@@ -4,7 +4,7 @@ import csv
 import os
 import time
 from tkinter import filedialog
-import motor_control
+import motor_control as motor
 import values
 
 try:
@@ -27,7 +27,8 @@ path = os.getcwd()
 def calWarn():
     m.showwarning(title=None, message="You must calibrate the system before starting. Visit calibrate page.")
 
-
+def calWarn2():
+    m.showwarning(title=None, message="loading these settings will require calibration before running!")
 # profileEntries is a list of the entry textboxs found on the profile page.
 # profileEntries should be [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 # This function runs when the save button on the profilePage is pressed.
@@ -72,25 +73,12 @@ def read_profile(profilePage, profileEntries):
             profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
             if(i==0):
-                if(values.drive_ratio != profileEntries[0].get): # loading this into current calibration isn't compatable
-                    values.CALIBRATED = False
-                    calWarn()
-                values.drive_ratio = profileEntries[0].get
-
+                if(values.drive_ratio != float(profileEntries[0].get())): # loading this into current calibration isn't compatable
+                    calWarn2()
             if(i==1):
-                if(profileEntries[1].get != values.pulley_diameter): # loading this into current calibration isn't compatable
-                    values.CALIBRATED = False
-                    calWarn()
-                values.pulley_diameter = profileEntries[1].get
-
-            if(i==2):
-                values.SPEED = profileEntries[2].get()
-            if i == 3:
-                # print("profile Entry: " + str(profileEntries[3].get()))
-                # DESTINATION = profileEntries[3].get()
-                # print("destination\n")
-                # print(DESTINATION)
-                values.DESTINATION = profileEntries[3].get()
+                if(float(profileEntries[1].get()) != values.pulley_diameter): # loading this into current calibration isn't compatable
+                    calWarn2()
+            if (i == 3):
                 if(values.DESTINATION < 0 or values.DESTINATION > values.END_limit):
                     m.showwarning(title=None, message="The position loaded is out of calibrated bounds. You can still run but the prop will stop short. Recalibrate if needed.")
 
@@ -114,6 +102,38 @@ def read_profile(profilePage, profileEntries):
 #         print(str(newPosition) + "---" + str(position))
 
 
+
+def automatic_control(profilePage, profileEntries, varList, positionSliderList, positionPro):
+    for i in range(5):
+        if(i==0):
+            if profileEntries[0].get() != "":
+                if(values.drive_ratio != float(profileEntries[0].get())): # loading this into current calibration isn't compatable
+                    values.CALIBRATED = False
+                    calWarn()
+                values.drive_ratio = float(profileEntries[0].get())
+        if(i==1):
+            if profileEntries[1].get() != "":
+                if(float(profileEntries[1].get()) != values.pulley_diameter): # loading this into current calibration isn't compatable
+                    values.CALIBRATED = False
+                    calWarn()
+                values.pulley_diameter = float(profileEntries[1].get())
+
+        if(i==2):
+            if profileEntries[2].get() != "":
+                values.SPEED = motor.speed_to_pulse_time(float(profileEntries[2].get()), values.pulley_diameter, values.drive_ratio)
+                print("LOADED SPEED: " + str(values.SPEED))
+        if (i == 3):
+            # print("profile Entry: " + str(profileEntries[3].get()))
+            # DESTINATION = profileEntries[3].get()
+            # print("destination\n")
+            # print(DESTINATION)
+            if profileEntries[3].get() != "":
+                values.DESTINATION = int(motor.distance_to_position(float(profileEntries[3].get())))
+                if(values.DESTINATION < 0 or values.DESTINATION > values.END_limit):
+                    m.showwarning(title=None, message="The position loaded is out of calibrated bounds, please choose an appropriate position!")
+    motor.spec_speed_update(varList)
+    motor.auto_move(positionSliderList, positionPro)
+
 ####################################################################################
 def setStartPoint():
     values.POSITION = 0 # zero current position sine this is the starting-end limit
@@ -133,4 +153,4 @@ def confirmCalibration(positionSliderList):
 
 def calibrateSliders(positionSliderList):
     for i in positionSliderList:
-        i.config(from_=0, to=values.END_position)
+        i.config(from_=0, to=values.END_limit)

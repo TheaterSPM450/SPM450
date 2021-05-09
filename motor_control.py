@@ -84,9 +84,15 @@ GPIO.output(direction, GPIO.LOW)
 # OUTPUT: float
 def position_to_distance(position, pulley_diameter, drive_ratio):
     pulley_circumference_ft = (pulley_diameter * pi) / 12
-    return (position / 200) * pulley_circumference_ft * drive_ratio
+    return (position / 200) * pulley_circumference_ft * (1 / drive_ratio)
 
 
+def distance_to_position(dist):
+    pulley_circumference_ft = (values.pulley_diameter * pi) / 12
+    return 200 * (dist/(pulley_circumference_ft * (1 / values.drive_ratio)))
+
+
+    
 # rpm_to_pulsesleep()
 # -------------------
 # takes a rpm value and returns a sleep duration
@@ -151,6 +157,9 @@ def speed_to_rpm(speed, diameter):
 def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
     return rpm_to_pulsesleep(speed_to_rpm(speed, driven_pulley_diameter) / drive_ratio)
 
+def pulse_time_to_speed(pulse_time):
+    return rpm_to_speed((sleep_to_rpm(pulse_time) * values.drive_ratio), values.pulley_diameter)
+
 
 
 #===================================================================
@@ -170,6 +179,7 @@ def move_thread(x,positionSliderList): # takes an input of -1 or 1 from caller
         GPIO.output(direction,GPIO.HIGH)
     #-----------------------------------------------------------------
     #-----------SOFT START functionallity-----------------------------
+    # new_SPEED = values.SPEED
     new_SPEED = .008 # create new_speed copy set .5 (high wait for long step delay)
     deduction = (new_SPEED - values.SPEED) / 150  # calculate time deduction
     while(values.do_loop):
@@ -207,6 +217,7 @@ def auto_move_thread(positionSliderList): # takes no arguement, instead determin
         x = 1
     #-----------------------------------------------------------------
     #-----------SOFT START functionallity-----------------------------
+    # new_SPEED = values.SPEED
     new_SPEED = .008 # create new_speed copy set .5 (high wait for long step delay)
     deduction = (new_SPEED - values.SPEED) / 150  # calculate time deduction
     while(values.do_loop and values.POSITION != Dest):
@@ -241,7 +252,12 @@ def move(x,positionSliderList):
 # thread start function for l_button and r_button
 def auto_move(positionSliderList,positionPro):
     if (values.CALIBRATED):
-        values.DESTINATION = int(positionPro.get())
+        if values.START_limit > int(distance_to_position(float(positionPro.get()))) or values.END_limit < int(distance_to_position(float(positionPro.get()))):
+            print("start_val: "+str(values.END_limit))
+            print("position conversion: "+str(distance_to_position(float(positionPro.get()))))
+            print("out of bounds\n")
+            return
+        values.DESTINATION = int(distance_to_position(float(positionPro.get())))
         th = threading.Thread(target= auto_move_thread(positionSliderList))
         values.threads.append(th)
         th.daemon
@@ -251,23 +267,29 @@ def auto_move(positionSliderList,positionPro):
 
 # function increases the speed by slowing the sleep time
 def speedUpUpdate(varList):
-    deltaT = rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter) + 0.05
+    deltaT = pulse_time_to_speed(values.SPEED) + 0.05
     if(deltaT > 2.5):
         values.SPEED = speed_to_pulse_time(2.5, values.pulley_diameter, values.drive_ratio)
     else:
         values.SPEED = speed_to_pulse_time(deltaT, values.pulley_diameter, values.drive_ratio)
     for i in varList:
-        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+        i.config(text=str(round(pulse_time_to_speed(values.SPEED), 2)))
+
 
 # function decreases the speed by speeding up the sleep time
 def speedDownUpdate(varList):
-    deltaT = rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter) - 0.05
+    deltaT = pulse_time_to_speed(values.SPEED) - 0.05
     if(deltaT < 0):
         values.SPEED = 0.035
     else:
         values.SPEED = speed_to_pulse_time(deltaT, values.pulley_diameter, values.drive_ratio)
     for i in varList:
-        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+        i.config(text=str(round(pulse_time_to_speed(values.SPEED), 2)))
+
+def spec_speed_update(varList):
+    for i in varList:
+            i.config(text=str(round(pulse_time_to_speed(values.SPEED), 2)))
+
 
 # function increases the drive ratio by 0.1 per click
 # def ratioUpUpdate(varList2):

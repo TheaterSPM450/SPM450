@@ -11,6 +11,13 @@ except ImportError:
 
 values.init() # creates global variables
 
+x = 1
+print(f"x = {x}")
+x = motor.speed_to_pulse_time(x, values.pulley_diameter, values.drive_ratio)
+print(f"Pulse of x = {x}")
+x = motor.pulse_time_to_speed(x)
+print(f"Speed of x = {x}")
+
 
 #----------------------------------------------------------------------
 # Arman Alert - GLOBAL CONFIGS ######### 
@@ -130,14 +137,14 @@ positionSlider.place(x=10, y=30, width=1000, height=50)
 speedFrameStart = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrameStart.place(x=10, y=100, width=120, height=50)
 
-speedSpecStart = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+speedSpecStart = Label(startPage, text=str(round(motor.pulse_time_to_speed(values.SPEED), 2)))
 speedSpecStart.place(x=12, y=120, width=80, height=20)
 
 # Speed display with buttons to change value
 speedFrameStartBot = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrameStartBot.place(x=400, y=430, width=120, height=50)
 
-speedSpecStartBot = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+speedSpecStartBot = Label(startPage, text=str(round(motor.pulse_time_to_speed(values.SPEED), 2)))
 speedSpecStartBot.place(x=402, y=450, width=80, height=20)
 
 speedDown = Button(startPage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
@@ -216,14 +223,14 @@ positionSliderCal.place(x=10, y=30, width=1000, height=50)
 speedFrameCal = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrameCal.place(x=10, y=100, width=120, height=50)
 
-speedSpecCal = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+speedSpecCal = Label(calibratePage, text=str(round(motor.pulse_time_to_speed(values.SPEED), 2)))
 speedSpecCal.place(x=12, y=120, width=80, height=20)
 
 # Speed display with buttons to change value
 speedFrameCalBot = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrameCalBot.place(x=400, y=430, width=120, height=50)
 
-speedSpecCalBot = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+speedSpecCalBot = Label(calibratePage, text=str(round(motor.pulse_time_to_speed(values.SPEED), 2)))
 speedSpecCalBot.place(x=402 , y=450, width=80, height=20)
 
 speedDown = Button(calibratePage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
@@ -313,14 +320,14 @@ positionSliderPro.place(x=10, y=30, width=1000, height=50)
 speedFrameProfile = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrameProfile.place(x=10, y=100, width=120, height=50)
 
-speedSpecProfile = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+speedSpecProfile = Label(profilePage, text=str(round(motor.pulse_time_to_speed(values.SPEED), 2)))
 speedSpecProfile.place(x=12, y=120, width=80, height=20)
 
 # Speed display with buttons to change value
 speedFrameProfileBot = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrameProfileBot.place(x=400, y=430, width=120, height=50)
 
-speedSpecProfileBot = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
+speedSpecProfileBot = Label(profilePage, text=str(round(motor.pulse_time_to_speed(values.SPEED), 2)))
 speedSpecProfileBot.place(x=402 , y=450, width=80, height=20)
 
 speedDown = Button(profilePage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
@@ -400,7 +407,7 @@ positionPro.place(x=800, y=260, width=200, height=25)
 # with the current profile info using .set or .config. This variable will be passed into the save function.
 profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 
-runPro = Button(profilePage, text='Run', command=(lambda: motor.auto_move(positionSliderList,positionPro)))
+runPro = Button(profilePage, text='Run', command=(lambda: sf.automatic_control(profilePage, profileEntries, varList, positionSliderList, positionPro)))
 runPro.place(x=625, y=300, width=50, height=25)
 
 savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(profileEntries)))
