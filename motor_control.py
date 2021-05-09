@@ -192,9 +192,10 @@ def move_thread(x,positionSliderList): # takes an input of -1 or 1 from caller
 # - gets called by auto_move() helper function
 def auto_move_thread(positionSliderList,positionPro): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     config.read('spmProps.ini')
-    Dest = int(config.get('section_a', 'destination'))
-    print("FROM RUN: " + str(config.get('section_a', 'destination')))
-    Dest = int(positionPro.get())
+    # Dest = int(config.get('section_a', 'destination'))
+    # print("FROM RUN: " + str(config.get('section_a', 'destination')))
+    # Dest = int(positionPro.get())
+    Dest = values.DESTINATION
     values.do_loop = True
     x = 0
     #------------------DIRECTION SET----------------------------------
@@ -239,6 +240,7 @@ def move(x,positionSliderList):
 
 # thread start function for l_button and r_button
 def auto_move(positionSliderList,positionPro):
+    values.DESTINATION = int(positionPro.get())
     th = threading.Thread(target= auto_move_thread(positionSliderList,positionPro))
     values.threads.append(th)
     th.daemon
