@@ -206,20 +206,33 @@ def auto_move():
     th.daemon
     th.start()
 
-
-def speedUpUpdate():
+# function increases the speed by slowing the sleep time
+def speedUpUpdate(varList):
     global SPEED
     SPEED = SPEED - 0.00001
+    for i in varList:
+        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
 
-def speedDownUpdate():
+# function decreases the speed by speeding up the sleep time
+def speedDownUpdate(varList):
     global SPEED
     SPEED = SPEED + 0.00001
-def ratioUpUpdate():
+    for i in varList:
+        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
+
+# function increases the drive ratio by 0.1 per click
+def ratioUpUpdate(varList2):
     global drive_ratio
-    drive_ratio= drive_ratio + 0.1
-def ratioDownUpdate():
+    drive_ratio = drive_ratio + 0.1
+    for i in varList2:
+        i.config(text=str(round(drive_ratio, 2)))
+
+# function decreases the drive ratio by 0.1 per click
+def ratioDownUpdate(varList2):
     global drive_ratio
     drive_ratio = drive_ratio - 0.1
+    for i in varList2:
+        i.config(text=str(round(drive_ratio, 2)))
 
 
 
