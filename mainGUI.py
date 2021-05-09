@@ -1,13 +1,7 @@
 from tkinter import *
-# from tkinter import messagebox as m
-# import time
-# import threading
-# import RPi.GPIO as GPIO
-# from math import pi
-#import Hardware_Functions as hf
 import Software_Functions as sf
 # from PIL import ImageTk, Image
-# import spm_control_akogan as control
+import values
 import motor_control as motor
 try:
     from configparser import ConfigParser
@@ -15,18 +9,7 @@ except ImportError:
     from ConfigParser import ConfigParser  # ver. < 3.0
 
 
-# Global vars
-# pulley_diameter = 1.5 
-# drive_ratio = 1.0
-# do_loop = False # used for thread termination, could be changed to "motor_enable" or something similar
-# SPEED = .0005 # pulse sleep time, in seconds as a float
-# POSITION = 0 # an accumulator variable which can be used for current position tracking
-# DESTINATION = 0
-# pulse = 40  # driver pulse signal GPIO pin 40
-# direction = 36  # driver pulse direction GPIO pin 36
-# threads = [] # thread queue
-
-
+values.init() # creates global variables
 
 
 #----------------------------------------------------------------------
@@ -145,7 +128,7 @@ positionSlider.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpec = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpec.place(x=12 , y=120, width=80, height=20)
 
 speedDown = Button(startPage, text='<', command=sf.speedDownUpdate)
@@ -158,14 +141,14 @@ speedUp.place(x=170, y=110, width=40, height=40)
 positionFrame = LabelFrame(startPage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(startPage, text=str(round(motor.position_to_distance(motor.POSITION, motor.pulley_diameter, motor.drive_ratio), 2)))
+positionSpec = Label(startPage, text=str(round(motor.position_to_distance(values.POSITION, values.pulley_diameter, values.drive_ratio), 2)))
 positionSpec.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrame = LabelFrame(startPage, text="Drive Ratio")
 ratioFrame.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(startPage, text=str(motor.drive_ratio))
+ratioSpec = Label(startPage, text=str(values.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
@@ -183,13 +166,6 @@ profilesButton.place(x=10, y=400, width=100, height=50)
 # This button exits. root.quit works on some devices and not others.
 exitButton = Button(startPage, text="Exit", command=root.destroy)
 exitButton.place(x=10, y=450, width=100, height=50)
-
-# These are the manual control buttons, that simply move the stepper motor in the desired direction.
-# Currently, the movement is not tied to any calibrated start or end point, nor can the speed be controlled.
-# leftMove = Button(startPage, text='LEFT')
-# leftMove.place(x=700, y=400, width=100, height=100)
-# rightMove = Button(startPage, text='RIGHT')
-# rightMove.place(x=800, y=400, width=100, height=100)
 
 leftMove = Button(startPage, text='LEFT')
 leftMove.place(x=700, y=400, width=100, height=100)
@@ -221,21 +197,21 @@ positionSliderCal.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpec = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
 positionFrame = LabelFrame(calibratePage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(calibratePage, text=str(motor.POSITION))
+positionSpec = Label(calibratePage, text=str(values.POSITION))
 positionSpec.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrame = LabelFrame(calibratePage, text="Drive Ratio")
 ratioFrame.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(calibratePage, text=str(motor.drive_ratio))
+ratioSpec = Label(calibratePage, text=str(values.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
@@ -265,14 +241,6 @@ endPointCal.place(x=450, y=350, width=100, height=60)
 confirmCal = Button(calibratePage, text='Confirm') # this button MUST call a function which changes CALIBRATED variable to True. This carriable must impede motor function when false
 confirmCal.place(x=550, y=350, width=100, height=60)
 
-# These buttons are a copy of the manual controls from the start page
-# They have to be stored with separate variable names since all of these buttons are initialized before
-# the main gui loop actually happens.
-# leftMoveCal = Button(calibratePage, text='LEFT')
-# leftMoveCal.place(x=700, y=400, width=100, height=100)
-# rightMoveCal = Button(calibratePage, text='RIGHT')
-# rightMoveCal.place(x=800, y=400, width=100, height=100)
-
 leftMoveCal = Button(calibratePage, text='LEFT')
 leftMoveCal.place(x=700, y=400, width=100, height=100)
 
@@ -300,21 +268,21 @@ positionSliderPro.place(x=10, y=30, width=1000, height=50)
 speedFrame = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrame.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpec = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpec.place(x=12, y=120, width=80, height=20)
 
 # Position display value
 positionFrame = LabelFrame(profilePage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(profilePage, text=str(motor.POSITION))
+positionSpec = Label(profilePage, text=str(values.POSITION))
 positionSpec.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrame = LabelFrame(profilePage, text="Drive Ratio")
 ratioFrame.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(profilePage, text=str(motor.drive_ratio))
+ratioSpec = Label(profilePage, text=str(values.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
@@ -323,13 +291,6 @@ ratioSpec.place(x=12, y=220, width=80, height=20)
 # The done button returns us to the start page
 doneButtonPro = Button(profilePage, text='Done', command=startPage.tkraise)
 doneButtonPro.place(x=10, y=350, width=100, height=50)
-
-# These buttons are a copy of the manual controls from the start page. They have to be stored with separate variable
-# names since all of these buttons are initialized before the main gui loop actually happens.
-# leftMovePro = Button(profilePage, text='LEFT')
-# leftMovePro.place(x=700, y=400, width=100, height=100)
-# rightMovePro = Button(profilePage, text='RIGHT')
-# rightMovePro.place(x=800, y=400, width=100, height=100)
 
 leftMovePro = Button(profilePage, text='LEFT')
 leftMovePro.place(x=700, y=400, width=100, height=100)
