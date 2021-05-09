@@ -221,18 +221,16 @@ def speedDownUpdate(varList):
         i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
 
 # function increases the drive ratio by 0.1 per click
-def ratioUpUpdate(varList2):
-    global drive_ratio
-    drive_ratio = drive_ratio + 0.1
-    for i in varList2:
-        i.config(text=str(round(drive_ratio, 2)))
-
-# function decreases the drive ratio by 0.1 per click
+# def ratioUpUpdate(varList2):
+#     global drive_ratio
+#     drive_ratio = drive_ratio + 0.1
+#     for i in varList2:
+#         i.config(text=str(round(drive_ratio, 2)))
+#
+# # function decreases the drive ratio by 0.1 per click
 def ratioDownUpdate(varList2):
     global drive_ratio
-    drive_ratio = drive_ratio - 0.1
-    for i in varList2:
-        i.config(text=str(round(drive_ratio, 2)))
+    varList2[0].config(text=str(varList2[1].get()))
 
 
 
