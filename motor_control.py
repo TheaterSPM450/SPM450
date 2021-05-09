@@ -162,7 +162,6 @@ def speed_to_pulse_time(speed, driven_pulley_diameter, drive_ratio):
 # loop function to run on thread for l_button and r_button click binding
 # - gets called by move() helper function
 def move_thread(x,positionSliderList): # takes an input of -1 or 1 from caller
-    global do_loop, POSITION, pulse, direction
     values.do_loop = True
     #------------------DIRECTION SET----------------------------------
     if(x < 0):
@@ -192,7 +191,6 @@ def move_thread(x,positionSliderList): # takes an input of -1 or 1 from caller
 # loop function to run on thread for execute program button
 # - gets called by auto_move() helper function
 def auto_move_thread(positionSliderList,positionPro): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
-    global do_loop, POSITION, DESTINATION, pulse, direction
     config.read('spmProps.ini')
     Dest = int(config.get('section_a', 'destination'))
     print("FROM RUN: " + str(config.get('section_a', 'destination')))
@@ -227,7 +225,6 @@ def auto_move_thread(positionSliderList,positionPro): # takes no arguement, inst
 
 # stop thread function
 def stoploopevent2(self):
-    global do_loop
     values.do_loop = False
     time.sleep(.1) # delay to let thread finish
     GPIO.output(pulse,GPIO.LOW) # set pulse pin low
@@ -249,7 +246,6 @@ def auto_move(positionSliderList,positionPro):
 
 
 def position_slider_update(positionSliderList):
-    global POSITION
     for i in positionSliderList:
         i.set(values.POSITION)
 
