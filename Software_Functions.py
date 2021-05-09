@@ -4,7 +4,7 @@ import csv
 import os
 import time
 from tkinter import filedialog
-import motor_control 
+import motor_control
 try:
     from configparser import ConfigParser
 except ImportError:
@@ -75,10 +75,13 @@ def read_profile(profilePage, profileEntries):
                 # print("destination\n")
                 # print(DESTINATION)
 
+                # DESTINATION = profileEntries[3].get()
+
                 config.set('section_a', 'destination', profileEntries[3].get())
                 # -----Update the Prop File itself : Must run after every SET Operation-------------
                 with open('spmProps.ini', 'w') as configfile:
                     config.write(configfile)
+
 #This is a temporary function, that moves the slider using the position functions to the profile location
 # def run_profile(profileEntries,positionSliderList,profilePage):
 #     newPosition = int(profileEntries[3].get())

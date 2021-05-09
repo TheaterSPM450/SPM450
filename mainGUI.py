@@ -14,6 +14,21 @@ try:
 except ImportError:
     from ConfigParser import ConfigParser  # ver. < 3.0
 
+
+# Global vars
+# pulley_diameter = 1.5 
+# drive_ratio = 1.0
+# do_loop = False # used for thread termination, could be changed to "motor_enable" or something similar
+# SPEED = .0005 # pulse sleep time, in seconds as a float
+# POSITION = 0 # an accumulator variable which can be used for current position tracking
+# DESTINATION = 0
+# pulse = 40  # driver pulse signal GPIO pin 40
+# direction = 36  # driver pulse direction GPIO pin 36
+# threads = [] # thread queue
+
+
+
+
 #----------------------------------------------------------------------
 # Arman Alert - GLOBAL CONFIGS ######### 
 # Tinker with ArmanPropertiesMock directory to fully understand how it works. The reason why I named with string_val..., int_val... is so that we parse proper types. 
@@ -24,27 +39,27 @@ config = ConfigParser()
 # parse existing file
 config.read('spmProps.ini')
 # Initial Prop Testing: reading all the current GlobalProperties
-globalDest = config.get('section_a', 'destination')
-globalUser = config.get('section_a', 'string_val_user')
-globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
-globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
-globalPropPosition = config.getint('section_a', 'int_val_propPosition')
-globalSpeed = config.getfloat('section_a', 'float_val_speed')
-print(globalDest)
-print(globalUser)
-print(globalMetricForSpeed)
-print(globalSysOnOff)
-print(globalPropPosition)
-print(globalSpeed)
+# globalDest = config.get('section_a', 'destination')
+# globalUser = config.get('section_a', 'string_val_user')
+# globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
+# globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
+# globalPropPosition = config.getint('section_a', 'int_val_propPosition')
+# globalSpeed = config.getfloat('section_a', 'float_val_speed')
+# print(globalDest)
+# print(globalUser)
+# print(globalMetricForSpeed)
+# print(globalSysOnOff)
+# print(globalPropPosition)
+# print(globalSpeed)
 # An Example:--------------Simple
 # Lets say we have a field in the gui that sets the username
 # (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
-inputUsername = 'Nick'
-config.set('section_a', 'string_val_user', inputUsername)
+# inputUsername = 'Nick'
+# config.set('section_a', 'string_val_user', inputUsername)
 # -----Update the Prop File itself : Must run after every SET Operation-------------
-with open('spmProps.ini', 'w') as configfile:
-    config.write(configfile)
-print(config.get('section_a', 'string_val_user'))
+# with open('spmProps.ini', 'w') as configfile:
+#     config.write(configfile)
+# print(config.get('section_a', 'string_val_user'))
 #----------------------------------------------------------------------
 
 # NICK ALERT ##########
@@ -182,10 +197,10 @@ leftMove.place(x=700, y=400, width=100, height=100)
 rightMove = Button(startPage, text='RIGHT')
 rightMove.place(x=800, y=400, width=100, height=100)
 
-leftMove.bind("<Button-1>", lambda x: motor.move(-1))
+leftMove.bind("<Button-1>", lambda x: motor.move(-1,positionSliderList))
 leftMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
-rightMove.bind("<Button-1>", lambda x: motor.move(1))
+rightMove.bind("<Button-1>", lambda x: motor.move(1,positionSliderList))
 rightMove.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 sf.calWarn()
@@ -264,10 +279,10 @@ leftMoveCal.place(x=700, y=400, width=100, height=100)
 rightMoveCal = Button(calibratePage, text='RIGHT')
 rightMoveCal.place(x=800, y=400, width=100, height=100)
 
-leftMoveCal.bind("<Button-1>", lambda x: motor.move(-1))
+leftMoveCal.bind("<Button-1>", lambda x: motor.move(-1,positionSliderList))
 leftMoveCal.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
-rightMoveCal.bind("<Button-1>", lambda x: motor.move(1))
+rightMoveCal.bind("<Button-1>", lambda x: motor.move(1,positionSliderList))
 rightMoveCal.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 #####################END CALIBRATE PAGE#########################
@@ -322,10 +337,10 @@ leftMovePro.place(x=700, y=400, width=100, height=100)
 rightMovePro = Button(profilePage, text='RIGHT')
 rightMovePro.place(x=800, y=400, width=100, height=100)
 
-leftMovePro.bind("<Button-1>", lambda x: motor.move(-1))
+leftMovePro.bind("<Button-1>", lambda x: motor.move(-1,positionSliderList))
 leftMovePro.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
-rightMovePro.bind("<Button-1>", lambda x: motor.move(1))
+rightMovePro.bind("<Button-1>", lambda x: motor.move(1,positionSliderList))
 rightMovePro.bind("<ButtonRelease-1>", motor.stoploopevent2)
 
 
@@ -353,7 +368,7 @@ positionPro.place(x=800, y=260, width=200, height=25)
 # with the current profile info using .set or .config. This variable will be passed into the save function.
 profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 
-runPro = Button(profilePage, text='Run', command=motor.auto_move)
+runPro = Button(profilePage, text='Run', command=(lambda: motor.auto_move(positionSliderList,positionPro)))
 runPro.place(x=625, y=300, width=50, height=25)
 savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(profileEntries)))
 savePro.place(x=700, y=300, width=50, height=25)
