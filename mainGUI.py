@@ -234,11 +234,11 @@ instructCal.place(x=300, y=150, width=540, height=200)
 # These are the buttons to set the start and end points of our moveable range
 # It was originally discussed that it would be a single button that dynamically changes, but they seems
 # more confusing for the user and more work for us. For the time being, its two buttons.
-startPointCal = Button(calibratePage, text='Start Point')
+startPointCal = Button(calibratePage, text='Start Point',command=sf.setStartPoint)
 startPointCal.place(x=350, y=350, width=100, height=60)
-endPointCal = Button(calibratePage, text='End Point')
+endPointCal = Button(calibratePage, text='End Point', command=sf.setEndPoint)
 endPointCal.place(x=450, y=350, width=100, height=60)
-confirmCal = Button(calibratePage, text='Confirm') # this button MUST call a function which changes CALIBRATED variable to True. This carriable must impede motor function when false
+confirmCal = Button(calibratePage, text='Confirm',command=(lambda: sf.confirmCalibration(positionSliderList))) # this button MUST call a function which changes CALIBRATED variable to True. This carriable must impede motor function when false
 confirmCal.place(x=550, y=350, width=100, height=60)
 
 leftMoveCal = Button(calibratePage, text='LEFT')

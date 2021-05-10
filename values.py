@@ -5,6 +5,7 @@
 
 def init():
     global START_limit, END_limit, pulley_diameter, drive_ratio, do_loop, SPEED, POSITION, DESTINATION, threads
+    global tempStartPosition, tempEndPosition, END_position, CALIBRATED
 
     START_limit = 0 # always zero
     END_position = 0 # set during calibration
@@ -16,3 +17,6 @@ def init():
     POSITION = 0 # an accumulator variable which can be used for current position tracking
     DESTINATION = 0 # destination to reach durring profile program execution
     threads = [] # thread queue
+
+    tempStartPosition = 0 #temp start position used for calibration before the user presses confirm
+    tempEndPosition = 0 #temp start position used for calibration before the user presses confirm

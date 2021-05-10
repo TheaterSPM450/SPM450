@@ -5,6 +5,8 @@ import os
 import time
 from tkinter import filedialog
 import motor_control
+import values
+
 try:
     from configparser import ConfigParser
 except ImportError:
@@ -98,6 +100,24 @@ def read_profile(profilePage, profileEntries):
 
 
 ####################################################################################
+def setStartPoint():
+    values.tempStartPosition = values.POSITION
+    print(values.tempStartPosition)
+
+def setEndPoint():
+    values.tempEndPosition = values.POSITION
+    print(values.tempEndPosition)
+
+def confirmCalibration(positionSliderList):
+    values.END_position = values.tempEndPosition - values.tempStartPosition
+    values.POSITION = values.END_position
+    values.CALIBRATED = True
+    print(str(values.END_position) + " " + str(values.POSITION) + " " + str(values.CALIBRATED))
+    calibrateSliders(positionSliderList)
+
+def calibrateSliders(positionSliderList):
+    for i in positionSliderList:
+        i.config(from_=0, to=values.END_position)
 
 
 def speedUpUpdate():
