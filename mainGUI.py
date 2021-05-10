@@ -131,12 +131,6 @@ speedFrame.place(x=10, y=100, width=120, height=50)
 speedSpec = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpec.place(x=12 , y=120, width=80, height=20)
 
-speedDown = Button(startPage, text='<', command=sf.speedDownUpdate)
-speedDown.place(x=130, y=110, width=40, height=40)
-
-speedUp = Button(startPage, text='<', command=sf.speedUpUpdate)
-speedUp.place(x=170, y=110, width=40, height=40)
-
 # Position display value
 positionFrame = LabelFrame(startPage, text="POSITION (ft)")
 positionFrame.place(x=10, y=150, width=120, height=50)
@@ -152,9 +146,6 @@ ratioSpec = Label(startPage, text=str(values.drive_ratio))
 ratioSpec.place(x=12, y=220, width=80, height=20)
 
 #--------------------------------------------------------------------
-
-debugButton = Button(startPage, text='Debug', command=debugPage.tkraise)
-debugButton.place(x=10, y=300, width=100, height=50)
 # This button leads us to the calibration page
 calibrateButton = Button(startPage, text='Calibrate', command=calibratePage.tkraise)
 calibrateButton.place(x=10, y=350, width=100, height=50)
@@ -340,30 +331,7 @@ loadPro.place(x=850, y=300, width=50, height=25)
 
 ####################END PROFILE PAGE#############################
 
-####################DEBUG PAGE##########################
-
-Label(debugPage, text='DEBUG').place(x=450, y=0, width=150, height=50)
-
-positionSliderDebug = Scale(debugPage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
-positionSliderDebug.place(x=10, y=30, width=1000, height=50)
-
-
-spinButtonDebug = Button(debugPage, text="SPIN ON")#, command=hf.spin)
-spinButtonDebug.place(x=400, y=350, width=100, height=50)
-
-spinForSetTimeButtonDebug = Button(debugPage, text="SpinForSetTime")#, command=hf.spinForSetTime)
-spinForSetTimeButtonDebug.place(x=500, y=350, width=100, height=50)
-# # RepeatIsIn(ms)
-spinHoldButton = Button(debugPage, text="spinHoldButton", repeatdelay=1, repeatinterval=1)#, command=hf.spinHold)
-spinHoldButton.place(x=400, y=400, width=100, height=50)
-
-doneButtonDebug = Button(debugPage, text='Done', command=startPage.tkraise)
-doneButtonDebug.place(x=10, y=350, width=100, height=50)
-
-
-####################END DEBUG PAGE##########################
-
-positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
+positionSliderList = [positionSlider, positionSliderCal, positionSliderPro]
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see

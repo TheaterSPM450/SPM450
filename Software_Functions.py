@@ -118,11 +118,3 @@ def confirmCalibration(positionSliderList):
 def calibrateSliders(positionSliderList):
     for i in positionSliderList:
         i.config(from_=0, to=values.END_position)
-
-
-def speedUpUpdate():
-    print("word up")
-
-
-def speedDownUpdate():
-    print("word down")
