@@ -130,14 +130,14 @@ positionSlider.place(x=10, y=30, width=1000, height=50)
 speedFrameStart = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrameStart.place(x=10, y=100, width=120, height=50)
 
-speedSpecStart = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecStart = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpecStart.place(x=12, y=120, width=80, height=20)
 
 # Speed display with buttons to change value
 speedFrameStartBot = LabelFrame(startPage, text="SPEED (ft/s)")
 speedFrameStartBot.place(x=400, y=430, width=120, height=50)
 
-speedSpecStartBot = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecStartBot = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpecStartBot.place(x=402, y=450, width=80, height=20)
 
 speedDown = Button(startPage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
@@ -150,14 +150,14 @@ speedUp.place(x=528, y=438, width=40, height=40)
 positionFrameStart = LabelFrame(startPage, text="POSITION (ft)")
 positionFrameStart.place(x=10, y=150, width=120, height=50)
 
-positionSpecStart = Label(startPage, text=str(round(motor.position_to_distance(motor.POSITION, motor.pulley_diameter, motor.drive_ratio), 2)))
+positionSpecStart = Label(startPage, text=str(round(motor.position_to_distance(values.POSITION, values.pulley_diameter, values.drive_ratio), 2)))
 positionSpecStart.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrameStart = LabelFrame(startPage, text="Drive Ratio")
 ratioFrameStart.place(x=10, y=200, width=120, height=50)
 
-ratioSpecStart = Label(startPage, text=str(motor.drive_ratio))
+ratioSpecStart = Label(startPage, text=str(values.drive_ratio))
 ratioSpecStart.place(x=12, y=220, width=80, height=20)
 
 # Ratio display with buttons to change values
@@ -216,14 +216,14 @@ positionSliderCal.place(x=10, y=30, width=1000, height=50)
 speedFrameCal = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrameCal.place(x=10, y=100, width=120, height=50)
 
-speedSpecCal = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecCal = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpecCal.place(x=12, y=120, width=80, height=20)
 
 # Speed display with buttons to change value
 speedFrameCalBot = LabelFrame(calibratePage, text="SPEED (ft/s)")
 speedFrameCalBot.place(x=400, y=430, width=120, height=50)
 
-speedSpecCalBot = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecCalBot = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpecCalBot.place(x=402 , y=450, width=80, height=20)
 
 speedDown = Button(calibratePage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
@@ -236,21 +236,21 @@ speedUp.place(x=528, y=433, width=50, height=50)
 positionFrameCal = LabelFrame(calibratePage, text="POSITION (ft)")
 positionFrameCal.place(x=10, y=150, width=120, height=50)
 
-positionSpecCal = Label(calibratePage, text=str(motor.POSITION))
+positionSpecCal = Label(calibratePage, text=str(values.POSITION))
 positionSpecCal.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrameCal = LabelFrame(calibratePage, text="Drive Ratio")
 ratioFrameCal.place(x=10, y=200, width=120, height=50)
 
-ratioSpecCal = Label(calibratePage, text=str(motor.drive_ratio))
+ratioSpecCal = Label(calibratePage, text=str(values.drive_ratio))
 ratioSpecCal.place(x=12, y=220, width=80, height=20)
 
 # Ratio display with buttons to change values
 ratioFrameCalBot = LabelFrame(calibratePage, text="Drive Ratio")
 ratioFrameCalBot.place(x=400, y=480, width=120, height=50)
 
-ratioSpecCalBot = Label(calibratePage, text=str(motor.drive_ratio))
+ratioSpecCalBot = Label(calibratePage, text=str(values.drive_ratio))
 ratioSpecCalBot.place(x=402, y=500, width=80, height=20)
 
 ratioDown = Button(calibratePage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
@@ -313,14 +313,14 @@ positionSliderPro.place(x=10, y=30, width=1000, height=50)
 speedFrameProfile = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrameProfile.place(x=10, y=100, width=120, height=50)
 
-speedSpecProfile = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecProfile = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpecProfile.place(x=12, y=120, width=80, height=20)
 
 # Speed display with buttons to change value
 speedFrameProfileBot = LabelFrame(profilePage, text="SPEED (ft/s)")
 speedFrameProfileBot.place(x=400, y=430, width=120, height=50)
 
-speedSpecProfileBot = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecProfileBot = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 speedSpecProfileBot.place(x=402 , y=450, width=80, height=20)
 
 speedDown = Button(profilePage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
@@ -333,21 +333,21 @@ speedUp.place(x=528, y=438, width=40, height=40)
 positionFrameProfile = LabelFrame(profilePage, text="POSITION (ft)")
 positionFrameProfile.place(x=10, y=150, width=120, height=50)
 
-positionSpecProfile = Label(profilePage, text=str(motor.POSITION))
+positionSpecProfile = Label(profilePage, text=str(values.POSITION))
 positionSpecProfile.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
 ratioFrameProfile = LabelFrame(profilePage, text="Drive Ratio")
 ratioFrameProfile.place(x=10, y=200, width=120, height=50)
 
-ratioSpecProfile = Label(profilePage, text=str(motor.drive_ratio))
+ratioSpecProfile = Label(profilePage, text=str(values.drive_ratio))
 ratioSpecProfile.place(x=12, y=220, width=80, height=20)
 
 # Ratio display with buttons to change values
 ratioFrameProfileBot = LabelFrame(profilePage, text="Drive Ratio")
 ratioFrameProfileBot.place(x=400, y=480, width=120, height=50)
 
-ratioSpecProfileBot = Label(profilePage, text=str(motor.drive_ratio))
+ratioSpecProfileBot = Label(profilePage, text=str(values.drive_ratio))
 ratioSpecProfileBot.place(x=402, y=500, width=80, height=20)
 
 ratioDown = Button(profilePage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))

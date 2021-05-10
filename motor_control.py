@@ -248,17 +248,15 @@ def auto_move(positionSliderList,positionPro):
 
 # function increases the speed by slowing the sleep time
 def speedUpUpdate(varList):
-    global SPEED
-    SPEED = SPEED - 0.00001
+    values.SPEED = values.SPEED - 0.00001
     for i in varList:
-        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
+        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 
 # function decreases the speed by speeding up the sleep time
 def speedDownUpdate(varList):
-    global SPEED
-    SPEED = SPEED + 0.00001
+    values.SPEED = values.SPEED + 0.00001
     for i in varList:
-        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
+        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 
 # function increases the drive ratio by 0.1 per click
 # def ratioUpUpdate(varList2):
