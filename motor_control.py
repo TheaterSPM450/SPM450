@@ -184,7 +184,7 @@ def move_thread(x,positionSliderList): # takes an input of -1 or 1 from caller
         GPIO.output(pulse,GPIO.LOW)
         time.sleep(new_SPEED)
         values.POSITION += x
-        position_slider_update(positionSliderList)   
+        position_slider_update(positionSliderList)
 
 
 # PROGRAM THREAD FUNCTION (auto control)
@@ -246,13 +246,35 @@ def auto_move(positionSliderList,positionPro):
     th.daemon
     th.start()
 
+# function increases the speed by slowing the sleep time
+def speedUpUpdate(varList):
+    global SPEED
+    SPEED = SPEED - 0.00001
+    for i in varList:
+        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
+
+# function decreases the speed by speeding up the sleep time
+def speedDownUpdate(varList):
+    global SPEED
+    SPEED = SPEED + 0.00001
+    for i in varList:
+        i.config(text=str(round(rpm_to_speed(sleep_to_rpm(SPEED), pulley_diameter), 2)))
+
+# function increases the drive ratio by 0.1 per click
+# def ratioUpUpdate(varList2):
+#     global drive_ratio
+#     drive_ratio = drive_ratio + 0.1
+#     for i in varList2:
+#         i.config(text=str(round(drive_ratio, 2)))
+#
+# # function decreases the drive ratio by 0.1 per click
+def ratioDownUpdate(varList2):
+    global drive_ratio
+    varList2[0].config(text=str(varList2[1].get()))
 
 def position_slider_update(positionSliderList):
     for i in positionSliderList:
         i.set(values.POSITION)
-
-
-
 
 
 

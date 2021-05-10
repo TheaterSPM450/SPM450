@@ -82,6 +82,8 @@ debugPage = Frame(root)
 # positionSliderCal = Scale()
 # positionSliderPro = Scale()
 positionSliderList = []
+varList = []
+varList2 = []
 
 pageWidth = 1024
 pageHeight = 600
@@ -123,27 +125,53 @@ positionSlider.place(x=10, y=30, width=1000, height=50)
 # alter code
 
 # adding information fields (Alex Kogan)
-#--------------------------------------------------------------------
+# --------------------------------------------------------------------
 # Speed display value
-speedFrame = LabelFrame(startPage, text="SPEED (ft/s)")
-speedFrame.place(x=10, y=100, width=120, height=50)
+speedFrameStart = LabelFrame(startPage, text="SPEED (ft/s)")
+speedFrameStart.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
-speedSpec.place(x=12 , y=120, width=80, height=20)
+speedSpecStart = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecStart.place(x=12, y=120, width=80, height=20)
+
+# Speed display with buttons to change value
+speedFrameStartBot = LabelFrame(startPage, text="SPEED (ft/s)")
+speedFrameStartBot.place(x=400, y=430, width=120, height=50)
+
+speedSpecStartBot = Label(startPage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecStartBot.place(x=402, y=450, width=80, height=20)
+
+speedDown = Button(startPage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
+speedDown.place(x=350, y=438, width=40, height=40)
+
+speedUp = Button(startPage, text='+', command=(lambda: motor.speedUpUpdate(varList)))
+speedUp.place(x=528, y=438, width=40, height=40)
 
 # Position display value
-positionFrame = LabelFrame(startPage, text="POSITION (ft)")
-positionFrame.place(x=10, y=150, width=120, height=50)
+positionFrameStart = LabelFrame(startPage, text="POSITION (ft)")
+positionFrameStart.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(startPage, text=str(round(motor.position_to_distance(values.POSITION, values.pulley_diameter, values.drive_ratio), 2)))
-positionSpec.place(x=12, y=170, width=80, height=20)
+positionSpecStart = Label(startPage, text=str(round(motor.position_to_distance(motor.POSITION, motor.pulley_diameter, motor.drive_ratio), 2)))
+positionSpecStart.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
-ratioFrame = LabelFrame(startPage, text="Drive Ratio")
-ratioFrame.place(x=10, y=200, width=120, height=50)
+ratioFrameStart = LabelFrame(startPage, text="Drive Ratio")
+ratioFrameStart.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(startPage, text=str(values.drive_ratio))
-ratioSpec.place(x=12, y=220, width=80, height=20)
+ratioSpecStart = Label(startPage, text=str(motor.drive_ratio))
+ratioSpecStart.place(x=12, y=220, width=80, height=20)
+
+# Ratio display with buttons to change values
+ratioFrameStartBot = LabelFrame(startPage, text="Drive Ratio")
+ratioFrameStartBot.place(x=400, y=480, width=120, height=50)
+
+ratioSpecStartBot = Entry(startPage)
+ratioSpecStartBot.place(x=405, y=500, width=80, height=20)
+
+ratioDown = Button(startPage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
+ratioDown.place(x=350, y=488, width=40, height=40)
+
+# ratioUp = Button(startPage, text='+', command=(lambda: motor.ratioUpUpdate(varList2)))
+# ratioUp.place(x=528, y=488, width=40, height=40)
 
 #--------------------------------------------------------------------
 # This button leads us to the calibration page
@@ -185,25 +213,51 @@ positionSliderCal.place(x=10, y=30, width=1000, height=50)
 # adding information fields (Alex Kogan)
 #--------------------------------------------------------------------
 # Speed display value
-speedFrame = LabelFrame(calibratePage, text="SPEED (ft/s)")
-speedFrame.place(x=10, y=100, width=120, height=50)
+speedFrameCal = LabelFrame(calibratePage, text="SPEED (ft/s)")
+speedFrameCal.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
-speedSpec.place(x=12, y=120, width=80, height=20)
+speedSpecCal = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecCal.place(x=12, y=120, width=80, height=20)
+
+# Speed display with buttons to change value
+speedFrameCalBot = LabelFrame(calibratePage, text="SPEED (ft/s)")
+speedFrameCalBot.place(x=400, y=430, width=120, height=50)
+
+speedSpecCalBot = Label(calibratePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecCalBot.place(x=402 , y=450, width=80, height=20)
+
+speedDown = Button(calibratePage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
+speedDown.place(x=340, y=433, width=50, height=50)
+
+speedUp = Button(calibratePage, text='+', command=(lambda: motor.speedUpUpdate(varList)))
+speedUp.place(x=528, y=433, width=50, height=50)
 
 # Position display value
-positionFrame = LabelFrame(calibratePage, text="POSITION (ft)")
-positionFrame.place(x=10, y=150, width=120, height=50)
+positionFrameCal = LabelFrame(calibratePage, text="POSITION (ft)")
+positionFrameCal.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(calibratePage, text=str(values.POSITION))
-positionSpec.place(x=12, y=170, width=80, height=20)
+positionSpecCal = Label(calibratePage, text=str(motor.POSITION))
+positionSpecCal.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
-ratioFrame = LabelFrame(calibratePage, text="Drive Ratio")
-ratioFrame.place(x=10, y=200, width=120, height=50)
+ratioFrameCal = LabelFrame(calibratePage, text="Drive Ratio")
+ratioFrameCal.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(calibratePage, text=str(values.drive_ratio))
-ratioSpec.place(x=12, y=220, width=80, height=20)
+ratioSpecCal = Label(calibratePage, text=str(motor.drive_ratio))
+ratioSpecCal.place(x=12, y=220, width=80, height=20)
+
+# Ratio display with buttons to change values
+ratioFrameCalBot = LabelFrame(calibratePage, text="Drive Ratio")
+ratioFrameCalBot.place(x=400, y=480, width=120, height=50)
+
+ratioSpecCalBot = Label(calibratePage, text=str(motor.drive_ratio))
+ratioSpecCalBot.place(x=402, y=500, width=80, height=20)
+
+ratioDown = Button(calibratePage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
+ratioDown.place(x=350, y=488, width=40, height=40)
+
+# ratioUp = Button(calibratePage, text='+', command=(lambda: motor.ratioUpUpdate(varList2)))
+# ratioUp.place(x=528, y=488, width=40, height=40)
 
 #--------------------------------------------------------------------
 
@@ -256,25 +310,51 @@ positionSliderPro.place(x=10, y=30, width=1000, height=50)
 # adding information fields (Alex Kogan)
 #--------------------------------------------------------------------
 # Speed display value
-speedFrame = LabelFrame(profilePage, text="SPEED (ft/s)")
-speedFrame.place(x=10, y=100, width=120, height=50)
+speedFrameProfile = LabelFrame(profilePage, text="SPEED (ft/s)")
+speedFrameProfile.place(x=10, y=100, width=120, height=50)
 
-speedSpec = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
-speedSpec.place(x=12, y=120, width=80, height=20)
+speedSpecProfile = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecProfile.place(x=12, y=120, width=80, height=20)
+
+# Speed display with buttons to change value
+speedFrameProfileBot = LabelFrame(profilePage, text="SPEED (ft/s)")
+speedFrameProfileBot.place(x=400, y=430, width=120, height=50)
+
+speedSpecProfileBot = Label(profilePage, text=str(round(motor.rpm_to_speed(motor.sleep_to_rpm(motor.SPEED), motor.pulley_diameter), 2)))
+speedSpecProfileBot.place(x=402 , y=450, width=80, height=20)
+
+speedDown = Button(profilePage, text='-', command=(lambda: motor.speedDownUpdate(varList)))
+speedDown.place(x=350, y=438, width=40, height=40)
+
+speedUp = Button(profilePage, text='+', command=(lambda: motor.speedUpUpdate(varList)))
+speedUp.place(x=528, y=438, width=40, height=40)
 
 # Position display value
-positionFrame = LabelFrame(profilePage, text="POSITION (ft)")
-positionFrame.place(x=10, y=150, width=120, height=50)
+positionFrameProfile = LabelFrame(profilePage, text="POSITION (ft)")
+positionFrameProfile.place(x=10, y=150, width=120, height=50)
 
-positionSpec = Label(profilePage, text=str(values.POSITION))
-positionSpec.place(x=12, y=170, width=80, height=20)
+positionSpecProfile = Label(profilePage, text=str(motor.POSITION))
+positionSpecProfile.place(x=12, y=170, width=80, height=20)
 
 # Ratio display value
-ratioFrame = LabelFrame(profilePage, text="Drive Ratio")
-ratioFrame.place(x=10, y=200, width=120, height=50)
+ratioFrameProfile = LabelFrame(profilePage, text="Drive Ratio")
+ratioFrameProfile.place(x=10, y=200, width=120, height=50)
 
-ratioSpec = Label(profilePage, text=str(values.drive_ratio))
-ratioSpec.place(x=12, y=220, width=80, height=20)
+ratioSpecProfile = Label(profilePage, text=str(motor.drive_ratio))
+ratioSpecProfile.place(x=12, y=220, width=80, height=20)
+
+# Ratio display with buttons to change values
+ratioFrameProfileBot = LabelFrame(profilePage, text="Drive Ratio")
+ratioFrameProfileBot.place(x=400, y=480, width=120, height=50)
+
+ratioSpecProfileBot = Label(profilePage, text=str(motor.drive_ratio))
+ratioSpecProfileBot.place(x=402, y=500, width=80, height=20)
+
+ratioDown = Button(profilePage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
+ratioDown.place(x=350, y=488, width=40, height=40)
+
+# ratioUp = Button(profilePage, text='+', command=(lambda: motor.ratioUpUpdate(varList2)))
+# ratioUp.place(x=528, y=488, width=40, height=40)
 
 #--------------------------------------------------------------------
 
@@ -331,7 +411,11 @@ loadPro.place(x=850, y=300, width=50, height=25)
 
 ####################END PROFILE PAGE#############################
 
+
 positionSliderList = [positionSlider, positionSliderCal, positionSliderPro]
+varList = [speedSpecStart, speedSpecStartBot, speedSpecCal, speedSpecCalBot, speedSpecProfile, speedSpecProfileBot]
+varList2 = [ratioSpecStart, ratioSpecStartBot, ratioSpecCal, ratioSpecProfile]
+
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
