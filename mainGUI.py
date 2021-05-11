@@ -402,10 +402,13 @@ profileEntries = [ratioPro, diameterPro, speedPro, positionPro, filenamePro]
 
 runPro = Button(profilePage, text='Run', command=(lambda: motor.auto_move(positionSliderList,positionPro)))
 runPro.place(x=625, y=300, width=50, height=25)
+
 savePro = Button(profilePage, text='Save', command=(lambda: sf.save_profile(profileEntries)))
 savePro.place(x=700, y=300, width=50, height=25)
+
 deletePro = Button(profilePage, text='Delete', command=(lambda: sf.delete_profile(profileEntries)))
 deletePro.place(x=775, y=300, width=50, height=25)
+
 loadPro = Button(profilePage, text='Load', command=lambda: sf.read_profile(profilePage, profileEntries))
 loadPro.place(x=850, y=300, width=50, height=25)
 

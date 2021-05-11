@@ -71,13 +71,28 @@ def read_profile(profilePage, profileEntries):
         for i in range(5):
             profileEntries[i].delete(0, END)  # This deletes the current text in entry, starting at index 0, to 'END'
             profileEntries[i].insert(0, line[i])  # This inserts a new string at position 0 in the entry box
+            if(i==0):
+                if(values.drive_ratio != profileEntries[0].get): # loading this into current calibration isn't compatable
+                    values.CALIBRATED = False
+                    calWarn()
+                values.drive_ratio = profileEntries[0].get
+
+            if(i==1):
+                if(profileEntries[1].get != values.pulley_diameter): # loading this into current calibration isn't compatable
+                    values.CALIBRATED = False
+                    calWarn()
+                values.pulley_diameter = profileEntries[1].get
+
+            if(i==2):
+                values.SPEED = profileEntries[2].get()
             if i == 3:
                 # print("profile Entry: " + str(profileEntries[3].get()))
                 # DESTINATION = profileEntries[3].get()
                 # print("destination\n")
                 # print(DESTINATION)
-
                 values.DESTINATION = profileEntries[3].get()
+                if(values.DESTINATION < 0 or values.DESTINATION > values.END_limit):
+                    m.showwarning(title=None, message="The position loaded is out of calibrated bounds. You can still run but the prop will stop short. Recalibrate if needed.")
 
                 # config.set('section_a', 'destination', profileEntries[3].get())
                 # # -----Update the Prop File itself : Must run after every SET Operation-------------
@@ -101,19 +116,20 @@ def read_profile(profilePage, profileEntries):
 
 ####################################################################################
 def setStartPoint():
-    values.tempStartPosition = values.POSITION
-    print(values.tempStartPosition)
+    values.POSITION = 0 # zero current position sine this is the starting-end limit
+    values.CALIBRATED = False # needed in case user starts recalibrating, to make sure they finish
+    print("Start position set")
 
 def setEndPoint():
-    values.tempEndPosition = values.POSITION
-    print(values.tempEndPosition)
+    values.END_limit = values.POSITION # set position value as ending-end limit
+    print("End position set at "+ str(values.POSITION))
 
 def confirmCalibration(positionSliderList):
-    values.END_position = values.tempEndPosition - values.tempStartPosition
-    values.POSITION = values.END_position
-    values.CALIBRATED = True
-    print(str(values.END_position) + " " + str(values.POSITION) + " " + str(values.CALIBRATED))
-    calibrateSliders(positionSliderList)
+    if (values.END_limit < 0): # calibrating backwards
+        m.showwarning(title=None, message="You are calibrating backwards!\n\nRecalibrate starting\nfrom Step 1")
+    else:
+        values.CALIBRATED = True
+        calibrateSliders(positionSliderList)
 
 def calibrateSliders(positionSliderList):
     for i in positionSliderList:

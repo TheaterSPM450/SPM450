@@ -240,11 +240,14 @@ def move(x,positionSliderList):
 
 # thread start function for l_button and r_button
 def auto_move(positionSliderList,positionPro):
-    values.DESTINATION = int(positionPro.get())
-    th = threading.Thread(target= auto_move_thread(positionSliderList,positionPro))
-    values.threads.append(th)
-    th.daemon
-    th.start()
+    if (values.CALIBRATED):
+        values.DESTINATION = int(positionPro.get())
+        th = threading.Thread(target= auto_move_thread(positionSliderList,positionPro))
+        values.threads.append(th)
+        th.daemon
+        th.start()
+    else:
+        Software_Functions.calWarn()
 
 # function increases the speed by slowing the sleep time
 def speedUpUpdate(varList):
