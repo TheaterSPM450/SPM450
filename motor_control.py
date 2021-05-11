@@ -136,7 +136,7 @@ def rpm_to_speed(rpm, diameter):
 def speed_to_rpm(speed, diameter):
     seconds = 60.0
     inches_per_foot = 12
-    circumference = (diameter/inches_per_foot) * pi
+    circumference = (diameter * pi) / inches_per_foot
     return (speed * seconds) / circumference
 
 
@@ -190,7 +190,7 @@ def move_thread(x,positionSliderList): # takes an input of -1 or 1 from caller
 # PROGRAM THREAD FUNCTION (auto control)
 # loop function to run on thread for execute program button
 # - gets called by auto_move() helper function
-def auto_move_thread(positionSliderList,positionPro): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
+def auto_move_thread(positionSliderList): # takes no arguement, instead determines direction based on POSITION relative to DESTINATION
     config.read('spmProps.ini')
     # Dest = int(config.get('section_a', 'destination'))
     # print("FROM RUN: " + str(config.get('section_a', 'destination')))
@@ -242,7 +242,7 @@ def move(x,positionSliderList):
 def auto_move(positionSliderList,positionPro):
     if (values.CALIBRATED):
         values.DESTINATION = int(positionPro.get())
-        th = threading.Thread(target= auto_move_thread(positionSliderList,positionPro))
+        th = threading.Thread(target= auto_move_thread(positionSliderList))
         values.threads.append(th)
         th.daemon
         th.start()
@@ -251,13 +251,21 @@ def auto_move(positionSliderList,positionPro):
 
 # function increases the speed by slowing the sleep time
 def speedUpUpdate(varList):
-    values.SPEED = values.SPEED - 0.00001
+    deltaT = rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter) + 0.05
+    if(deltaT > 2.5):
+        values.SPEED = speed_to_pulse_time(2.5, values.pulley_diameter, values.drive_ratio)
+    else:
+        values.SPEED = speed_to_pulse_time(deltaT, values.pulley_diameter, values.drive_ratio)
     for i in varList:
         i.config(text=str(round(rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 
 # function decreases the speed by speeding up the sleep time
 def speedDownUpdate(varList):
-    values.SPEED = values.SPEED + 0.00001
+    deltaT = rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter) - 0.05
+    if(deltaT < 0):
+        values.SPEED = 0.035
+    else:
+        values.SPEED = speed_to_pulse_time(deltaT, values.pulley_diameter, values.drive_ratio)
     for i in varList:
         i.config(text=str(round(rpm_to_speed(sleep_to_rpm(values.SPEED), values.pulley_diameter), 2)))
 
