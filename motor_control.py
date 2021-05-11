@@ -274,10 +274,13 @@ def ratioDownUpdate(varList2):
     varList2[0].config(text=str(varList2[1].get()))
 
 def position_slider_update(positionSliderList):
+    positionDisplayUpdate()
     for i in positionSliderList:
         i.set(values.POSITION)
 
-
+def positionDisplayUpdate():
+    for i in values.positionDisplayList:
+        i.config(text=str(round(position_to_distance(values.POSITION, values.pulley_diameter, values.drive_ratio), 2)))
 
 
 

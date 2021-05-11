@@ -18,5 +18,11 @@ def init():
     DESTINATION = 0 # destination to reach durring profile program execution
     threads = [] # thread queue
 
+<<<<<<< HEAD
     # tempStartPosition = 0 #temp start position used for calibration before the user presses confirm
     # tempEndPosition = 0 #temp start position used for calibration before the user presses confirm
+=======
+    tempStartPosition = 0 #temp start position used for calibration before the user presses confirm
+    tempEndPosition = 0 #temp start position used for calibration before the user presses confirm
+    positionDisplayList = []
+>>>>>>> 0ffb41e6c047a89685e97a2e646638fe8d9743b8
