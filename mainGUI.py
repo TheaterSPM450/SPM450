@@ -415,6 +415,7 @@ loadPro.place(x=850, y=300, width=50, height=25)
 positionSliderList = [positionSlider, positionSliderCal, positionSliderPro]
 varList = [speedSpecStart, speedSpecStartBot, speedSpecCal, speedSpecCalBot, speedSpecProfile, speedSpecProfileBot]
 varList2 = [ratioSpecStart, ratioSpecStartBot, ratioSpecCal, ratioSpecProfile]
+values.positionDisplayList = [positionSpecStart, positionSpecCal,positionSpecProfile]
 
 
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop

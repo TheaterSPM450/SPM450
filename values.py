@@ -20,3 +20,4 @@ def init():
 
     tempStartPosition = 0 #temp start position used for calibration before the user presses confirm
     tempEndPosition = 0 #temp start position used for calibration before the user presses confirm
+    positionDisplayList = []
