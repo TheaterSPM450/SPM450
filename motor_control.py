@@ -231,7 +231,20 @@ def speedDownUpdate(varList):
 def ratioDownUpdate(varList2):
     global drive_ratio
     varList2[0].config(text=str(varList2[1].get()))
+    varList2[2].config(text=str(varList2[1].get()))
+    varList2[4].config(text=str(varList2[1].get()))
 
+def ratioDownUpdate1(varList2):
+    global drive_ratio
+    varList2[0].config(text=str(varList2[3].get()))
+    varList2[2].config(text=str(varList2[3].get()))
+    varList2[4].config(text=str(varList2[3].get()))
+
+def ratioDownUpdate2(varList2):
+    global drive_ratio
+    varList2[0].config(text=str(varList2[5].get()))
+    varList2[2].config(text=str(varList2[5].get()))
+    varList2[4].config(text=str(varList2[5].get()))
 
 
 

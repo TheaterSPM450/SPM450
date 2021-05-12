@@ -167,8 +167,8 @@ ratioFrameStartBot.place(x=400, y=480, width=120, height=50)
 ratioSpecStartBot = Entry(startPage)
 ratioSpecStartBot.place(x=405, y=500, width=80, height=20)
 
-ratioDown = Button(startPage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
-ratioDown.place(x=350, y=488, width=40, height=40)
+ratioDown = Button(startPage, text='SET', command=(lambda: motor.ratioDownUpdate(varList2)))
+ratioDown.place(x=420, y=530, width=75, height=40)
 
 # ratioUp = Button(startPage, text='+', command=(lambda: motor.ratioUpUpdate(varList2)))
 # ratioUp.place(x=528, y=488, width=40, height=40)
@@ -260,11 +260,11 @@ ratioSpecCal.place(x=12, y=220, width=80, height=20)
 ratioFrameCalBot = LabelFrame(calibratePage, text="Drive Ratio")
 ratioFrameCalBot.place(x=400, y=480, width=120, height=50)
 
-ratioSpecCalBot = Label(calibratePage, text=str(motor.drive_ratio))
-ratioSpecCalBot.place(x=402, y=500, width=80, height=20)
+ratioSpecCalBot = Entry(calibratePage)
+ratioSpecCalBot.place(x=405, y=500, width=80, height=20)
 
-ratioDown = Button(calibratePage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
-ratioDown.place(x=350, y=488, width=40, height=40)
+ratioDown = Button(calibratePage, text='SET', command=(lambda: motor.ratioDownUpdate1(varList2)))
+ratioDown.place(x=420, y=530, width=75, height=40)
 
 # ratioUp = Button(calibratePage, text='+', command=(lambda: motor.ratioUpUpdate(varList2)))
 # ratioUp.place(x=528, y=488, width=40, height=40)
@@ -354,11 +354,11 @@ ratioSpecProfile.place(x=12, y=220, width=80, height=20)
 ratioFrameProfileBot = LabelFrame(profilePage, text="Drive Ratio")
 ratioFrameProfileBot.place(x=400, y=480, width=120, height=50)
 
-ratioSpecProfileBot = Label(profilePage, text=str(motor.drive_ratio))
-ratioSpecProfileBot.place(x=402, y=500, width=80, height=20)
+ratioSpecProfileBot = Entry(profilePage)
+ratioSpecProfileBot.place(x=405, y=500, width=80, height=20)
 
-ratioDown = Button(profilePage, text='-', command=(lambda: motor.ratioDownUpdate(varList2)))
-ratioDown.place(x=350, y=488, width=40, height=40)
+ratioDown = Button(profilePage, text='SET', command=(lambda: motor.ratioDownUpdate2(varList2)))
+ratioDown.place(x=420, y=530, width=75, height=40)
 
 # ratioUp = Button(profilePage, text='+', command=(lambda: motor.ratioUpUpdate(varList2)))
 # ratioUp.place(x=528, y=488, width=40, height=40)
@@ -440,7 +440,7 @@ doneButtonDebug.place(x=10, y=350, width=100, height=50)
 
 positionSliderList = [positionSlider, positionSliderDebug, positionSliderCal, positionSliderPro]
 varList = [speedSpecStart, speedSpecStartBot, speedSpecCal, speedSpecCalBot, speedSpecProfile, speedSpecProfileBot]
-varList2 = [ratioSpecStart, ratioSpecStartBot, ratioSpecCal, ratioSpecProfile]
+varList2 = [ratioSpecStart, ratioSpecStartBot, ratioSpecCal, ratioSpecCalBot, ratioSpecProfile, ratioSpecProfileBot]
 # We call tkraise on startPage so that it is the first frame we see once we enter the main loop
 # Whatever page is raised here will be the first page you see
 startPage.tkraise()
