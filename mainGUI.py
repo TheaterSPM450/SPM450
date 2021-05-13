@@ -68,14 +68,6 @@ Label(startPage, text='HOME PAGE').place(x=450, y=0, width=150, height=50)
 positionSlider = Scale(startPage, from_=0, to=1000, orient=HORIZONTAL, length=1000)
 positionSlider.place(x=10, y=30, width=1000, height=50)
 
-# This is the image that I feel deserves a spot on the start page
-# startPageImage = ImageTk.PhotoImage(Image.open("SPMLogo.jpg"))
-# Label(startPage, image=startPageImage).place(x=150, y=100, width=690, height=270)
-
-# This debug button should lead to a page with buttons/functions that we want for testing but probably wont be
-# included as part of product features. For final product, the simplest way to remove this is to simply comment out
-# the debugButton.place line. This removes the button, and prevents access to testing functions, without having to
-# alter code
 
 # adding information fields (Alex Kogan)
 # --------------------------------------------------------------------
