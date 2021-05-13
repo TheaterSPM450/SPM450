@@ -103,7 +103,7 @@ def read_profile(profilePage, profileEntries):
 
 
 
-def automatic_control(profilePage, profileEntries, varList, positionSliderList, positionPro):
+def automatic_control(profilePage, profileEntries, varList, varList2, positionSliderList, positionPro):
     for i in range(5):
         if(i==0):
             if profileEntries[0].get() != "":
@@ -131,21 +131,23 @@ def automatic_control(profilePage, profileEntries, varList, positionSliderList, 
                 values.DESTINATION = int(motor.distance_to_position(float(profileEntries[3].get())))
                 if(values.DESTINATION < 0 or values.DESTINATION > values.END_limit):
                     m.showwarning(title=None, message="The position loaded is out of calibrated bounds, please choose an appropriate position!")
+    motor.ratio_update(varList2)
     motor.spec_speed_update(varList)
     motor.auto_move(positionSliderList, positionPro)
 
 ####################################################################################
 def setStartPoint():
+    values.tempStartPosition = values.POSITION  
     values.POSITION = 0 # zero current position sine this is the starting-end limit
     values.CALIBRATED = False # needed in case user starts recalibrating, to make sure they finish
     print("Start position set")
 
 def setEndPoint():
-    values.END_limit = values.POSITION # set position value as ending-end limit
+    values.END_limit = values.POSITION #- values.tempStartPosition# set position value as ending-end limit
     print("End position set at "+ str(values.POSITION))
 
 def confirmCalibration(positionSliderList):
-    if (values.END_limit < 0): # calibrating backwards
+    if ((values.END_limit) < 0):
         m.showwarning(title=None, message="You are calibrating backwards!\n\nRecalibrate starting\nfrom Step 1")
     else:
         values.CALIBRATED = True

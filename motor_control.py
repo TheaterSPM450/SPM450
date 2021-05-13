@@ -292,31 +292,30 @@ def spec_speed_update(varList):
 
 
 # function increases the drive ratio by 0.1 per click
-# def ratioUpUpdate(varList2):
-#     global drive_ratio
-#     drive_ratio = drive_ratio + 0.1
-#     for i in varList2:
-#         i.config(text=str(round(drive_ratio, 2)))
+def ratio_update(varList2):
+    for i in varList2:
+        i.config(text=str(round(values.drive_ratio, 2)))
 #
 # # function decreases the drive ratio by 0.1 per click
-def ratioDownUpdate(varList2):
-    varList2[0].config(text=str(varList2[1].get()))
-    varList2[2].config(text=str(varList2[1].get()))
-    varList2[4].config(text=str(varList2[1].get()))
+# def ratioDownUpdate(varList2):
+#     varList2[0].config(text=str(varList2[1].get()))
+#     varList2[2].config(text=str(varList2[1].get()))
+#     varList2[4].config(text=str(varList2[1].get()))
+
 
 def position_slider_update(positionSliderList):
     positionDisplayUpdate()
     for i in positionSliderList:
         i.set(values.POSITION)
-def ratioDownUpdate1(varList2):
-    varList2[0].config(text=str(varList2[3].get()))
-    varList2[2].config(text=str(varList2[3].get()))
-    varList2[4].config(text=str(varList2[3].get()))
+# def ratioDownUpdate1(varList2):
+#     varList2[0].config(text=str(varList2[3].get()))
+#     varList2[2].config(text=str(varList2[3].get()))
+#     varList2[4].config(text=str(varList2[3].get()))
 
-def ratioDownUpdate2(varList2):
-    varList2[0].config(text=str(varList2[5].get()))
-    varList2[2].config(text=str(varList2[5].get()))
-    varList2[4].config(text=str(varList2[5].get()))
+# def ratioDownUpdate2(varList2):
+#     varList2[0].config(text=str(varList2[5].get()))
+#     varList2[2].config(text=str(varList2[5].get()))
+#     varList2[4].config(text=str(varList2[5].get()))
 
 
 def positionDisplayUpdate():
