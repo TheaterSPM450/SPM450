@@ -87,19 +87,6 @@ def read_profile(profilePage, profileEntries):
                 # with open('spmProps.ini', 'w') as configfile:
                 #     config.write(configfile)
 
-#This is a temporary function, that moves the slider using the position functions to the profile location
-# def run_profile(profileEntries,positionSliderList,profilePage):
-#     newPosition = int(profileEntries[3].get())
-#     global position
-#     positionDifference = abs(position - newPosition)
-#     for i in range(positionDifference):
-#         time.sleep(.001)
-#         if newPosition < position:
-#             position_down(positionSliderList)
-#         elif newPosition > position:
-#             position_up(positionSliderList)
-#         profilePage.update()
-#         print(str(newPosition) + "---" + str(position))
 
 
 
