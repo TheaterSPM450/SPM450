@@ -131,6 +131,11 @@ def automatic_control(profilePage, profileEntries, varList, varList2, positionSl
                 values.DESTINATION = int(motor.distance_to_position(float(profileEntries[3].get())))
                 if(values.DESTINATION < 0 or values.DESTINATION > values.END_limit):
                     m.showwarning(title=None, message="The position loaded is out of calibrated bounds, please choose an appropriate position!")
+    config.set('section_a', 'pulley_diameter', str(values.pulley_diameter))
+    config.set('section_a', 'speed', str(values.SPEED))
+    config.set('section_a', 'drive_ratio', str(values.drive_ratio))
+    with open('spmProps.ini', 'w') as configfile:
+        config.write(configfile)
     motor.ratio_update(varList2)
     motor.spec_speed_update(varList)
     motor.auto_move(positionSliderList, positionPro)

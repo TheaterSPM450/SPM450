@@ -3,11 +3,6 @@ import Software_Functions as sf
 # from PIL import ImageTk, Image
 import values
 import motor_control as motor
-try:
-    from configparser import ConfigParser
-except ImportError:
-    from ConfigParser import ConfigParser  # ver. < 3.0
-
 
 values.init() # creates global variables
 
@@ -17,55 +12,6 @@ x = motor.speed_to_pulse_time(x, values.pulley_diameter, values.drive_ratio)
 print(f"Pulse of x = {x}")
 x = motor.pulse_time_to_speed(x)
 print(f"Speed of x = {x}")
-
-
-#----------------------------------------------------------------------
-# Arman Alert - GLOBAL CONFIGS ######### 
-# Tinker with ArmanPropertiesMock directory to fully understand how it works. The reason why I named with string_val..., int_val... is so that we parse proper types. 
-# Reading data and parsing right when getting: string=config.get, bool=config.getboolean, int=config.getint, float=config.getfloat
-# For now checkout the example under "An Example". Its 3 lines of code everytime we need to set a global property. And 1 line to get the current. 
-# instantiate Parser
-config = ConfigParser()
-# parse existing file
-config.read('spmProps.ini')
-# Initial Prop Testing: reading all the current GlobalProperties
-# globalDest = config.get('section_a', 'destination')
-# globalUser = config.get('section_a', 'string_val_user')
-# globalMetricForSpeed = config.get('section_a', 'string_val_inchFeetCentimeterPerSecond')
-# globalSysOnOff = config.getboolean('section_a', 'bool_val_SystemOnMeansTrue')
-# globalPropPosition = config.getint('section_a', 'int_val_propPosition')
-# globalSpeed = config.getfloat('section_a', 'float_val_speed')
-# print(globalDest)
-# print(globalUser)
-# print(globalMetricForSpeed)
-# print(globalSysOnOff)
-# print(globalPropPosition)
-# print(globalSpeed)
-# An Example:--------------Simple
-# Lets say we have a field in the gui that sets the username
-# (change input then run) Then update existing key in the spmProps.ini for centrally recognizing the change. 
-# inputUsername = 'Nick'
-# config.set('section_a', 'string_val_user', inputUsername)
-# -----Update the Prop File itself : Must run after every SET Operation-------------
-# with open('spmProps.ini', 'w') as configfile:
-#     config.write(configfile)
-# print(config.get('section_a', 'string_val_user'))
-#----------------------------------------------------------------------
-
-# NICK ALERT ##########
-# Hardware functionality may be commented out, simply so that people can work on code from their desktops
-# I attempted to comment things out in a way that makes it easy to restore full functionality on RasPi
-# For example
-# savePro = Button(profilePage, text='Save')#, command=(lambda e=ents: sf.fetch(e)))
-# This button has a # after the final parenthesis, so that i could test button without working function
-# It can simply be restored by deleting the extra parenthesis and '#', as rest of line was preserved
-
-
-# import tkFont
-# myFont = tkFont.Font(family = 'Helvetica', size = 8, weight = 'bold')
-
-# Some of the GPIO variable declarations and all functions were moved to Hardware_functions file
-#hf.GPIO_Initialisation()
 
 
 # declare base GUI window
