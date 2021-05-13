@@ -165,7 +165,7 @@ ratioFrameStartBot = LabelFrame(startPage, text="Drive Ratio")
 ratioFrameStartBot.place(x=400, y=480, width=120, height=50)
 
 ratioSpecStartBot = Entry(startPage)
-ratioSpecStartBot.place(x=405, y=500, width=80, height=20)
+ratioSpecStartBot.place(x=405, y=500, width=105, height=20)
 
 ratioDown = Button(startPage, text='SET', command=(lambda: motor.ratioDownUpdate(varList2)))
 ratioDown.place(x=420, y=530, width=75, height=40)
@@ -261,7 +261,7 @@ ratioFrameCalBot = LabelFrame(calibratePage, text="Drive Ratio")
 ratioFrameCalBot.place(x=400, y=480, width=120, height=50)
 
 ratioSpecCalBot = Entry(calibratePage)
-ratioSpecCalBot.place(x=405, y=500, width=80, height=20)
+ratioSpecCalBot.place(x=405, y=500, width=105, height=20)
 
 ratioDown = Button(calibratePage, text='SET', command=(lambda: motor.ratioDownUpdate1(varList2)))
 ratioDown.place(x=420, y=530, width=75, height=40)
@@ -355,7 +355,7 @@ ratioFrameProfileBot = LabelFrame(profilePage, text="Drive Ratio")
 ratioFrameProfileBot.place(x=400, y=480, width=120, height=50)
 
 ratioSpecProfileBot = Entry(profilePage)
-ratioSpecProfileBot.place(x=405, y=500, width=80, height=20)
+ratioSpecProfileBot.place(x=405, y=500, width=105, height=20)
 
 ratioDown = Button(profilePage, text='SET', command=(lambda: motor.ratioDownUpdate2(varList2)))
 ratioDown.place(x=420, y=530, width=75, height=40)

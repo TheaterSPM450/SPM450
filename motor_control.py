@@ -23,7 +23,7 @@ pulley_diameter = 1.5
 drive_ratio = 1.0
 do_loop = False # used for thread termination, could be changed to "motor_enable" or something similar
 SPEED = .0005 # pulse sleep time, in seconds as a float
-POSITION = 0 # an accumulator variable which can be used for current position tracking
+POSITION = 0.0 # an accumulator variable which can be used for current position tracking
 DESTINATION = 0
 pulse = 40  # driver pulse signal GPIO pin 40
 direction = 36  # driver pulse direction GPIO pin 36
@@ -229,19 +229,16 @@ def speedDownUpdate(varList):
 #
 # # function decreases the drive ratio by 0.1 per click
 def ratioDownUpdate(varList2):
-    global drive_ratio
     varList2[0].config(text=str(varList2[1].get()))
     varList2[2].config(text=str(varList2[1].get()))
     varList2[4].config(text=str(varList2[1].get()))
 
 def ratioDownUpdate1(varList2):
-    global drive_ratio
     varList2[0].config(text=str(varList2[3].get()))
     varList2[2].config(text=str(varList2[3].get()))
     varList2[4].config(text=str(varList2[3].get()))
 
 def ratioDownUpdate2(varList2):
-    global drive_ratio
     varList2[0].config(text=str(varList2[5].get()))
     varList2[2].config(text=str(varList2[5].get()))
     varList2[4].config(text=str(varList2[5].get()))
